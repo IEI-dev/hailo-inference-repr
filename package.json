@@ -1,5 +1,5 @@
 {
-  "name": "canvas-experiments",
+  "name": "video-player",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,6 +10,7 @@
     "react-dom": "^18.2.0",
     "react-player": "^2.10.1",
     "react-scripts": "5.0.1",
+    "screenfull": "^6.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -35,8 +36,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "video.js": "^7.19.2"
   }
 }
