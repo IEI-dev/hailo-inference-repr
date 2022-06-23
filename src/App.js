@@ -4,20 +4,29 @@ import PlayerControls from "./PlayerControls";
 import screenfull from "screenfull";
 
 function App() {
+  // State
   const [state, setState] = useState({
     playing: true,
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
-    played: 0,
-    loaded: 0,
+    playedSeconds: 0,
+    loadedSeconds: 0,
   });
-  const { playing, muted, volume, playbackRate, played, loaded } = state;
-
+  const { playing, muted, volume, playbackRate, playedSeconds, loadedSeconds } =
+    state;
+  // Ref
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
+  // handleState
   const handlePlayPause = () => {
-    setState({ ...state, playing: !state.playing });
+    let player = document.getElementsByClassName("react-player");
+    let pause = player[0].firstElementChild.paused;
+    pause = !pause;
+    pause
+      ? setState({ ...state, playing: false })
+      : setState({ ...state, playing: true });
+    console.log(pause);
   };
   const handleRewind = () => {
     playerRef.current.seekTo(playerRef.current.getCurrentTime() - 10);
@@ -34,7 +43,6 @@ function App() {
   const toggleFullScreen = () => {
     screenfull.toggle(playerContainerRef.current);
   };
-
   const handleProgress = (changeState) => {
     console.log(changeState);
     setState({ ...state, ...changeState });
@@ -44,7 +52,7 @@ function App() {
     <>
       <div className="wrapper">
         <header>
-          <h1>Hello, World!</h1>
+          <h1>Hello, world!</h1>
         </header>
         <div ref={playerContainerRef} className="player-wrapper">
           <ReactPlayer
@@ -55,6 +63,7 @@ function App() {
             url={"videos/test1.mp4"}
             muted={muted}
             playing={playing}
+            loop="true"
             volume={volume}
             playbackRate={playbackRate}
             onProgress={handleProgress}
@@ -71,7 +80,8 @@ function App() {
           playbackRate={playbackRate}
           onPlaybackRateChange={handlePlaybackRateChange}
           onToggleFullScreen={toggleFullScreen}
-          played={played}
+          playedSeconds={playedSeconds}
+          loadedSeconds={loadedSeconds}
         />
         <footer>end</footer>
       </div>

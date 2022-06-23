@@ -7,20 +7,23 @@ export default function PlayerControls({
   onFastFoward,
   muted,
   onMute,
-  playbackRate,
   onPlaybackRateChange,
   onToggleFullScreen,
-  played,
+  playedSeconds,
+  loadedSeconds,
 }) {
   let rates = [1.0, 0.5, 1.5, 2.0];
   return (
     <div>
       <button onClick={onRewind}>rewind</button>
-
       {playing ? (
-        <button onClick={onPlayPause}>Pause</button>
+        <button className="pause" onClick={onPlayPause}>
+          Pause
+        </button>
       ) : (
-        <button onClick={onPlayPause}>Play</button>
+        <button className="play" onClick={onPlayPause}>
+          Play
+        </button>
       )}
       <button onClick={onFastFoward}>forward</button>
       {muted ? (
@@ -36,7 +39,8 @@ export default function PlayerControls({
         ))}
       </select>
       <button onClick={onToggleFullScreen}>full</button>
-      <span>{played}</span>
+      <span>{playedSeconds.toFixed(2)}</span>/
+      <span>{loadedSeconds.toFixed(2)}</span>
     </div>
   );
 }
