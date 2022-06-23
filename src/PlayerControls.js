@@ -9,8 +9,6 @@ export default function PlayerControls({
   onMute,
   onPlaybackRateChange,
   onToggleFullScreen,
-  playedSeconds,
-  loadedSeconds,
 }) {
   let rates = [1.0, 0.5, 1.5, 2.0];
   return (
@@ -39,8 +37,6 @@ export default function PlayerControls({
         ))}
       </select>
       <button onClick={onToggleFullScreen}>full</button>
-      <span>{playedSeconds.toFixed(2)}</span>/
-      <span>{loadedSeconds.toFixed(2)}</span>
     </div>
   );
 }
