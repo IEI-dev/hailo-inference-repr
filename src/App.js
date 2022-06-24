@@ -116,7 +116,7 @@ function App() {
 
   useEffect(() => {
     if (playing) {
-      const interval = setInterval(getTime, 100);
+      const interval = setInterval(getTime, 10);
       return () => {
         clearInterval(interval);
       };

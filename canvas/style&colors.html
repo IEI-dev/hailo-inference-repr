@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="application/javascript">
+      function draw() {
+        const ctx = document.getElementById("canvas").getContext("2d");
+        for (let i = 0; i < 6; i++) {
+          for (let j = 0; j < 6; j++) {
+            ctx.fillStyle =
+              "rgb(" +
+              Math.floor(255 - 42.5 * i) +
+              ", " +
+              Math.floor(255 - 42.5 * j) +
+              ", 0)";
+            ctx.fillRect(j * 25, i * 25, 25, 25);
+          }
+        }
+        const ctx2 = document.getElementById("canvas2").getContext("2d");
+        for (let i = 0; i < 6; i++) {
+          for (let j = 0; j < 6; j++) {
+            ctx2.strokeStyle =
+              "rgb(0, " +
+              Math.floor(255 - 42.5 * i) +
+              ", " +
+              Math.floor(255 - 42.5 * j) +
+              ")";
+            ctx2.beginPath();
+            ctx2.arc(12.5 + j * 25, 12.5 + i * 25, 10, 0, Math.PI * 2, true);
+            ctx2.stroke();
+          }
+        }
+        const ctx3 = document.getElementById("canvas3").getContext("2d");
+
+        // Draw background
+        ctx3.fillStyle = "rgb(255, 221, 0)";
+        ctx3.fillRect(0, 0, 150, 37.5);
+        ctx3.fillStyle = "rgb(102, 204, 0)";
+        ctx3.fillRect(0, 37.5, 150, 37.5);
+        ctx3.fillStyle = "rgb(0, 153, 255)";
+        ctx3.fillRect(0, 75, 150, 37.5);
+        ctx3.fillStyle = "rgb(255, 51, 0)";
+        ctx3.fillRect(0, 112.5, 150, 37.5);
+
+        // Draw semi transparent rectangles
+        for (let i = 0; i < 10; i++) {
+          ctx3.fillStyle = "rgba(255, 255, 255, " + (i + 1) / 10 + ")";
+          for (let j = 0; j < 4; j++) {
+            ctx3.fillRect(5 + i * 14, 5 + j * 37.5, 14, 27.5);
+          }
+        }
+      }
+    </script>
+  </head>
+  <body onload="draw()">
+    <canvas id="canvas" width="150" height="150"></canvas>
+    <canvas id="canvas2" width="150" height="150"></canvas>
+    <canvas id="canvas3" width="150" height="150"></canvas>
+    <div>
+      <button class="big">
+        <a href="./index.html">BACK</a>
+      </button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>path2D</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="application/javascript">
+      function draw() {
+        const path2D = document.getElementById("path2D");
+        if (path2D.getContext) {
+          const ctx = path2D.getContext("2d");
+
+          const rectangle = new Path2D();
+          rectangle.rect(10, 10, 50, 50);
+
+          const circle = new Path2D();
+          circle.arc(100, 35, 25, 0, 2 * Math.PI);
+
+          const svgSquare = new Path2D("M150 10 h 80 v 80 h -80 Z");
+
+          ctx.stroke(rectangle);
+          ctx.fill(circle);
+          ctx.fill(svgSquare);
+        }
+      }
+    </script>
+  </head>
+  <body onload="draw()">
+    <canvas id="path2D" width="250" height="150"></canvas>
+    <div>
+      <button class="big"">
+        <a href="./index.html">BACK</a>
+      </button>
+    </div>
+  </body>
+</html>
