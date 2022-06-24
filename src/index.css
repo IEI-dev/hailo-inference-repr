@@ -41,6 +41,12 @@ code {
   z-index: 1;
 }
 
+.rect{
+  z-index: 2;
+  position: absolute;
+  top: 0;
+}
+
 .controls {
-  z-index: 100;
+  z-index: 10;
 }
