@@ -9,11 +9,19 @@ export default function PlayerControls({
   onMute,
   onPlaybackRateChange,
   onToggleFullScreen,
+  onSeek,
+  playRatio,
 }) {
   let rates = [1.0, 0.5, 1.5, 2.0];
   return (
     <div>
-      <button onClick={onRewind}>rewind</button>
+      <button
+        onClick={() => {
+          onRewind();
+        }}
+      >
+        rewind
+      </button>
       {playing ? (
         <button className="pause" onClick={onPlayPause}>
           Pause
@@ -23,7 +31,13 @@ export default function PlayerControls({
           Play
         </button>
       )}
-      <button onClick={onFastFoward}>forward</button>
+      <button
+        onClick={() => {
+          onFastFoward();
+        }}
+      >
+        forward
+      </button>
       {muted ? (
         <button onClick={onMute}>unmute</button>
       ) : (
@@ -37,6 +51,14 @@ export default function PlayerControls({
         ))}
       </select>
       <button onClick={onToggleFullScreen}>full</button>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        step="1"
+        value={playRatio ? playRatio : "0"}
+        onChange={onSeek}
+      />
     </div>
   );
 }

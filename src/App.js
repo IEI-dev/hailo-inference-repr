@@ -3,6 +3,7 @@ import ReactPlayer from "react-player";
 import PlayerControls from "./PlayerControls";
 import screenfull from "screenfull";
 // import Canvas from "./Canvas";
+import Elapsed from "./Elapsed";
 import Canvas2 from "./Canvas2";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
     y: 0,
     width: 0,
     height: 0,
+    time: 0,
   });
   const {
     playing,
@@ -32,31 +34,28 @@ function App() {
     y,
     width,
     height,
+    time,
   } = state;
   // Ref
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
   // handleState
+  const setTime = () => {
+    setState({
+      ...state,
+      time: playerRef.current.getCurrentTime().toFixed(2),
+    });
+  };
   const handlePlayPause = () => {
-    console.log(playerRef.current);
-    // let player = document.getElementsByClassName("react-player");
-    // let pause = player[0].firstElementChild.paused;
-    // console.log(player);
-    // console.log(pause);
-    // pause = !pause;
-    // pause
-    //   ? setState({ ...state, playing: false })
-    //   : setState({ ...state, playing: true });
-
     setState({ ...state, playing: !playing });
   };
   const handleRewind = () => {
-    getTime();
     playerRef.current.seekTo(playerRef.current.getCurrentTime() - 10);
+    setTime();
   };
   const handleFastForward = () => {
-    getTime();
     playerRef.current.seekTo(playerRef.current.getCurrentTime() + 10);
+    setTime();
   };
   const handleMute = () => {
     setState({ ...state, muted: !state.muted });
@@ -76,56 +75,69 @@ function App() {
     ctx.fill();
     ctx.strokeRect(x, 20, 50, 50);
   };
+
+  const onSeek = (e) => {
+    const seekto = playerRef.current.getDuration() * (+e.target.value / 100);
+    playerRef.current.seekTo(seekto);
+    setTime();
+  };
   // Time
   const getTime = async function () {
-    const elapsed_sec = await playerRef.current.getCurrentTime();
-    // calculations
-    const elapsed_ms = Math.floor(elapsed_sec * 1000);
-    const ms = elapsed_ms % 1000;
-    const min = Math.floor(elapsed_ms / 60000);
-    const seconds = Math.floor((elapsed_ms - min * 60000) / 1000);
-    const duration = await playerRef.current.getDuration();
-    const duration_ms = Math.floor(duration * 1000);
-    const dms = duration_ms % 1000;
-    const dmin = Math.floor(duration_ms / 60000);
-    const dseconds = Math.floor((duration_ms - dmin * 60000) / 1000);
-    const playRatio = (100 * elapsed_sec) / duration;
+    if (playerRef) {
+      const elapsed_sec = await playerRef.current.getCurrentTime();
+      // calculations
+      const elapsed_ms = Math.floor(elapsed_sec * 1000);
+      const ms = elapsed_ms % 1000;
+      const min = Math.floor(elapsed_ms / 60000);
+      const seconds = Math.floor((elapsed_ms - min * 60000) / 1000);
+      const duration = await playerRef.current.getDuration();
+      const duration_ms = Math.floor(duration * 1000);
+      const dms = duration_ms % 1000;
+      const dmin = Math.floor(duration_ms / 60000);
+      const dseconds = Math.floor((duration_ms - dmin * 60000) / 1000);
+      const playRatio = (100 * elapsed_sec) / duration;
 
-    const rect = playerContainerRef.current.getBoundingClientRect();
-    setState({
-      ...state,
-      elapsed:
-        min.toString().padStart(2, "0") +
-        ":" +
-        seconds.toString().padStart(2, "0") +
-        ":" +
-        ms.toString().padStart(3, "0"),
-      duration:
-        dmin.toString().padStart(2, "0") +
-        ":" +
-        dseconds.toString().padStart(2, "0") +
-        ":" +
-        dms.toString().padStart(3, "0"),
-      playRatio: playRatio,
-      x: rect.x,
-      y: rect.y,
-      width: rect.width,
-      height: rect.height,
-    });
+      const rect = playerContainerRef.current.getBoundingClientRect();
+      setState({
+        ...state,
+        elapsed:
+          min.toString().padStart(2, "0") +
+          ":" +
+          seconds.toString().padStart(2, "0") +
+          ":" +
+          ms.toString().padStart(3, "0"),
+        duration:
+          dmin.toString().padStart(2, "0") +
+          ":" +
+          dseconds.toString().padStart(2, "0") +
+          ":" +
+          dms.toString().padStart(3, "0"),
+        playRatio: playRatio,
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height,
+      });
+    } else return;
   };
 
   useEffect(() => {
-    if (playing) {
-      const interval = setInterval(getTime, 10);
+    if (playerRef && playing) {
+      const interval = setInterval(getTime, 100);
       return () => {
         clearInterval(interval);
       };
-    } else return;
+    } else if (playerRef && !playing) {
+      const timeout = setTimeout(getTime, 300);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
-  // Resize to call getTime
+  }, [playing, time]);
+
   function Size() {
-    const [dimensions, setDimensions] = React.useState({
+    const [dimensions, setDimensions] = useState({
       height: window.innerHeight,
       width: window.innerWidth,
     });
@@ -183,21 +195,26 @@ function App() {
           playbackRate={playbackRate}
           onPlaybackRateChange={handlePlaybackRateChange}
           onToggleFullScreen={toggleFullScreen}
+          getTime={getTime}
+          playRatio={playRatio}
+          onSeek={onSeek}
+        />
+        <Elapsed
+          elapsed={elapsed}
+          duration={duration}
+          playRatio={playRatio}
+          getTime={getTime}
+        />
+        {/* <Canvas playRatio={playRatio} draw={draw} /> */}
+        <Canvas2
+          playRatio={playRatio}
+          draw={draw}
+          x={x}
+          y={y}
+          width={width}
+          height={height}
         />
         <footer>
-          <div>
-            {elapsed}/{duration}
-          </div>
-          <div>{playRatio.toFixed(2)}%</div>
-          {/* <Canvas playRatio={playRatio} draw={draw} /> */}
-          <Canvas2
-            playRatio={playRatio}
-            draw={draw}
-            x={x}
-            y={y}
-            width={width}
-            height={height}
-          />
           <Size />
         </footer>
       </div>
