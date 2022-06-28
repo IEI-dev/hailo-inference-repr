@@ -5,6 +5,7 @@ import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Websocket from "./websocket/Websocket";
 import Navbar from "./Navbar";
+import Canvas from "./canvas/index";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,6 +14,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/websocket" element={<Websocket />} />
+      <Route path="/canvas" element={<Canvas />} />
     </Routes>
   </BrowserRouter>
 );

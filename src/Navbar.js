@@ -12,6 +12,9 @@ export default function Navbar() {
         <li>
           <Link to="./">React-Player</Link>
         </li>
+        <li>
+          <Link to="./canvas">Canvas</Link>
+        </li>
       </ul>
     </div>
   );

@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import PlayerControls from "./PlayerControls";
 import screenfull from "screenfull";
-// import Canvas from "./Canvas";
 import Elapsed from "./Elapsed";
 import Canvas2 from "./Canvas2";
 
