@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function PlayerControls({
   playing,
@@ -11,10 +11,29 @@ export default function PlayerControls({
   onToggleFullScreen,
   onSeek,
   playRatio,
+  onSearch,
 }) {
   let rates = [1.0, 0.5, 1.5, 2.0];
+  const [newUrl, setNewUrl] = useState("");
   return (
     <div>
+      <div>
+        <form
+          action=""
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSearch(newUrl);
+          }}
+        >
+          <input
+            id="videoURL"
+            type="text"
+            placeholder="type your url"
+            onChange={(e) => setNewUrl(e.target.value)}
+          />
+          <input id="search" type="submit" value={"Search"} />
+        </form>
+      </div>
       <button
         onClick={() => {
           onRewind();

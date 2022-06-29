@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Canvas() {
+export default function CanvasPractices() {
   return (
     <>
       <div className="wrapper">

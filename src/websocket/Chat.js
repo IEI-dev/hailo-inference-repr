@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Chat() {
   const URL = "ws://127.0.0.1:8080";
-  const [user, setUser] = useState("Your name");
+  const [user, setUser] = useState("");
   const [message, setMessage] = useState([]);
   const [messages, setMessages] = useState([]);
   const [ws, setWs] = useState(new WebSocket(URL));
@@ -39,21 +39,23 @@ export default function Chat() {
     // eslint-disable-next-line
   }, [ws.onmessage, ws.onopen, ws.onclose, messages]);
   return (
-    <div>
+    <div className="chat">
       <label htmlFor="user">
         Name :&nbsp;
         <input
           type="text"
           id="user"
-          placeholder="User"
+          placeholder="Type your name ..."
           value={user}
           onChange={(e) => setUser(e.target.value)}
         />
       </label>
+      <hr />
       <ul>
+        <li>Server : Remember to open me first!</li>
         {messages.map((message, index) => (
           <li key={index}>
-            <b>{message.user}</b>: <em>{message.message}</em>
+            <b>{message.user}</b> : <em>{message.message}</em>
           </li>
         ))}
       </ul>

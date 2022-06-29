@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
-import Canvas from "./canvas/index";
+import CanvasPractices from "./canvas/index";
 import Websocket from "./websocket/WebSocket";
 import BtsSocket from "./websocket/BtsSocket";
 import Chat from "./websocket/Chat";
@@ -16,7 +16,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/websocket" element={<Websocket />} />
-      <Route path="/canvas" element={<Canvas />} />
+      <Route path="/canvas" element={<CanvasPractices />} />
       <Route path="/websocket/btssocket" element={<BtsSocket />} />
       <Route path="/websocket/chat" element={<Chat />} />
     </Routes>

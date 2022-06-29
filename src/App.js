@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 import PlayerControls from "./PlayerControls";
 import screenfull from "screenfull";
 import Elapsed from "./Elapsed";
-import Canvas2 from "./Canvas2";
+import Canvas from "./Canvas";
 
 function App() {
   // State
@@ -20,6 +20,7 @@ function App() {
     width: 0,
     height: 0,
     time: 0,
+    url: "videos/test2.mp4",
   });
   const {
     playing,
@@ -34,6 +35,7 @@ function App() {
     width,
     height,
     time,
+    url,
   } = state;
   // Ref
   const playerRef = useRef(null);
@@ -65,7 +67,10 @@ function App() {
   const toggleFullScreen = () => {
     screenfull.toggle(playerContainerRef.current);
   };
-  // Canvas
+  const handleUrl = (newUrl) => {
+    setState({ ...state, url: newUrl });
+  };
+  // Canvas draw function
   const draw = (ctx, x) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "blue";
@@ -80,37 +85,29 @@ function App() {
     playerRef.current.seekTo(seekto);
     setTime();
   };
-  // Time
+  // Update Time and Size
+  const format = (sec) => {
+    const ms = Math.floor(sec * 1000) % 1000;
+    const min = Math.floor((sec * 1000) / 60000);
+    const seconds = Math.floor(Math.floor(sec * 1000 - min * 60000) / 1000);
+    const time =
+      min.toString().padStart(2, "0") +
+      ":" +
+      seconds.toString().padStart(2, "0") +
+      ":" +
+      ms.toString().padStart(3, "0");
+    return time;
+  };
   const getTime = async function () {
     if (playerRef) {
       const elapsed_sec = await playerRef.current.getCurrentTime();
-      // calculations
-      const elapsed_ms = Math.floor(elapsed_sec * 1000);
-      const ms = elapsed_ms % 1000;
-      const min = Math.floor(elapsed_ms / 60000);
-      const seconds = Math.floor((elapsed_ms - min * 60000) / 1000);
       const duration = await playerRef.current.getDuration();
-      const duration_ms = Math.floor(duration * 1000);
-      const dms = duration_ms % 1000;
-      const dmin = Math.floor(duration_ms / 60000);
-      const dseconds = Math.floor((duration_ms - dmin * 60000) / 1000);
       const playRatio = (100 * elapsed_sec) / duration;
-
       const rect = playerContainerRef.current.getBoundingClientRect();
       setState({
         ...state,
-        elapsed:
-          min.toString().padStart(2, "0") +
-          ":" +
-          seconds.toString().padStart(2, "0") +
-          ":" +
-          ms.toString().padStart(3, "0"),
-        duration:
-          dmin.toString().padStart(2, "0") +
-          ":" +
-          dseconds.toString().padStart(2, "0") +
-          ":" +
-          dms.toString().padStart(3, "0"),
+        elapsed: format(elapsed_sec),
+        duration: format(duration),
         playRatio: playRatio,
         x: rect.x,
         y: rect.y,
@@ -127,7 +124,7 @@ function App() {
         clearInterval(interval);
       };
     } else if (playerRef && !playing) {
-      const timeout = setTimeout(getTime, 300);
+      const timeout = setTimeout(getTime, 200);
       return () => {
         clearTimeout(timeout);
       };
@@ -135,18 +132,15 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playing, time]);
 
+  // Size Component
   function Size() {
-    const [dimensions, setDimensions] = useState({
+    const dimensions = {
       height: window.innerHeight,
       width: window.innerWidth,
-    });
+    };
     useEffect(() => {
       function handleResize() {
         getTime();
-        setDimensions({
-          height: window.innerHeight,
-          width: window.innerWidth,
-        });
       }
 
       window.addEventListener("resize", handleResize);
@@ -157,67 +151,73 @@ function App() {
     });
     return (
       <div>
-        Rendered at {dimensions.width} x {dimensions.height}
+        <p>
+          Rendered at {dimensions.width} x {dimensions.height}
+        </p>
+        <p>
+          Canvas at {width} x {height}
+        </p>
       </div>
     );
   }
   return (
-    <>
-      <div className="wrapper">
-        <header>
-          <h1>React-player</h1>
-        </header>
-        <div ref={playerContainerRef} className="player-wrapper">
-          <ReactPlayer
-            className="react-player"
-            width="100%"
-            height="100%"
-            ref={playerRef}
-            // url={"videos/test1.mp4"}
-            url="https://www.youtube.com/watch?v=C6rBmJv9g_0"
-            muted={muted}
-            playing={playing}
-            loop={true}
-            volume={volume}
-            playbackRate={playbackRate}
-            controls={false}
-          />
-        </div>
-        <PlayerControls
-          className="controls"
-          playing={playing}
-          onPlayPause={handlePlayPause}
-          onRewind={handleRewind}
-          onFastFoward={handleFastForward}
+    <div className="wrapper">
+      <header>
+        <h1>React-player</h1>
+      </header>
+      <div ref={playerContainerRef} className="player-wrapper">
+        <ReactPlayer
+          className="react-player"
+          width="100%"
+          height="100%"
+          ref={playerRef}
+          // url={"videos/test1.mp4"}
+          // url={"videos/test2.mp4"}
+          url={url}
           muted={muted}
-          onMute={handleMute}
+          playing={playing}
+          loop={true}
+          volume={volume}
           playbackRate={playbackRate}
-          onPlaybackRateChange={handlePlaybackRateChange}
-          onToggleFullScreen={toggleFullScreen}
-          getTime={getTime}
-          playRatio={playRatio}
-          onSeek={onSeek}
+          controls={false}
         />
-        <Elapsed
-          elapsed={elapsed}
-          duration={duration}
-          playRatio={playRatio}
-          getTime={getTime}
-        />
-        {/* <Canvas playRatio={playRatio} draw={draw} /> */}
-        <Canvas2
-          playRatio={playRatio}
-          draw={draw}
-          x={x}
-          y={y}
-          width={width}
-          height={height}
-        />
-        <footer>
-          <Size />
-        </footer>
       </div>
-    </>
+      <PlayerControls
+        className="controls"
+        playing={playing}
+        onPlayPause={handlePlayPause}
+        onRewind={handleRewind}
+        onFastFoward={handleFastForward}
+        muted={muted}
+        onMute={handleMute}
+        playbackRate={playbackRate}
+        onPlaybackRateChange={handlePlaybackRateChange}
+        onToggleFullScreen={toggleFullScreen}
+        getTime={getTime}
+        playRatio={playRatio}
+        onSeek={onSeek}
+        onSearch={handleUrl}
+        url={url}
+      />
+      <Elapsed
+        elapsed={elapsed}
+        duration={duration}
+        playRatio={playRatio}
+        getTime={getTime}
+      />
+      {/* <Canvas playRatio={playRatio} draw={draw} /> */}
+      <Canvas
+        playRatio={playRatio}
+        draw={draw}
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+      />
+      <footer>
+        <Size />
+      </footer>
+    </div>
   );
 }
 
