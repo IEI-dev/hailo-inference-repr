@@ -5,7 +5,7 @@ export default function Canvas() {
     <>
       <div className="wrapper">
         <h1>Canvas</h1>
-        <div class="dropdown">
+        <div class="dropdown2">
           <button
             class="btn btn-secondary dropdown-toggle"
             type="button"

@@ -3,9 +3,11 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Websocket from "./websocket/Websocket";
 import Navbar from "./Navbar";
 import Canvas from "./canvas/index";
+import Websocket from "./websocket/WebSocket";
+import BtsSocket from "./websocket/BtsSocket";
+import Chat from "./websocket/Chat";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,6 +17,8 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="/websocket" element={<Websocket />} />
       <Route path="/canvas" element={<Canvas />} />
+      <Route path="/websocket/btssocket" element={<BtsSocket />} />
+      <Route path="/websocket/chat" element={<Chat />} />
     </Routes>
   </BrowserRouter>
 );

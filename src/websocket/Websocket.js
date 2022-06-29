@@ -1,36 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const apiCall = {
-  event: "bts:subscribe",
-  data: { channel: "order_book_btcusd" },
-};
-function Websocket() {
-  const [bids, setBids] = useState([0]);
-
-  useEffect(() => {
-    const ws = new WebSocket("wss://ws.bitstamp.net");
-    ws.onopen = (event) => {
-      ws.send(JSON.stringify(apiCall));
-    };
-    ws.onmessage = function (event) {
-      const json = JSON.parse(event.data);
-      try {
-        if (json.event === "data") {
-          setBids(json.data.bids.slice(0, 5));
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    //clean up function
-    return () => ws.close();
-  }, []);
-  const firstBids = bids.map((item, index) => (
-    <div key={index}>
-      <p> {item}</p>
+export default function Websocket() {
+  return (
+    <div className="nav2">
+      <h1>WebSocket</h1>
+      <ul>
+        <li>
+          <Link to="./btssocket">BtsSocket</Link>
+        </li>
+        <li>
+          <Link to="./chat">Chat</Link>
+        </li>
+      </ul>
     </div>
-  ));
-
-  return <div>{firstBids}</div>;
+  );
 }
-export default Websocket;
