@@ -12,6 +12,11 @@ function App() {
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
+    time: 0,
+    url: "https://www.youtube.com/watch?v=IPfo1k2JyIg&t=2s",
+  });
+  const { playing, muted, volume, playbackRate, time, url } = state;
+  const [canvas, setCanvas] = useState({
     elapsed: 0,
     duration: 0,
     playRatio: 0,
@@ -19,24 +24,8 @@ function App() {
     y: 0,
     width: 0,
     height: 0,
-    time: 0,
-    url: "videos/test2.mp4",
   });
-  const {
-    playing,
-    muted,
-    volume,
-    playbackRate,
-    elapsed,
-    duration,
-    playRatio,
-    x,
-    y,
-    width,
-    height,
-    time,
-    url,
-  } = state;
+  const { elapsed, duration, playRatio, x, y, width, height } = canvas;
   // Ref
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
@@ -59,7 +48,8 @@ function App() {
     setTime();
   };
   const handleMute = () => {
-    setState({ ...state, muted: !state.muted });
+    console.log(muted);
+    setState({ ...state, muted: !muted });
   };
   const handlePlaybackRateChange = (selectObject) => {
     setState({ ...state, playbackRate: Number(selectObject.target.value) });
@@ -98,14 +88,13 @@ function App() {
       ms.toString().padStart(3, "0");
     return time;
   };
-  const getTime = async function () {
+  const getTime = async function() {
     if (playerRef) {
       const elapsed_sec = await playerRef.current.getCurrentTime();
       const duration = await playerRef.current.getDuration();
       const playRatio = (100 * elapsed_sec) / duration;
       const rect = playerContainerRef.current.getBoundingClientRect();
-      setState({
-        ...state,
+      setCanvas({
         elapsed: format(elapsed_sec),
         duration: format(duration),
         playRatio: playRatio,
