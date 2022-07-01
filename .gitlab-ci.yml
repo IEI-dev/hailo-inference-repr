@@ -16,14 +16,13 @@ pages:
     - cp build/index.html build/404.html
     - ls
     - cd ..
-    - cd ..
     - mkdir public
     - ls
-    - mv ./build/* public
+    - mv ./deepwork/build/* public
     - export
   artifacts:
-    paths: 
+    paths:
       - public
   only:
-    refs: 
+    refs:
       - master
