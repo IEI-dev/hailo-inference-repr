@@ -15,10 +15,10 @@ pages:
     - CI=false npm run build
     - cp build/index.html build/404.html
     - ls
-    - cd ..
-    - mkdir public
-    - ls
-    - mv ./deepwork/build/* public
+    # - cd ..
+    # - mkdir public
+    # - ls
+    - mv build public
     - export
   artifacts:
     paths:
