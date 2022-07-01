@@ -22,6 +22,8 @@ pages:
     - mv ./build/* public
     - export
   artifacts:
-    paths: - public
+    paths: 
+      - public
   only:
-    refs: - master
+    refs: 
+      - master
