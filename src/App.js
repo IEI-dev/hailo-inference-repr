@@ -17,6 +17,7 @@ function App() {
   });
   const { playing, muted, volume, playbackRate, time, url } = state;
   const [canvas, setCanvas] = useState({
+    dura: 0,
     elapsed: 0,
     duration: 0,
     playRatio: 0,
@@ -25,10 +26,12 @@ function App() {
     width: 0,
     height: 0,
   });
-  const { elapsed, duration, playRatio, x, y, width, height } = canvas;
+  const { elapsed, duration, playRatio, x, y, width, height, dura } = canvas;
   // Ref
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
+  const startTime = performance.now();
+
   // handleState
   const setTime = () => {
     setState({
@@ -83,6 +86,7 @@ function App() {
     if (playerRef) {
       const elapsed_sec = await playerRef.current.getCurrentTime();
       const duration = await playerRef.current.getDuration();
+      const dura = await playerRef.current.getDuration();
       const playRatio = (100 * elapsed_sec) / duration;
       const rect = playerContainerRef.current.getBoundingClientRect();
       setCanvas({
@@ -93,6 +97,7 @@ function App() {
         y: rect.y,
         width: rect.width,
         height: rect.height,
+        dura: dura,
       });
     } else return;
   };
@@ -185,7 +190,15 @@ function App() {
         playRatio={playRatio}
         getTime={getTime}
       />
-      <Canvas playRatio={playRatio} x={x} y={y} width={width} height={height} />
+      <Canvas
+        playRatio={playRatio}
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+        startTime={startTime}
+        dura={dura}
+      />
       <footer>
         <Size />
       </footer>
