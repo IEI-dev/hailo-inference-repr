@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
-import PlayerControls from "./PlayerControls";
+import PlayerControls from "./react-player/PlayerControls";
 import screenfull from "screenfull";
-import Elapsed from "./Elapsed";
-import Canvas from "./Canvas";
+import Elapsed from "./react-player/Elapsed";
+import Canvas from "./react-player/Canvas";
 
 function App() {
   // State
@@ -59,15 +59,6 @@ function App() {
   };
   const handleUrl = (newUrl) => {
     setState({ ...state, url: newUrl });
-  };
-  // Canvas draw function
-  const draw = (ctx, x) => {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.fillStyle = "blue";
-    ctx.beginPath();
-    ctx.arc(x + 25, 75, 25, 0, 1 * Math.PI);
-    ctx.fill();
-    ctx.strokeRect(x, 20, 50, 50);
   };
 
   const onSeek = (e) => {
@@ -194,15 +185,7 @@ function App() {
         playRatio={playRatio}
         getTime={getTime}
       />
-      {/* <Canvas playRatio={playRatio} draw={draw} /> */}
-      <Canvas
-        playRatio={playRatio}
-        draw={draw}
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-      />
+      <Canvas playRatio={playRatio} x={x} y={y} width={width} height={height} />
       <footer>
         <Size />
       </footer>

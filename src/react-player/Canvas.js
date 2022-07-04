@@ -1,7 +1,16 @@
 import React, { useRef, useEffect } from "react";
 
-export default function Canvas({ draw, playRatio, x, y, width, height }) {
+export default function Canvas({ playRatio, x, y, width, height }) {
   const rectRef = useRef(null);
+  // Canvas draw function
+  const draw = (ctx, x) => {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = "blue";
+    ctx.beginPath();
+    ctx.arc(x + 25, 75, 25, 0, 1 * Math.PI);
+    ctx.fill();
+    ctx.strokeRect(x, 20, 50, 50);
+  };
   useEffect(() => {
     const rect = rectRef.current;
     const context = rect.getContext("2d");

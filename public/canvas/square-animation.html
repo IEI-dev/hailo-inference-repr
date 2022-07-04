@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="application/javascript"></script>
+  </head>
+  <body onload="draw()">
+    <canvas id="canvas" width="300" height="150"></canvas>
+    <div>
+      <button class="big">
+        <a href="./canvas.html">BACK</a>
+      </button>
+    </div>
+    <script>
+      const startTime = performance.now();
+      const durationTotal = 4000;
+
+      function drawRect(ctx, x, y) {
+        // 這就是很普通的畫一個方塊在指定座標的位置上
+        // 假設長寬都是40
+        const size = 20;
+        // 設定填充色
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(x, y, size * 2, size * 2);
+      }
+
+      function animate(ctx) {
+        // 預設都先清除舊畫面然後重新畫一個方塊在新位置
+        let timeNow = performance.now() - startTime;
+        //
+        const speed = 0.05; //假設速度是0.05px/毫秒
+
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        drawRect(ctx, speed * timeNow, 50);
+
+        // 在目前花費時間還沒超過總預設花費時間的狀況下就持續動作
+        if (timeNow < durationTotal) {
+          // 告訴瀏覽器下一幀要做的動作, 可以想像成一個極短的setTimeout, delay時間大約是1/60秒
+          // 這邊我們透過遞迴執行animate來繪製下一幀的畫面
+          requestAnimationFrame(() => {
+            animate(ctx);
+          });
+        } else {
+          return;
+        }
+      }
+
+      function draw() {
+        const cvs = document.querySelector("canvas");
+        const ctx = cvs.getContext("2d");
+        animate(ctx);
+      }
+    </script>
+  </body>
+</html>
