@@ -4,8 +4,9 @@ import PlayerControls from "./react-player/PlayerControls";
 import screenfull from "screenfull";
 import Elapsed from "./react-player/Elapsed";
 import Canvas from "./react-player/Canvas";
-
+import pdet from "./pdet_sample.json";
 function App() {
+  console.log(pdet);
   const [duration, setDuration] = useState(0);
   // State
   const [state, setState] = useState({
@@ -14,7 +15,7 @@ function App() {
     volume: 0.1,
     playbackRate: 1.0,
     time: 0,
-    url: "https://www.youtube.com/watch?v=IPfo1k2JyIg&t=2s",
+    url: "./videos/tc1.mp4",
   });
   const { playing, muted, volume, playbackRate, time, url } = state;
   const [canvas, setCanvas] = useState({
