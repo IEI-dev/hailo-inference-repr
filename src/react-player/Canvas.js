@@ -6,8 +6,8 @@ export default function Canvas({
   y,
   width,
   height,
-  startTime,
-  dura,
+  elapsed,
+  duration,
 }) {
   const rectRef = useRef(null);
   // Canvas draw function
@@ -28,13 +28,16 @@ export default function Canvas({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playRatio]);
 
-  useEffect(() => {
-    const playButton = document.querySelector(".play");
-    playButton.addEventListener("click", draw2);
-    return (_) => {
-      playButton.removeEventListener("click", draw2);
-    };
-  }, []);
+  // useEffect(() => {
+  //   draw2();
+  // }, [duration]);
+  // useEffect(() => {
+  //   const playButton = document.querySelector(".play");
+  //   playButton.addEventListener("click", draw2);
+  //   return (_) => {
+  //     playButton.removeEventListener("click", draw2);
+  //   };
+  // }, []);
 
   function draw2() {
     const cvs = document.querySelector("#canvas2");
@@ -50,15 +53,11 @@ export default function Canvas({
     ctx.fillRect(x, y, size * 2, size * 2);
   }
   const animate = (ctx) => {
-    let timeNow = performance.now() - startTime;
-    console.log(timeNow);
-    console.log(dura);
-    const speed = 0.05;
-
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    drawRect(ctx, speed * timeNow, 100);
+    drawRect(ctx, elapsed * 20, 100);
 
-    if (timeNow < dura) {
+    if (elapsed < duration) {
+      console.log("coming");
       requestAnimationFrame(() => {
         animate(ctx);
       });

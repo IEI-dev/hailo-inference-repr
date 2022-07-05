@@ -6,6 +6,7 @@ import Elapsed from "./react-player/Elapsed";
 import Canvas from "./react-player/Canvas";
 
 function App() {
+  const [duration, setDuration] = useState(0);
   // State
   const [state, setState] = useState({
     playing: false,
@@ -17,20 +18,17 @@ function App() {
   });
   const { playing, muted, volume, playbackRate, time, url } = state;
   const [canvas, setCanvas] = useState({
-    dura: 0,
     elapsed: 0,
-    duration: 0,
     playRatio: 0,
     x: 0,
     y: 0,
     width: 0,
     height: 0,
   });
-  const { elapsed, duration, playRatio, x, y, width, height, dura } = canvas;
+  const { elapsed, playRatio, x, y, width, height } = canvas;
   // Ref
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
-  const startTime = performance.now();
 
   // handleState
   const setTime = () => {
@@ -41,6 +39,7 @@ function App() {
   };
   const handlePlayPause = () => {
     setState({ ...state, playing: !playing });
+    setDuration(playerRef.current.getDuration());
   };
   const handleRewind = () => {
     playerRef.current.seekTo(playerRef.current.getCurrentTime() - 10);
@@ -85,19 +84,15 @@ function App() {
   const getTime = async function() {
     if (playerRef) {
       const elapsed_sec = await playerRef.current.getCurrentTime();
-      const duration = await playerRef.current.getDuration();
-      const dura = await playerRef.current.getDuration();
       const playRatio = (100 * elapsed_sec) / duration;
       const rect = playerContainerRef.current.getBoundingClientRect();
       setCanvas({
-        elapsed: format(elapsed_sec),
-        duration: format(duration),
+        elapsed: elapsed_sec,
         playRatio: playRatio,
         x: rect.x,
         y: rect.y,
         width: rect.width,
         height: rect.height,
-        dura: dura,
       });
     } else return;
   };
@@ -185,8 +180,8 @@ function App() {
         url={url}
       />
       <Elapsed
-        elapsed={elapsed}
-        duration={duration}
+        elapsed={format(elapsed)}
+        duration={format(duration)}
         playRatio={playRatio}
         getTime={getTime}
       />
@@ -196,8 +191,8 @@ function App() {
         y={y}
         width={width}
         height={height}
-        startTime={startTime}
-        dura={dura}
+        duration={duration}
+        elapsed={elapsed}
       />
       <footer>
         <Size />
