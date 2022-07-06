@@ -4,54 +4,52 @@ import PlayerControls from "./react-player/PlayerControls";
 import screenfull from "screenfull";
 import Elapsed from "./react-player/Elapsed";
 import Canvas from "./react-player/Canvas";
-import pdet from "./pdet_sample.json";
-function App() {
-  console.log(pdet);
+
+function App({ boxes, boxTime, ids }) {
   const [duration, setDuration] = useState(0);
+  const [time, setTime] = useState(0);
+  const [playRatio, setPlayRatio] = useState(0);
+
   // State
   const [state, setState] = useState({
     playing: false,
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
-    time: 0,
     url: "./videos/tc1.mp4",
   });
-  const { playing, muted, volume, playbackRate, time, url } = state;
+  const { playing, muted, volume, playbackRate, url } = state;
   const [canvas, setCanvas] = useState({
-    elapsed: 0,
-    playRatio: 0,
     x: 0,
     y: 0,
     width: 0,
     height: 0,
+    wRatio: 1,
+    hRatio: 1,
   });
-  const { elapsed, playRatio, x, y, width, height } = canvas;
+  const { x, y, width, height, wRatio, hRatio } = canvas;
   // Ref
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
 
   // handleState
-  const setTime = () => {
-    setState({
-      ...state,
-      time: playerRef.current.getCurrentTime().toFixed(2),
-    });
+  const handleTime = () => {
+    setTime(playerRef.current.getCurrentTime());
+    setPlayRatio((time * 100) / duration);
   };
   const handlePlayPause = () => {
     setState({ ...state, playing: !playing });
     setDuration(playerRef.current.getDuration());
   };
   const handleRewind = () => {
-    playerRef.current.seekTo(playerRef.current.getCurrentTime() - 10);
-    setTime();
+    playerRef.current.seekTo(playerRef.current.getCurrentTime() - 5);
+    handleTime();
   };
   const handleFastForward = () => {
-    playerRef.current.seekTo(playerRef.current.getCurrentTime() + 10);
-    setTime();
+    playerRef.current.seekTo(playerRef.current.getCurrentTime() + 5);
+    handleTime();
   };
   const handleMute = () => {
-    console.log(muted);
     setState({ ...state, muted: !muted });
   };
   const handlePlaybackRateChange = (selectObject) => {
@@ -67,7 +65,7 @@ function App() {
   const onSeek = (e) => {
     const seekto = playerRef.current.getDuration() * (+e.target.value / 100);
     playerRef.current.seekTo(seekto);
-    setTime();
+    handleTime();
   };
   // Update Time and Size
   const format = (sec) => {
@@ -82,30 +80,42 @@ function App() {
       ms.toString().padStart(3, "0");
     return time;
   };
-  const getTime = async function() {
+  const getSize = async function() {
     if (playerRef) {
-      const elapsed_sec = await playerRef.current.getCurrentTime();
-      const playRatio = (100 * elapsed_sec) / duration;
       const rect = playerContainerRef.current.getBoundingClientRect();
       setCanvas({
-        elapsed: elapsed_sec,
-        playRatio: playRatio,
         x: rect.x,
         y: rect.y,
         width: rect.width,
         height: rect.height,
+        wRatio: rect.width / 640,
+        hRatio: rect.height / 360,
       });
+    } else return;
+  };
+  function closest(goal, arr) {
+    if (arr == null) {
+      return;
+    }
+    return arr.reduce((prev, curr) =>
+      Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev
+    );
+  }
+
+  const getBox = async function() {
+    if (playerRef && playing) {
+      handleTime();
     } else return;
   };
 
   useEffect(() => {
     if (playerRef && playing) {
-      const interval = setInterval(getTime, 100);
+      const interval = setInterval(getBox, 10);
       return () => {
         clearInterval(interval);
       };
     } else if (playerRef && !playing) {
-      const timeout = setTimeout(getTime, 200);
+      const timeout = setTimeout(getSize, 200);
       return () => {
         clearTimeout(timeout);
       };
@@ -121,7 +131,7 @@ function App() {
     };
     useEffect(() => {
       function handleResize() {
-        getTime();
+        getSize();
       }
 
       window.addEventListener("resize", handleResize);
@@ -174,26 +184,24 @@ function App() {
         playbackRate={playbackRate}
         onPlaybackRateChange={handlePlaybackRateChange}
         onToggleFullScreen={toggleFullScreen}
-        getTime={getTime}
-        playRatio={playRatio}
         onSeek={onSeek}
         onSearch={handleUrl}
         url={url}
-      />
-      <Elapsed
-        elapsed={format(elapsed)}
-        duration={format(duration)}
         playRatio={playRatio}
-        getTime={getTime}
       />
+      <Elapsed elapsed={format(time)} duration={format(duration)} />
       <Canvas
-        playRatio={playRatio}
         x={x}
         y={y}
         width={width}
         height={height}
         duration={duration}
-        elapsed={elapsed}
+        boxes={boxes}
+        ids={ids}
+        time={closest(time, boxTime)}
+        boxIndex={boxTime.indexOf(closest(time, boxTime))}
+        wRatio={wRatio}
+        hRatio={hRatio}
       />
       <footer>
         <Size />

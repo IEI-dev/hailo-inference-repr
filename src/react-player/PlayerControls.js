@@ -10,8 +10,8 @@ export default function PlayerControls({
   onPlaybackRateChange,
   onToggleFullScreen,
   onSeek,
-  playRatio,
   onSearch,
+  playRatio,
 }) {
   let rates = [1.0, 0.5, 1.5, 2.0];
   const [newUrl, setNewUrl] = useState("");
