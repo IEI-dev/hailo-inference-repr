@@ -61,6 +61,16 @@ export default function CanvasPractices() {
                 transform
               </a>
             </li>
+            <li>
+              <a className="dropdown-item" href="./ascii.html">
+                ASCII
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="./square-animation.html">
+                square-animation
+              </a>
+            </li>
           </ul>
         </div>
       </div>
