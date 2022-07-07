@@ -15,7 +15,8 @@ export default function Canvas({
   idCheck,
 }) {
   const boxRef = useRef(null);
-  // Canvas draw function
+
+  // useEffect
   useEffect(() => {
     const box = boxRef.current;
     const ctx = box.getContext("2d");
@@ -28,6 +29,7 @@ export default function Canvas({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
 
+  // Canvas draw function
   function draw(ctx) {
     const colors = [
       "red",
