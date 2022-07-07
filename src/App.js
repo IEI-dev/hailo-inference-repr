@@ -5,11 +5,13 @@ import screenfull from "screenfull";
 import Elapsed from "./react-player/Elapsed";
 import Canvas from "./react-player/Canvas";
 
+// boxes, boxTime, ids give to Canvas
 function App({ boxes, boxTime, ids }) {
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [playRatio, setPlayRatio] = useState(0);
-
+  const [boxCheck, setBoxCheck] = useState(true); // box and id props for PlayerControls callback and give to Canvas
+  const [idCheck, setIdCheck] = useState(true);
   // State
   const [state, setState] = useState({
     playing: false,
@@ -18,7 +20,7 @@ function App({ boxes, boxTime, ids }) {
     playbackRate: 1.0,
     url: "./videos/tc1.mp4",
   });
-  const { playing, muted, volume, playbackRate, url } = state;
+  const { playing, muted, volume, playbackRate, url } = state; // dedectionary
   const [canvas, setCanvas] = useState({
     x: 0,
     y: 0,
@@ -28,11 +30,12 @@ function App({ boxes, boxTime, ids }) {
     hRatio: 1,
   });
   const { x, y, width, height, wRatio, hRatio } = canvas;
+
   // Ref
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
 
-  // handleState
+  // handleState function give to PlayerControls
   const handleTime = () => {
     setTime(playerRef.current.getCurrentTime());
     setPlayRatio((time * 100) / duration);
@@ -61,12 +64,12 @@ function App({ boxes, boxTime, ids }) {
   const handleUrl = (newUrl) => {
     setState({ ...state, url: newUrl });
   };
-
   const onSeek = (e) => {
     const seekto = playerRef.current.getDuration() * (+e.target.value / 100);
     playerRef.current.seekTo(seekto);
     handleTime();
   };
+
   // Update Time and Size
   const format = (sec) => {
     const ms = Math.floor(sec * 1000) % 1000;
@@ -101,13 +104,13 @@ function App({ boxes, boxTime, ids }) {
       Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev
     );
   }
-
   const getBox = async function() {
     if (playerRef && playing) {
       handleTime();
     } else return;
   };
 
+  // useEffect
   useEffect(() => {
     if (playerRef && playing) {
       const interval = setInterval(getBox, 10);
@@ -162,8 +165,6 @@ function App({ boxes, boxTime, ids }) {
           width="100%"
           height="100%"
           ref={playerRef}
-          // url={"videos/test1.mp4"}
-          // url={"videos/test2.mp4"}
           url={url}
           muted={muted}
           playing={playing}
@@ -188,6 +189,10 @@ function App({ boxes, boxTime, ids }) {
         onSearch={handleUrl}
         url={url}
         playRatio={playRatio}
+        boxCheck={boxCheck}
+        setBoxCheck={setBoxCheck}
+        idCheck={idCheck}
+        setIdCheck={setIdCheck}
       />
       <Elapsed elapsed={format(time)} duration={format(duration)} />
       <Canvas
@@ -198,10 +203,12 @@ function App({ boxes, boxTime, ids }) {
         duration={duration}
         boxes={boxes}
         ids={ids}
-        time={closest(time, boxTime)}
-        boxIndex={boxTime.indexOf(closest(time, boxTime))}
+        time={closest(time, boxTime)} // get the closest time to boxTime
+        boxIndex={boxTime.indexOf(closest(time, boxTime))} // get the index of every closest time's timeBox
         wRatio={wRatio}
         hRatio={hRatio}
+        boxCheck={boxCheck}
+        idCheck={idCheck}
       />
       <footer>
         <Size />

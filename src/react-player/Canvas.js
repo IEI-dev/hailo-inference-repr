@@ -11,6 +11,8 @@ export default function Canvas({
   ids,
   wRatio,
   hRatio,
+  boxCheck,
+  idCheck,
 }) {
   const boxRef = useRef(null);
   // Canvas draw function
@@ -59,17 +61,21 @@ export default function Canvas({
     ctx.font = "18px serif";
     for (let i = 0; i < boxes[boxIndex].length; i++) {
       ctx.strokeStyle = colors[ids[boxIndex][i] - 1];
-      ctx.fillText(
-        `ID${ids[boxIndex][i]}`,
-        boxes[boxIndex][i][0],
-        boxes[boxIndex][i][1] - 10
-      );
-      ctx.strokeRect(
-        boxes[boxIndex][i][0],
-        boxes[boxIndex][i][1],
-        boxes[boxIndex][i][2],
-        boxes[boxIndex][i][3]
-      );
+      if (idCheck) {
+        ctx.fillText(
+          `ID${ids[boxIndex][i]}`,
+          boxes[boxIndex][i][0],
+          boxes[boxIndex][i][1] - 10
+        );
+      }
+      if (boxCheck) {
+        ctx.strokeRect(
+          boxes[boxIndex][i][0],
+          boxes[boxIndex][i][1],
+          boxes[boxIndex][i][2],
+          boxes[boxIndex][i][3]
+        );
+      }
     }
   }
 

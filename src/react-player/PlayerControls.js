@@ -12,6 +12,10 @@ export default function PlayerControls({
   onSeek,
   onSearch,
   playRatio,
+  boxCheck,
+  setBoxCheck,
+  idCheck,
+  setIdCheck,
 }) {
   let rates = [1.0, 0.5, 1.5, 2.0];
   const [newUrl, setNewUrl] = useState("");
@@ -78,6 +82,48 @@ export default function PlayerControls({
         value={playRatio ? playRatio : "0"}
         onChange={onSeek}
       />
+      <div className="form-check form-switch">
+        <input
+          className="form-check-input box"
+          type="checkbox"
+          // eslint-disable-next-line
+          checked={boxCheck}
+          id="flexSwitchBox"
+          onChange={() => {
+            setBoxCheck(!boxCheck);
+          }}
+        />
+        {boxCheck ? (
+          <label className="form-check-label" htmlFor="flexSwitchBox">
+            Box on
+          </label>
+        ) : (
+          <label className="form-check-label" htmlFor="flexSwitchBox">
+            Box off
+          </label>
+        )}
+      </div>
+      <div className="form-check form-switch">
+        <input
+          className="form-check-input id"
+          type="checkbox"
+          id="flexSwitchID"
+          // eslint-disable-next-line
+          checked={idCheck}
+          onChange={() => {
+            setIdCheck(!idCheck);
+          }}
+        />
+        {idCheck ? (
+          <label className="form-check-label" htmlFor="flexSwitchID">
+            ID on
+          </label>
+        ) : (
+          <label className="form-check-label" htmlFor="flexSwitchID">
+            ID off
+          </label>
+        )}
+      </div>
     </div>
   );
 }

@@ -19,7 +19,7 @@ for (let i = 0; i < videojson.frames.length; i++) {
   boxes.push(videojson.frames[i].boxes);
 }
 for (let i = 0; i < videojson.frames.length; i++) {
-  boxTime.push(videojson.frames[i].time_offt + 0.9);
+  boxTime.push(videojson.frames[i].time_offt + 0.7); // add seconds for the bug
 }
 for (let i = 0; i < videojson.frames.length; i++) {
   ids.push(videojson.frames[i].ids);
