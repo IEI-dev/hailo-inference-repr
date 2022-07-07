@@ -62,12 +62,12 @@ export default function CanvasPractices() {
               </a>
             </li>
             <li>
-              <a className="dropdown-item" href="./ascii.html">
+              <a className="dropdown-item" href="./canvas/ascii.html">
                 ASCII
               </a>
             </li>
             <li>
-              <a className="dropdown-item" href="./square-animation.html">
+              <a className="dropdown-item" href="./canvas/square-animation.html">
                 square-animation
               </a>
             </li>
