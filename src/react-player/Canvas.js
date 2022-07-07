@@ -54,7 +54,7 @@ export default function Canvas({
       "indigo",
       "violet",
     ];
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     ctx.lineWidth = 2;
     ctx.font = "18px serif";
     for (let i = 0; i < boxes[boxIndex].length; i++) {
