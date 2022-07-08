@@ -7,6 +7,8 @@ import Canvas from "./react-player/Canvas";
 
 // boxes, boxTime, ids give to Canvas
 function App({ boxes, boxTime, ids }) {
+  let sourceWidth = 640;
+  let sourceHeight = 360;
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [playRatio, setPlayRatio] = useState(0);
@@ -91,8 +93,8 @@ function App({ boxes, boxTime, ids }) {
         y: rect.y,
         width: rect.width,
         height: rect.height,
-        wRatio: rect.width / 640,
-        hRatio: rect.height / 360,
+        wRatio: rect.width / sourceWidth,
+        hRatio: rect.height / sourceHeight,
       });
     } else return;
   };
