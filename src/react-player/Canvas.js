@@ -58,14 +58,14 @@ export default function Canvas({
       "indigo",
       "violet",
     ];
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    ctx.clearRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
     ctx.lineWidth = 2;
     ctx.font = "18px serif";
     for (let i = 0; i < boxes[boxIndex].length; i++) {
       ctx.strokeStyle = colors[ids[boxIndex][i] - 1];
       if (idCheck) {
         ctx.fillText(
-          `ID${ids[boxIndex][i]}`,
+          `${ids[boxIndex][i]}`,
           boxes[boxIndex][i][0],
           boxes[boxIndex][i][1] - 10
         );

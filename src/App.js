@@ -4,23 +4,27 @@ import PlayerControls from "./react-player/PlayerControls";
 import screenfull from "screenfull";
 import Elapsed from "./react-player/Elapsed";
 import Canvas from "./react-player/Canvas";
+import Data from "./react-player/Data";
 
 // boxes, boxTime, ids give to Canvas
 function App({ boxes, boxTime, ids }) {
-  let sourceWidth = 640;
-  let sourceHeight = 360;
+  const [sourceWidth, setSW] = useState(640);
+  const [sourceHeight, setSH] = useState(360);
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [playRatio, setPlayRatio] = useState(0);
   const [boxCheck, setBoxCheck] = useState(true); // box and id props for PlayerControls callback and give to Canvas
   const [idCheck, setIdCheck] = useState(true);
+  const [bxs, setBoxes] = useState(boxes);
+  const [bxT, setBoxTime] = useState(boxTime);
+  const [bxid, setIds] = useState(ids);
   // State
   const [state, setState] = useState({
     playing: false,
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
-    url: "./videos/tc1.mp4",
+    url: `./videos/tc1.mp4`,
   });
   const { playing, muted, volume, playbackRate, url } = state; // dedectionary
   const [canvas, setCanvas] = useState({
@@ -70,6 +74,15 @@ function App({ boxes, boxTime, ids }) {
     const seekto = playerRef.current.getDuration() * (+e.target.value / 100);
     playerRef.current.seekTo(seekto);
     handleTime();
+  };
+  const handleBoxes = (data, newUrl) => {
+    setBoxes(data[0]);
+    setBoxTime(data[1]);
+    setIds(data[2]);
+    setSW(data[3]);
+    setSH(data[4]);
+    handleUrl(newUrl);
+    getSize();
   };
 
   // Update Time and Size
@@ -126,7 +139,7 @@ function App({ boxes, boxTime, ids }) {
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playing, time]);
+  }, [playing, time, url]);
 
   // Size Component
   function Size() {
@@ -196,6 +209,7 @@ function App({ boxes, boxTime, ids }) {
         idCheck={idCheck}
         setIdCheck={setIdCheck}
       />
+      <Data handleBoxes={handleBoxes} />
       <Elapsed elapsed={format(time)} duration={format(duration)} />
       <Canvas
         x={x}
@@ -203,10 +217,10 @@ function App({ boxes, boxTime, ids }) {
         width={width}
         height={height}
         duration={duration}
-        boxes={boxes}
-        ids={ids}
-        time={closest(time, boxTime)} // get the closest time to boxTime
-        boxIndex={boxTime.indexOf(closest(time, boxTime))} // get the index of every closest time's timeBox
+        boxes={bxs}
+        ids={bxid}
+        time={closest(time, bxT)} // get the closest time to boxTime
+        boxIndex={bxT.indexOf(closest(time, bxT))} // get the index of every closest time's timeBox
         wRatio={wRatio}
         hRatio={hRatio}
         boxCheck={boxCheck}

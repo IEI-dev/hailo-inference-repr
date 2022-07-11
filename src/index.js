@@ -8,8 +8,7 @@ import CanvasPractices from "./canvas/index";
 import Websocket from "./websocket/Websocket";
 import BtsSocket from "./websocket/BtsSocket";
 import Chat from "./websocket/Chat";
-import videojson from "./tc1.json";
-// import videojson from "./pwalk1.json";
+import videojson from "./json/tc1.json";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
