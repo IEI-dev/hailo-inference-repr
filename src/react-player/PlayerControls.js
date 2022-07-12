@@ -46,11 +46,11 @@ export default function PlayerControls({
         rewind
       </button>
       {playing ? (
-        <button className="pause" onClick={onPlayPause}>
+        <button id="play" className="pause" onClick={onPlayPause}>
           Pause
         </button>
       ) : (
-        <button className="play" onClick={onPlayPause}>
+        <button id="play" className="play" onClick={onPlayPause}>
           Play
         </button>
       )}

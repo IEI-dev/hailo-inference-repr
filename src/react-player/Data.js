@@ -12,8 +12,12 @@ let jisooBoxes = [];
 let jisooBoxTime = [];
 let jisooIds = [];
 let offset = -1;
-let sourceWidth;
-let sourceHeight;
+let tc1SourceWidth = tc1Json.width;
+let tc1SourceHeight = tc1Json.height;
+let pwalk1SourceWidth = pwalk1Json.width;
+let pwalk1SourceHeight = pwalk1Json.height;
+let jisooSourceWidth = jisooJson.width;
+let jisooSourceHeight = jisooJson.height;
 
 function getVideoData(videojson, boxes, boxTime, ids) {
   for (let i = 0; i < videojson.frames.length; i++) {
@@ -25,27 +29,11 @@ function getVideoData(videojson, boxes, boxTime, ids) {
   for (let i = 0; i < videojson.frames.length; i++) {
     ids.push(videojson.frames[i].ids);
   }
-  sourceWidth = videojson.width;
-  sourceHeight = videojson.height;
 }
 
-getVideoData(tc1Json, tc1Boxes, tc1BoxTime, tc1Ids, sourceWidth, sourceHeight);
-getVideoData(
-  pwalk1Json,
-  pwalk1Boxes,
-  pwalk1BoxTime,
-  pwalk1Ids,
-  sourceWidth,
-  sourceHeight
-);
-getVideoData(
-  jisooJson,
-  jisooBoxes,
-  jisooBoxTime,
-  jisooIds,
-  sourceWidth,
-  sourceHeight
-);
+getVideoData(tc1Json, tc1Boxes, tc1BoxTime, tc1Ids);
+getVideoData(pwalk1Json, pwalk1Boxes, pwalk1BoxTime, pwalk1Ids);
+getVideoData(jisooJson, jisooBoxes, jisooBoxTime, jisooIds);
 let passData;
 let url = [
   "./videos/tc1.mp4",
@@ -55,12 +43,25 @@ let url = [
 let options = ["tc1", "pwalk1", "jisoo"];
 let newUrl;
 
-export default function Data({ handleBoxes }) {
+export default function Data({
+  handleBoxes,
+  setBoxes,
+  setBoxTime,
+  setIds,
+  setSW,
+  setSH,
+}) {
   const [select, setSelect] = useState("tc1");
   function pass(e) {
     passData = [];
     if (e === options[0]) {
-      passData.push(tc1Boxes, tc1BoxTime, tc1Ids, sourceWidth, sourceHeight);
+      passData.push(
+        tc1Boxes,
+        tc1BoxTime,
+        tc1Ids,
+        tc1SourceWidth,
+        tc1SourceHeight
+      );
       newUrl = url[0];
     }
     if (e.startsWith(options[1])) {
@@ -68,8 +69,8 @@ export default function Data({ handleBoxes }) {
         pwalk1Boxes,
         pwalk1BoxTime,
         pwalk1Ids,
-        sourceWidth,
-        sourceHeight
+        pwalk1SourceWidth,
+        pwalk1SourceHeight
       );
       newUrl = url[1];
     }
@@ -78,8 +79,8 @@ export default function Data({ handleBoxes }) {
         jisooBoxes,
         jisooBoxTime,
         jisooIds,
-        sourceWidth,
-        sourceHeight
+        jisooSourceWidth,
+        jisooSourceHeight
       );
       newUrl = url[2];
     }
@@ -94,7 +95,12 @@ export default function Data({ handleBoxes }) {
           onChange={function(e) {
             setSelect(e.target.value);
             pass(e.target.value);
-            handleBoxes(passData, newUrl);
+            handleBoxes(newUrl);
+            setBoxes(passData[0]);
+            setBoxTime(passData[1]);
+            setIds(passData[2]);
+            setSW(passData[3]);
+            setSH(passData[4]);
           }}
           value={select}
         >

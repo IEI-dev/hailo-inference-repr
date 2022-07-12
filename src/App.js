@@ -18,6 +18,7 @@ function App({ boxes, boxTime, ids }) {
   const [bxs, setBoxes] = useState(boxes);
   const [bxT, setBoxTime] = useState(boxTime);
   const [bxid, setIds] = useState(ids);
+  const [video, setVideo] = useState(null);
   // State
   const [state, setState] = useState({
     playing: false,
@@ -49,6 +50,7 @@ function App({ boxes, boxTime, ids }) {
   const handlePlayPause = () => {
     setState({ ...state, playing: !playing });
     setDuration(playerRef.current.getDuration());
+    getSize();
   };
   const handleRewind = () => {
     playerRef.current.seekTo(playerRef.current.getCurrentTime() - 5);
@@ -75,14 +77,8 @@ function App({ boxes, boxTime, ids }) {
     playerRef.current.seekTo(seekto);
     handleTime();
   };
-  const handleBoxes = (data, newUrl) => {
-    setBoxes(data[0]);
-    setBoxTime(data[1]);
-    setIds(data[2]);
-    setSW(data[3]);
-    setSH(data[4]);
+  const handleBoxes = (newUrl) => {
     handleUrl(newUrl);
-    getSize();
   };
 
   // Update Time and Size
@@ -98,7 +94,7 @@ function App({ boxes, boxTime, ids }) {
       ms.toString().padStart(3, "0");
     return time;
   };
-  const getSize = async function() {
+  const getSize = function() {
     if (playerRef) {
       const rect = playerContainerRef.current.getBoundingClientRect();
       setCanvas({
@@ -119,7 +115,7 @@ function App({ boxes, boxTime, ids }) {
       Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev
     );
   }
-  const getBox = async function() {
+  const getBox = function() {
     if (playerRef && playing) {
       handleTime();
     } else return;
@@ -151,7 +147,6 @@ function App({ boxes, boxTime, ids }) {
       function handleResize() {
         getSize();
       }
-
       window.addEventListener("resize", handleResize);
 
       return (_) => {
@@ -169,6 +164,22 @@ function App({ boxes, boxTime, ids }) {
       </div>
     );
   }
+
+  let paintCount = 0;
+  let startTime = 0.0;
+  const fpsInfo = document.querySelector("#fps-info");
+  const metadataInfo = document.querySelector("#metadata-info");
+  const updateCanvas = (now, metadata) => {
+    if (startTime === 0.0) {
+      startTime = now;
+    }
+    const elapsed = (now - startTime) / 1000.0;
+    const fps = (++paintCount / elapsed).toFixed(3);
+    fpsInfo.innerText = !isFinite(fps) ? 0 : fps;
+    metadataInfo.innerText = JSON.stringify({ ...metadata }, null, 2);
+    video.requestVideoFrameCallback(updateCanvas);
+  };
+
   return (
     <div className="wrapper">
       <header>
@@ -176,6 +187,7 @@ function App({ boxes, boxTime, ids }) {
       </header>
       <div ref={playerContainerRef} className="player-wrapper">
         <ReactPlayer
+          id="player"
           className="react-player"
           width="100%"
           height="100%"
@@ -187,6 +199,21 @@ function App({ boxes, boxTime, ids }) {
           volume={volume}
           playbackRate={playbackRate}
           controls={false}
+          onReady={() => {
+            const video = document.querySelector("video");
+            setVideo(video);
+            video.id = "video";
+            video.addEventListener("play", () => {
+              if (
+                !("requestVideoFrameCallback" in HTMLVideoElement.prototype)
+              ) {
+                return alert(
+                  "Your browser does not support the `Video.requestVideoFrameCallback()` API."
+                );
+              }
+            });
+          }}
+          onPlay={updateCanvas}
         />
       </div>
       <PlayerControls
@@ -209,7 +236,14 @@ function App({ boxes, boxTime, ids }) {
         idCheck={idCheck}
         setIdCheck={setIdCheck}
       />
-      <Data handleBoxes={handleBoxes} />
+      <Data
+        handleBoxes={handleBoxes}
+        setBoxes={setBoxes}
+        setBoxTime={setBoxTime}
+        setIds={setIds}
+        setSW={setSW}
+        setSH={setSH}
+      />
       <Elapsed elapsed={format(time)} duration={format(duration)} />
       <Canvas
         x={x}
@@ -225,6 +259,7 @@ function App({ boxes, boxTime, ids }) {
         hRatio={hRatio}
         boxCheck={boxCheck}
         idCheck={idCheck}
+        video={video}
       />
       <footer>
         <Size />

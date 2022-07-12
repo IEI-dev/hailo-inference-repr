@@ -13,6 +13,7 @@ export default function Canvas({
   hRatio,
   boxCheck,
   idCheck,
+  video,
 }) {
   const boxRef = useRef(null);
 
@@ -90,6 +91,10 @@ export default function Canvas({
         height={height}
         style={{ left: x, top: y, border: "2px solid red" }}
       ></canvas>
+      <p>
+        <span id="fps-info">0</span>fps
+      </p>
+      <pre id="metadata-info"></pre>
     </>
   );
 }
