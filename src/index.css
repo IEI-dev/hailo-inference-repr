@@ -51,6 +51,12 @@ code {
   position: absolute;
   top: 0;
 }
+
+.wrapper-right{
+  position: absolute;
+  left: 80vw;
+  top: 5vw;
+}
 /* trying controls over video */
 .controls {
   z-index: 10;

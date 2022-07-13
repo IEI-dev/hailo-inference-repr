@@ -49,6 +49,7 @@ export default function Data({
   setIds,
   setSW,
   setSH,
+  setFps,
 }) {
   const [select, setSelect] = useState("tc1");
   function pass(e) {
@@ -59,7 +60,8 @@ export default function Data({
         tc1BoxTime,
         tc1Ids,
         tc1SourceWidth,
-        tc1SourceHeight
+        tc1SourceHeight,
+        29.97
       );
       newUrl = url[0];
     }
@@ -69,7 +71,8 @@ export default function Data({
         pwalk1BoxTime,
         pwalk1Ids,
         pwalk1SourceWidth,
-        pwalk1SourceHeight
+        pwalk1SourceHeight,
+        29.97
       );
       newUrl = url[1];
     }
@@ -79,7 +82,8 @@ export default function Data({
         jisooBoxTime,
         jisooIds,
         jisooSourceWidth,
-        jisooSourceHeight
+        jisooSourceHeight,
+        23.976
       );
       newUrl = url[2];
     }
@@ -100,6 +104,7 @@ export default function Data({
             setIds(passData[2]);
             setSW(passData[3]);
             setSH(passData[4]);
+            setFps(passData[5])
           }}
           value={select}
         >

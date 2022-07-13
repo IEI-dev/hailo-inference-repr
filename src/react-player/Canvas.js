@@ -13,6 +13,8 @@ export default function Canvas({
   hRatio,
   boxCheck,
   idCheck,
+  fps,
+  setFps,
 }) {
   const boxRef = useRef(null);
 
@@ -81,8 +83,6 @@ export default function Canvas({
         );
       }
     }
-    const graph = document.querySelector("canvas");
-    console.log(graph);
   }
 
   return (
@@ -94,9 +94,10 @@ export default function Canvas({
         height={height}
         style={{ left: x, top: y, border: "2px solid red" }}
       ></canvas>
-      <p>
-        <span id="fps-info">0</span>fps
-      </p>
+      <div>
+        <span id="frame-info"></span>frames <span id="fps-info">{fps}fps</span>
+      </div>
+
       <pre id="metadata-info"></pre>
     </>
   );

@@ -18,13 +18,15 @@ function App({ boxes, boxTime, ids }) {
   const [bxs, setBoxes] = useState(boxes);
   const [bxT, setBoxTime] = useState(boxTime);
   const [bxid, setIds] = useState(ids);
-  const [video, setVideo] = useState(null);
+  const [fps, setFps] = useState(29.97);
   // State
   const [state, setState] = useState({
     playing: false,
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
+    // url: `./videos/MOT20-01-raw.webm`,
+    // url: `./videos/MOT20-05-raw.webm`,
     url: `./videos/tc1.mp4`,
   });
   const { playing, muted, volume, playbackRate, url } = state; // dedectionary
@@ -165,18 +167,31 @@ function App({ boxes, boxTime, ids }) {
     );
   }
 
-  let paintCount = 0;
-  let startTime = 0.0;
-  const fpsInfo = document.querySelector("#fps-info");
-  const metadataInfo = document.querySelector("#metadata-info");
-  const updateCanvas = (now, metadata) => {
-    if (startTime === 0.0) {
-      startTime = now;
-    }
-    const elapsed = (now - startTime) / 1000.0;
-    const fps = (++paintCount / elapsed).toFixed(3);
-    fpsInfo.innerText = !isFinite(fps) ? 0 : fps;
-    metadataInfo.innerText = JSON.stringify({ ...metadata }, null, 2);
+  const startDrawing = () => {
+    const video = document.querySelector("video");
+    const frameInfo = document.querySelector("#frame-info");
+    const metadataInfo = document.querySelector("#metadata-info");
+    let startTime = 0.0;
+    let currentFrame = 0;
+    video.addEventListener("play", () => {
+      if (!("requestVideoFrameCallback" in HTMLVideoElement.prototype)) {
+        return alert(
+          "Your browser does not support the `Video.requestVideoFrameCallback()` API."
+        );
+      }
+    });
+    const updateCanvas = (now, metadata) => {
+      if (startTime === 0.0) {
+        startTime = now;
+      }
+      // const frames = Math.round(metadata.mediaTime * fps);
+      // console.log(frames);
+      let frameOffset = 0;
+      currentFrame = Math.round(metadata.mediaTime * fps) - frameOffset + 1; // +1 is added if you count frame 0 as frame 1... Semantics
+      frameInfo.innerText = currentFrame;
+      // metadataInfo.innerText = JSON.stringify(metadata, null, 2);
+      video.requestVideoFrameCallback(updateCanvas);
+    };
     video.requestVideoFrameCallback(updateCanvas);
   };
 
@@ -200,20 +215,8 @@ function App({ boxes, boxTime, ids }) {
           playbackRate={playbackRate}
           controls={false}
           onReady={() => {
-            const video = document.querySelector("video");
-            setVideo(video);
-            video.id = "video";
-            video.addEventListener("play", () => {
-              if (
-                !("requestVideoFrameCallback" in HTMLVideoElement.prototype)
-              ) {
-                return alert(
-                  "Your browser does not support the `Video.requestVideoFrameCallback()` API."
-                );
-              }
-            });
+            startDrawing();
           }}
-          onPlay={updateCanvas}
         />
       </div>
       {/* <div className="data">
@@ -244,15 +247,6 @@ function App({ boxes, boxTime, ids }) {
         idCheck={idCheck}
         setIdCheck={setIdCheck}
       />
-      <Data
-        handleBoxes={handleBoxes}
-        setBoxes={setBoxes}
-        setBoxTime={setBoxTime}
-        setIds={setIds}
-        setSW={setSW}
-        setSH={setSH}
-      />
-      <Elapsed elapsed={format(time)} duration={format(duration)} />
       <Canvas
         x={x}
         y={y}
@@ -267,11 +261,25 @@ function App({ boxes, boxTime, ids }) {
         hRatio={hRatio}
         boxCheck={boxCheck}
         idCheck={idCheck}
-        video={video}
+        fps={fps}
+        setFps={setFps}
       />
-      <footer>
-        <Size />
-      </footer>
+      <div className="wrapper-right">
+        <Data
+          handleBoxes={handleBoxes}
+          setBoxes={setBoxes}
+          setBoxTime={setBoxTime}
+          setIds={setIds}
+          setSW={setSW}
+          setSH={setSH}
+          setFps={setFps}
+        />
+        <Elapsed elapsed={format(time)} duration={format(duration)} />
+
+        <footer>
+          <Size />
+        </footer>
+      </div>
     </div>
   );
 }
