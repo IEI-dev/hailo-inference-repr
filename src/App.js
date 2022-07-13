@@ -216,6 +216,14 @@ function App({ boxes, boxTime, ids }) {
           onPlay={updateCanvas}
         />
       </div>
+      {/* <div className="data">
+        {width}寬度
+        {height}高度
+        {sourceWidth}來源寬度
+        {sourceHeight}來源高度
+        {wRatio}寬比例
+        {hRatio}高比例
+      </div> */}
       <PlayerControls
         className="controls"
         playing={playing}

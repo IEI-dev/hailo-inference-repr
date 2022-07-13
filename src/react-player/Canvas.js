@@ -13,16 +13,17 @@ export default function Canvas({
   hRatio,
   boxCheck,
   idCheck,
-  video,
 }) {
   const boxRef = useRef(null);
 
-  // useEffect
   useEffect(() => {
+    // if (wRatio !== 1) {
     const box = boxRef.current;
     const ctx = box.getContext("2d");
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(wRatio, hRatio);
-  }, [wRatio, hRatio]);
+    // }
+  }, [wRatio]);
   useEffect(() => {
     const box = boxRef.current;
     const ctx = box.getContext("2d");
@@ -80,6 +81,8 @@ export default function Canvas({
         );
       }
     }
+    const graph = document.querySelector("canvas");
+    console.log(graph);
   }
 
   return (

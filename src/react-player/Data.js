@@ -11,7 +11,6 @@ let pwalk1Ids = [];
 let jisooBoxes = [];
 let jisooBoxTime = [];
 let jisooIds = [];
-let offset = -1;
 let tc1SourceWidth = tc1Json.width;
 let tc1SourceHeight = tc1Json.height;
 let pwalk1SourceWidth = pwalk1Json.width;
@@ -19,7 +18,7 @@ let pwalk1SourceHeight = pwalk1Json.height;
 let jisooSourceWidth = jisooJson.width;
 let jisooSourceHeight = jisooJson.height;
 
-function getVideoData(videojson, boxes, boxTime, ids) {
+function getVideoData(videojson, boxes, boxTime, ids, offset = 0) {
   for (let i = 0; i < videojson.frames.length; i++) {
     boxes.push(videojson.frames[i].boxes);
   }
@@ -31,9 +30,9 @@ function getVideoData(videojson, boxes, boxTime, ids) {
   }
 }
 
-getVideoData(tc1Json, tc1Boxes, tc1BoxTime, tc1Ids);
-getVideoData(pwalk1Json, pwalk1Boxes, pwalk1BoxTime, pwalk1Ids);
-getVideoData(jisooJson, jisooBoxes, jisooBoxTime, jisooIds);
+getVideoData(tc1Json, tc1Boxes, tc1BoxTime, tc1Ids, 0.7);
+getVideoData(pwalk1Json, pwalk1Boxes, pwalk1BoxTime, pwalk1Ids, -1);
+getVideoData(jisooJson, jisooBoxes, jisooBoxTime, jisooIds, -0.3);
 let passData;
 let url = [
   "./videos/tc1.mp4",
