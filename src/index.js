@@ -8,22 +8,26 @@ import CanvasPractices from "./canvas/index";
 import Websocket from "./websocket/Websocket";
 import BtsSocket from "./websocket/BtsSocket";
 import Chat from "./websocket/Chat";
-import videojson from "./json/tc1.json";
+// import videojson from "./json/tc1.json";
+// import videojson from "./json/MOT20-01.json";
+import videojson from "./json/palace.json";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 let boxes = [];
-let boxTime = [];
 let ids = [];
+let scores = [];
+for (let i = 0; i < videojson.frames.length; i++) {
+  ids.push(videojson.frames[i].ids);
+}
 for (let i = 0; i < videojson.frames.length; i++) {
   boxes.push(videojson.frames[i].boxes);
 }
 for (let i = 0; i < videojson.frames.length; i++) {
-  boxTime.push(videojson.frames[i].time_offt + 0.7); // add seconds for the bug
+  scores.push(videojson.frames[i].scores); // add seconds for the bug
 }
-for (let i = 0; i < videojson.frames.length; i++) {
-  ids.push(videojson.frames[i].ids);
-}
+
+// console.log(boxes[200]);
 
 root.render(
   <BrowserRouter>
@@ -31,7 +35,7 @@ root.render(
     <Routes>
       <Route
         path="/"
-        element={<App boxes={boxes} boxTime={boxTime} ids={ids} />}
+        element={<App ids={ids} boxes={boxes} scores={scores} />}
       />
       <Route path="/websocket" element={<Websocket />} />
       <Route path="/canvas" element={<CanvasPractices />} />

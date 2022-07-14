@@ -15,7 +15,7 @@ export default function Navbar() {
             aria-expanded="false"
           >
             <img
-              src="https://cdn.icon-icons.com/icons2/488/PNG/512/lab_47723.png"
+              src="./canvas/painting.png"
               alt="lab"
               width="30px"
               height="30px"

@@ -2,37 +2,30 @@ import React, { useState } from "react";
 import tc1Json from "../json/tc1.json";
 import pwalk1Json from "../json/pwalk1.json";
 import jisooJson from "../json/jisoo_september.json";
-let tc1Boxes = [];
-let tc1BoxTime = [];
-let tc1Ids = [];
-let pwalk1Boxes = [];
-let pwalk1BoxTime = [];
-let pwalk1Ids = [];
-let jisooBoxes = [];
-let jisooBoxTime = [];
-let jisooIds = [];
-let tc1SourceWidth = tc1Json.width;
-let tc1SourceHeight = tc1Json.height;
-let pwalk1SourceWidth = pwalk1Json.width;
-let pwalk1SourceHeight = pwalk1Json.height;
-let jisooSourceWidth = jisooJson.width;
-let jisooSourceHeight = jisooJson.height;
 
-function getVideoData(videojson, boxes, boxTime, ids, offset = 0) {
-  for (let i = 0; i < videojson.frames.length; i++) {
-    boxes.push(videojson.frames[i].boxes);
-  }
-  for (let i = 0; i < videojson.frames.length; i++) {
-    boxTime.push(videojson.frames[i].time_offt + offset); // add seconds for the bug
-  }
-  for (let i = 0; i < videojson.frames.length; i++) {
-    ids.push(videojson.frames[i].ids);
+class FrameData {
+  constructor(json, boxes = [], ids = [], scores = []) {
+    for (let i = 0; i < json.frames.length; i++) {
+      boxes.push(json.frames[i].boxes);
+    }
+    for (let i = 0; i < json.frames.length; i++) {
+      ids.push(json.frames[i].ids);
+    }
+    for (let i = 0; i < json.frames.length; i++) {
+      scores.push(json.frames[i].scores);
+    }
+    this.boxes = boxes;
+    this.ids = ids;
+    this.scores = scores;
+    this.width = json.width;
+    this.height = json.height;
   }
 }
+let dataArray = {};
+dataArray.tc1 = new FrameData(tc1Json);
+dataArray.pwalk1 = new FrameData(pwalk1Json);
+dataArray.jisoo = new FrameData(jisooJson);
 
-getVideoData(tc1Json, tc1Boxes, tc1BoxTime, tc1Ids, 0.7);
-getVideoData(pwalk1Json, pwalk1Boxes, pwalk1BoxTime, pwalk1Ids, -1);
-getVideoData(jisooJson, jisooBoxes, jisooBoxTime, jisooIds, -0.3);
 let passData;
 let url = [
   "./videos/tc1.mp4",
@@ -45,8 +38,8 @@ let newUrl;
 export default function Data({
   handleBoxes,
   setBoxes,
-  setBoxTime,
   setIds,
+  setScores,
   setSW,
   setSH,
   setFps,
@@ -56,33 +49,33 @@ export default function Data({
     passData = [];
     if (e === options[0]) {
       passData.push(
-        tc1Boxes,
-        tc1BoxTime,
-        tc1Ids,
-        tc1SourceWidth,
-        tc1SourceHeight,
+        dataArray.tc1.boxes,
+        dataArray.tc1.scores,
+        dataArray.tc1.ids,
+        dataArray.tc1.width,
+        dataArray.tc1.height,
         29.97
       );
       newUrl = url[0];
     }
     if (e.startsWith(options[1])) {
       passData.push(
-        pwalk1Boxes,
-        pwalk1BoxTime,
-        pwalk1Ids,
-        pwalk1SourceWidth,
-        pwalk1SourceHeight,
+        dataArray.pwalk1.boxes,
+        dataArray.pwalk1.scores,
+        dataArray.pwalk1.ids,
+        dataArray.pwalk1.width,
+        dataArray.pwalk1.height,
         29.97
       );
       newUrl = url[1];
     }
     if (e.startsWith(options[2])) {
       passData.push(
-        jisooBoxes,
-        jisooBoxTime,
-        jisooIds,
-        jisooSourceWidth,
-        jisooSourceHeight,
+        dataArray.jisoo.boxes,
+        dataArray.jisoo.scores,
+        dataArray.jisoo.ids,
+        dataArray.jisoo.width,
+        dataArray.jisoo.height,
         23.976
       );
       newUrl = url[2];
@@ -100,11 +93,14 @@ export default function Data({
             pass(e.target.value);
             handleBoxes(newUrl);
             setBoxes(passData[0]);
-            setBoxTime(passData[1]);
+            setScores(passData[1]);
             setIds(passData[2]);
             setSW(passData[3]);
             setSH(passData[4]);
-            setFps(passData[5])
+            setFps(passData[5]);
+            const canvas = document.querySelector("canvas");
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
           }}
           value={select}
         >

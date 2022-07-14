@@ -7,27 +7,30 @@ import Canvas from "./react-player/Canvas";
 import Data from "./react-player/Data";
 
 // boxes, boxTime, ids give to Canvas
-function App({ boxes, boxTime, ids }) {
-  const [sourceWidth, setSW] = useState(640);
-  const [sourceHeight, setSH] = useState(360);
+function App({ ids, boxes, scores }) {
+  const [sourceWidth, setSW] = useState(1280);
+  const [sourceHeight, setSH] = useState(720);
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [playRatio, setPlayRatio] = useState(0);
   const [boxCheck, setBoxCheck] = useState(true); // box and id props for PlayerControls callback and give to Canvas
   const [idCheck, setIdCheck] = useState(true);
   const [bxs, setBoxes] = useState(boxes);
-  const [bxT, setBoxTime] = useState(boxTime);
+  const [bxScores, setScores] = useState(scores);
   const [bxid, setIds] = useState(ids);
-  const [fps, setFps] = useState(29.97);
+  const [fps, setFps] = useState(30.0);
+  const [video, setVideo] = useState(null);
+  const [frame, setFrame] = useState(0);
   // State
   const [state, setState] = useState({
     playing: false,
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
+    url: `./videos/palace.mp4`,
     // url: `./videos/MOT20-01-raw.webm`,
     // url: `./videos/MOT20-05-raw.webm`,
-    url: `./videos/tc1.mp4`,
+    // url: `./videos/tc1.mp4`,
   });
   const { playing, muted, volume, playbackRate, url } = state; // dedectionary
   const [canvas, setCanvas] = useState({
@@ -109,14 +112,6 @@ function App({ boxes, boxTime, ids }) {
       });
     } else return;
   };
-  function closest(goal, arr) {
-    if (arr == null) {
-      return;
-    }
-    return arr.reduce((prev, curr) =>
-      Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev
-    );
-  }
   const getBox = function() {
     if (playerRef && playing) {
       handleTime();
@@ -124,20 +119,32 @@ function App({ boxes, boxTime, ids }) {
   };
 
   // useEffect
+  // useEffect(() => {
+  //   if (playerRef && playing) {
+  //     const interval = setInterval(getBox, 10);
+  //     return () => {
+  //       clearInterval(interval);
+  //     };
+  //   } else if (playerRef && !playing) {
+  //     const timeout = setTimeout(getSize, 200);
+  //     return () => {
+  //       clearTimeout(timeout);
+  //     };
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [playing, time, url]);
   useEffect(() => {
-    if (playerRef && playing) {
-      const interval = setInterval(getBox, 10);
+    if (playing) {
+      const interval = setInterval(getBox, 100);
       return () => {
         clearInterval(interval);
       };
-    } else if (playerRef && !playing) {
-      const timeout = setTimeout(getSize, 200);
-      return () => {
-        clearTimeout(timeout);
-      };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playing, time, url]);
+  }, [playing, time]);
+  useEffect(() => {
+    getBox();
+    getSize();
+  }, [playing]);
 
   // Size Component
   function Size() {
@@ -169,10 +176,7 @@ function App({ boxes, boxTime, ids }) {
 
   const startDrawing = () => {
     const video = document.querySelector("video");
-    const frameInfo = document.querySelector("#frame-info");
-    const metadataInfo = document.querySelector("#metadata-info");
     let startTime = 0.0;
-    let currentFrame = 0;
     video.addEventListener("play", () => {
       if (!("requestVideoFrameCallback" in HTMLVideoElement.prototype)) {
         return alert(
@@ -181,14 +185,14 @@ function App({ boxes, boxTime, ids }) {
       }
     });
     const updateCanvas = (now, metadata) => {
+      console.log("called");
       if (startTime === 0.0) {
         startTime = now;
       }
       // const frames = Math.round(metadata.mediaTime * fps);
       // console.log(frames);
       let frameOffset = 0;
-      currentFrame = Math.round(metadata.mediaTime * fps) - frameOffset + 1; // +1 is added if you count frame 0 as frame 1... Semantics
-      frameInfo.innerText = currentFrame;
+      setFrame(Math.round(metadata.mediaTime * fps) - frameOffset); // +1 is added if you count frame 0 as frame 1... Semantics
       // metadataInfo.innerText = JSON.stringify(metadata, null, 2);
       video.requestVideoFrameCallback(updateCanvas);
     };
@@ -210,11 +214,19 @@ function App({ boxes, boxTime, ids }) {
           url={url}
           muted={muted}
           playing={playing}
-          loop={true}
+          loop={false}
+          onEnded={() => {
+            const timeout = setTimeout(handlePlayPause, 100);
+            return () => {
+              clearTimeout(timeout);
+            };
+          }}
           volume={volume}
           playbackRate={playbackRate}
           controls={false}
-          onReady={() => {
+          onStart={() => {
+            const video = document.querySelector("video");
+            setVideo(video);
             startDrawing();
           }}
         />
@@ -252,24 +264,23 @@ function App({ boxes, boxTime, ids }) {
         y={y}
         width={width}
         height={height}
-        duration={duration}
         boxes={bxs}
         ids={bxid}
-        time={closest(time, bxT)} // get the closest time to boxTime
-        boxIndex={bxT.indexOf(closest(time, bxT))} // get the index of every closest time's timeBox
+        scores={bxScores}
         wRatio={wRatio}
         hRatio={hRatio}
         boxCheck={boxCheck}
         idCheck={idCheck}
         fps={fps}
-        setFps={setFps}
+        video={video}
+        frame={frame}
       />
       <div className="wrapper-right">
         <Data
           handleBoxes={handleBoxes}
           setBoxes={setBoxes}
-          setBoxTime={setBoxTime}
           setIds={setIds}
+          setScores={setScores}
           setSW={setSW}
           setSH={setSH}
           setFps={setFps}
