@@ -25,7 +25,7 @@ export default function Canvas({
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(wRatio, hRatio);
     // }
-  }, [wRatio]);
+  }, [wRatio, hRatio]);
   useEffect(() => {
     const box = boxRef.current;
     const ctx = box.getContext("2d");
