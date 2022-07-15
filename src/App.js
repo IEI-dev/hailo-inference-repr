@@ -214,7 +214,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           url={url}
           muted={muted}
           playing={playing}
-          loop={false}
+          loop={true}
           onEnded={() => {
             const timeout = setTimeout(handlePlayPause, 100);
             return () => {
