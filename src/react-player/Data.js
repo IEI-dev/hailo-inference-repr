@@ -61,8 +61,10 @@ export default function Data({
         dataArray.mot20_01.boxes,
         dataArray.mot20_01.scores,
         dataArray.mot20_01.ids,
-        dataArray.mot20_01.width,
-        dataArray.mot20_01.height,
+        // dataArray.mot20_01.width,
+        // dataArray.mot20_01.height,
+        960,
+        540,
         25,
         429
       );
