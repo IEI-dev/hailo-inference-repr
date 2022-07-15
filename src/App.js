@@ -7,9 +7,9 @@ import Canvas from "./react-player/Canvas";
 import Data from "./react-player/Data";
 
 // boxes, boxTime, ids give to Canvas
-function App({ ids, boxes, scores }) {
-  const [sourceWidth, setSW] = useState(1280);
-  const [sourceHeight, setSH] = useState(720);
+function App({ ids, boxes, scores, basicWidth, basicHeight }) {
+  const [sourceWidth, setSW] = useState(960);
+  const [sourceHeight, setSH] = useState(540);
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [playRatio, setPlayRatio] = useState(0);
@@ -18,7 +18,7 @@ function App({ ids, boxes, scores }) {
   const [bxs, setBoxes] = useState(boxes);
   const [bxScores, setScores] = useState(scores);
   const [bxid, setIds] = useState(ids);
-  const [fps, setFps] = useState(30.0);
+  const [fps, setFps] = useState(25.0);
   const [frame, setFrame] = useState(0);
   const [limit, setLimit] = useState(329);
   // State
@@ -27,8 +27,8 @@ function App({ ids, boxes, scores }) {
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
-    url: `./videos/palace.mp4`,
-    // url: `./videos/MOT20-01-raw.webm`,
+    // url: `./videos/palace.mp4`,
+    url: `./videos/MOT20-01-raw.webm`,
     // url: `./videos/MOT20-05-raw.webm`,
     // url: `./videos/tc1.mp4`,
   });

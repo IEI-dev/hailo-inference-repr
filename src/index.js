@@ -9,8 +9,8 @@ import Websocket from "./websocket/Websocket";
 import BtsSocket from "./websocket/BtsSocket";
 import Chat from "./websocket/Chat";
 // import videojson from "./json/tc1.json";
-// import videojson from "./json/MOT20-01.json";
-import videojson from "./json/palace.json";
+import videojson from "./json/MOT20-01.json";
+// import videojson from "./json/palace.json";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -26,7 +26,8 @@ for (let i = 0; i < videojson.frames.length; i++) {
 for (let i = 0; i < videojson.frames.length; i++) {
   scores.push(videojson.frames[i].scores); // add seconds for the bug
 }
-
+let width = videojson.width;
+let height = videojson.height;
 // console.log(boxes[200]);
 
 root.render(
@@ -35,7 +36,15 @@ root.render(
     <Routes>
       <Route
         path="/"
-        element={<App ids={ids} boxes={boxes} scores={scores} />}
+        element={
+          <App
+            ids={ids}
+            boxes={boxes}
+            scores={scores}
+            basicWidth={width}
+            basicHeight={height}
+          />
+        }
       />
       <Route path="/websocket" element={<Websocket />} />
       <Route path="/canvas" element={<CanvasPractices />} />

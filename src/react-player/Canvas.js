@@ -200,7 +200,7 @@ export default function Canvas({
       const box = boxRef.current;
       const ctx = box.getContext("2d");
       ctx.clearRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
-      ctx.lineWidth = 5;
+      ctx.lineWidth = 3.5;
       ctx.font = "bold 30px Arial";
 
       for (let i = 0; i < ids[frameIndex].length; i++) {
