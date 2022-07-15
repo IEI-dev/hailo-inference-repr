@@ -19,8 +19,8 @@ function App({ ids, boxes, scores }) {
   const [bxScores, setScores] = useState(scores);
   const [bxid, setIds] = useState(ids);
   const [fps, setFps] = useState(30.0);
-  const [video, setVideo] = useState(null);
   const [frame, setFrame] = useState(0);
+  const [limit, setLimit] = useState(329);
   // State
   const [state, setState] = useState({
     playing: false,
@@ -50,7 +50,6 @@ function App({ ids, boxes, scores }) {
   // handleState function give to PlayerControls
   const handleTime = () => {
     setTime(playerRef.current.getCurrentTime());
-    setPlayRatio((time * 100) / duration);
   };
   const handlePlayPause = () => {
     setState({ ...state, playing: !playing });
@@ -81,6 +80,7 @@ function App({ ids, boxes, scores }) {
     const seekto = playerRef.current.getDuration() * (+e.target.value / 100);
     playerRef.current.seekTo(seekto);
     handleTime();
+    setFrame(Math.round((+e.target.value * limit) / 100));
   };
   const handleBoxes = (newUrl) => {
     handleUrl(newUrl);
@@ -225,8 +225,6 @@ function App({ ids, boxes, scores }) {
           playbackRate={playbackRate}
           controls={false}
           onStart={() => {
-            const video = document.querySelector("video");
-            setVideo(video);
             startDrawing();
           }}
         />
@@ -258,6 +256,9 @@ function App({ ids, boxes, scores }) {
         setBoxCheck={setBoxCheck}
         idCheck={idCheck}
         setIdCheck={setIdCheck}
+        time={time}
+        duration={duration}
+        setPlayRatio={setPlayRatio}
       />
       <Canvas
         x={x}
@@ -272,7 +273,6 @@ function App({ ids, boxes, scores }) {
         boxCheck={boxCheck}
         idCheck={idCheck}
         fps={fps}
-        video={video}
         frame={frame}
       />
       <div className="wrapper-right">
@@ -284,6 +284,8 @@ function App({ ids, boxes, scores }) {
           setSW={setSW}
           setSH={setSH}
           setFps={setFps}
+          setLimit={setLimit}
+          handleTime={handleTime}
         />
         <Elapsed elapsed={format(time)} duration={format(duration)} />
 

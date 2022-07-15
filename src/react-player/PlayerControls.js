@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function PlayerControls({
   playing,
@@ -16,9 +16,15 @@ export default function PlayerControls({
   setBoxCheck,
   idCheck,
   setIdCheck,
+  time,
+  duration,
+  setPlayRatio,
 }) {
   let rates = [1.0, 0.5, 1.5, 2.0];
   const [newUrl, setNewUrl] = useState("");
+  useEffect(() => {
+    setPlayRatio((time * 100) / duration);
+  }, [time]);
   return (
     <div>
       <div>

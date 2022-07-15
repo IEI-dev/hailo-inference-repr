@@ -43,6 +43,8 @@ export default function Data({
   setSW,
   setSH,
   setFps,
+  setLimit,
+  handleTime,
 }) {
   const [select, setSelect] = useState("tc1");
   function pass(e) {
@@ -54,7 +56,8 @@ export default function Data({
         dataArray.tc1.ids,
         dataArray.tc1.width,
         dataArray.tc1.height,
-        29.97
+        29.97,
+        481
       );
       newUrl = url[0];
     }
@@ -65,7 +68,8 @@ export default function Data({
         dataArray.pwalk1.ids,
         dataArray.pwalk1.width,
         dataArray.pwalk1.height,
-        29.97
+        29.97,
+        900
       );
       newUrl = url[1];
     }
@@ -76,7 +80,8 @@ export default function Data({
         dataArray.jisoo.ids,
         dataArray.jisoo.width,
         dataArray.jisoo.height,
-        23.976
+        23.976,
+        1752
       );
       newUrl = url[2];
     }
@@ -98,6 +103,8 @@ export default function Data({
             setSW(passData[3]);
             setSH(passData[4]);
             setFps(passData[5]);
+            setLimit(passData[6]);
+            handleTime();
             const canvas = document.querySelector("canvas");
             const ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
