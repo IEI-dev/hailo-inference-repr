@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import mot20_01Json from "../json/MOT20-01.json";
 import tc1Json from "../json/tc1.json";
 import pwalk1Json from "../json/pwalk1.json";
 import jisooJson from "../json/jisoo_september.json";
-
+import palaceJson from "../json/palace.json";
 class FrameData {
   constructor(json, boxes = [], ids = [], scores = []) {
     for (let i = 0; i < json.frames.length; i++) {
@@ -22,17 +23,21 @@ class FrameData {
   }
 }
 let dataArray = {};
+dataArray.mot20_01 = new FrameData(mot20_01Json);
 dataArray.tc1 = new FrameData(tc1Json);
 dataArray.pwalk1 = new FrameData(pwalk1Json);
 dataArray.jisoo = new FrameData(jisooJson);
+dataArray.palace = new FrameData(palaceJson);
 
 let passData;
 let url = [
+  "./videos/MOT20-01-raw.webm",
   "./videos/tc1.mp4",
   "./videos/pwalk1.mp4",
   "./videos/jisoo_september.mp4",
+  "./videos/palace.mp4",
 ];
-let options = ["tc1", "pwalk1", "jisoo"];
+let options = ["MOT20-01", "tc1", "pwalk1", "jisoo", "palace"];
 let newUrl;
 
 export default function Data({
@@ -45,11 +50,25 @@ export default function Data({
   setFps,
   setLimit,
   handleTime,
+  frame,
+  fps,
 }) {
-  const [select, setSelect] = useState("tc1");
+  const [select, setSelect] = useState("MOT20-01");
   function pass(e) {
     passData = [];
-    if (e === options[0]) {
+    if (e.startsWith(options[0])) {
+      passData.push(
+        dataArray.mot20_01.boxes,
+        dataArray.mot20_01.scores,
+        dataArray.mot20_01.ids,
+        dataArray.mot20_01.width,
+        dataArray.mot20_01.height,
+        25,
+        429
+      );
+      newUrl = url[0];
+    }
+    if (e === options[1]) {
       passData.push(
         dataArray.tc1.boxes,
         dataArray.tc1.scores,
@@ -59,9 +78,9 @@ export default function Data({
         29.97,
         481
       );
-      newUrl = url[0];
+      newUrl = url[1];
     }
-    if (e.startsWith(options[1])) {
+    if (e.startsWith(options[2])) {
       passData.push(
         dataArray.pwalk1.boxes,
         dataArray.pwalk1.scores,
@@ -71,9 +90,9 @@ export default function Data({
         29.97,
         900
       );
-      newUrl = url[1];
+      newUrl = url[2];
     }
-    if (e.startsWith(options[2])) {
+    if (e.startsWith(options[3])) {
       passData.push(
         dataArray.jisoo.boxes,
         dataArray.jisoo.scores,
@@ -83,7 +102,19 @@ export default function Data({
         23.976,
         1752
       );
-      newUrl = url[2];
+      newUrl = url[3];
+    }
+    if (e.startsWith(options[4])) {
+      passData.push(
+        dataArray.palace.boxes,
+        dataArray.palace.scores,
+        dataArray.palace.ids,
+        dataArray.palace.width,
+        dataArray.palace.height,
+        30.0,
+        330
+      );
+      newUrl = url[4];
     }
   }
 
@@ -117,6 +148,12 @@ export default function Data({
             </option>
           ))}
         </select>
+        <div>
+          <span id="frame-info">{frame + 1}</span>frames{" "}
+          <span id="fps-info">{fps}fps</span>
+        </div>
+
+        <pre id="metadata-info"></pre>
       </>
     );
   }

@@ -286,6 +286,8 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           setFps={setFps}
           setLimit={setLimit}
           handleTime={handleTime}
+          fps={fps}
+          frame={frame}
         />
         <Elapsed elapsed={format(time)} duration={format(duration)} />
 

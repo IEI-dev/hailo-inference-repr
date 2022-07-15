@@ -233,12 +233,6 @@ export default function Canvas({
         height={height}
         style={{ left: x, top: y, border: "2px solid red" }}
       ></canvas>
-      <div>
-        <span id="frame-info">{frame + 1}</span>frames{" "}
-        <span id="fps-info">{fps}fps</span>
-      </div>
-
-      <pre id="metadata-info"></pre>
     </>
   );
 }
