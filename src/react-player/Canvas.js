@@ -200,15 +200,15 @@ export default function Canvas({
       const box = boxRef.current;
       const ctx = box.getContext("2d");
       ctx.clearRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
-      ctx.lineWidth = 3.5;
-      ctx.font = "bold 30px Arial";
+      ctx.lineWidth = 1;
+      ctx.font = "bold 8px Arial";
 
       for (let i = 0; i < ids[frameIndex].length; i++) {
         if (idCheck) {
           ctx.fillText(
             `${ids[frameIndex][i]}`,
             boxes[frameIndex][i][0],
-            boxes[frameIndex][i][1] - 10
+            boxes[frameIndex][i][1] - 5
           );
         }
         if (boxCheck) {
