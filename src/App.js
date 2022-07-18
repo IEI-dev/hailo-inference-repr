@@ -8,8 +8,8 @@ import Data from "./react-player/Data";
 
 // boxes, boxTime, ids give to Canvas
 function App({ ids, boxes, scores, basicWidth, basicHeight }) {
-  const [sourceWidth, setSW] = useState(960);
-  const [sourceHeight, setSH] = useState(540);
+  const [sourceWidth, setSW] = useState(960); //basicWidth
+  const [sourceHeight, setSH] = useState(540); //basicHeight
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [playRatio, setPlayRatio] = useState(0);
@@ -21,6 +21,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const [fps, setFps] = useState(25.0);
   const [frame, setFrame] = useState(0);
   const [limit, setLimit] = useState(329);
+  const [screenRatio, setScreenRatio] = useState(100);
   // State
   const [state, setState] = useState({
     playing: false,
@@ -118,21 +119,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
     } else return;
   };
 
-  // useEffect
-  // useEffect(() => {
-  //   if (playerRef && playing) {
-  //     const interval = setInterval(getBox, 10);
-  //     return () => {
-  //       clearInterval(interval);
-  //     };
-  //   } else if (playerRef && !playing) {
-  //     const timeout = setTimeout(getSize, 200);
-  //     return () => {
-  //       clearTimeout(timeout);
-  //     };
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [playing, time, url]);
   useEffect(() => {
     if (playing) {
       const interval = setInterval(getBox, 100);
@@ -144,7 +130,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   useEffect(() => {
     getBox();
     getSize();
-  }, [playing]);
+  }, [playing, screenRatio]);
 
   // Size Component
   function Size() {
@@ -168,12 +154,12 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           Rendered at {dimensions.width} x {dimensions.height}
         </p>
         <p>
-          Canvas at {width} x {height}
+          Canvas at {width.toFixed(2)} x {height.toFixed(2)}
         </p>
       </div>
     );
   }
-
+  //  trigger as the video starts, callback as every video frame
   const startDrawing = () => {
     const video = document.querySelector("video");
     let startTime = 0.0;
@@ -201,10 +187,12 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
 
   return (
     <div className="wrapper">
-      <header>
-        <h1>React-player</h1>
-      </header>
-      <div ref={playerContainerRef} className="player-wrapper">
+      <header>{/* <h1>React-player</h1> */}</header>
+      <div
+        ref={playerContainerRef}
+        className="player-wrapper"
+        style={{ border: "1px solid black" }}
+      >
         <ReactPlayer
           id="player"
           className="react-player"
@@ -215,12 +203,12 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           muted={muted}
           playing={playing}
           loop={true}
-          onEnded={() => {
-            const timeout = setTimeout(handlePlayPause, 100);
-            return () => {
-              clearTimeout(timeout);
-            };
-          }}
+          // onEnded={() => {
+          //   const timeout = setTimeout(handlePlayPause, 100);
+          //   return () => {
+          //     clearTimeout(timeout);
+          //   };
+          // }}
           volume={volume}
           playbackRate={playbackRate}
           controls={false}
@@ -259,6 +247,8 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
         time={time}
         duration={duration}
         setPlayRatio={setPlayRatio}
+        screenRatio={screenRatio}
+        setScreenRatio={setScreenRatio}
       />
       <Canvas
         x={x}

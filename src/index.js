@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -11,6 +10,7 @@ import Chat from "./websocket/Chat";
 // import videojson from "./json/tc1.json";
 import videojson from "./json/MOT20-01.json";
 // import videojson from "./json/palace.json";
+import "./css/style.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -30,6 +30,17 @@ let width = videojson.width;
 let height = videojson.height;
 // console.log(boxes[200]);
 
+// scale
+window.addEventListener("keypress", function(event) {
+  const plus = document.querySelector(".plus");
+  const minus = document.querySelector(".minus");
+  if (event.key === "=") {
+    plus.click();
+  }
+  if (event.key === "-") {
+    minus.click();
+  }
+});
 root.render(
   <BrowserRouter>
     <Navbar />

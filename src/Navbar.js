@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <>
       <div className="bar">
-        <h2>Canvas Experiments</h2>
+        {/* <h2>Canvas Experiments</h2> */}
         <div className="dropdown">
           <button
             className="btn btn-secondary dropdown-toggle"

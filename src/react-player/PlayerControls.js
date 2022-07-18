@@ -19,6 +19,8 @@ export default function PlayerControls({
   time,
   duration,
   setPlayRatio,
+  screenRatio,
+  setScreenRatio,
 }) {
   let rates = [1.0, 0.5, 1.5, 2.0];
   const [newUrl, setNewUrl] = useState("");
@@ -26,24 +28,22 @@ export default function PlayerControls({
     setPlayRatio((time * 100) / duration);
   }, [time]);
   return (
-    <div>
-      <div>
-        <form
-          action=""
-          onSubmit={(e) => {
-            e.preventDefault();
-            onSearch(newUrl);
-          }}
-        >
-          <input
-            id="videoURL"
-            type="text"
-            placeholder="type your url"
-            onChange={(e) => setNewUrl(e.target.value)}
-          />
-          <input id="search" type="submit" value={"Search"} />
-        </form>
-      </div>
+    <div className="player-control">
+      <form
+        action=""
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSearch(newUrl);
+        }}
+      >
+        <input
+          id="videoURL"
+          type="text"
+          placeholder="type your url"
+          onChange={(e) => setNewUrl(e.target.value)}
+        />
+        <input id="search" type="submit" value={"Search"} />
+      </form>
       <button
         onClick={() => {
           onRewind();
@@ -80,6 +80,39 @@ export default function PlayerControls({
         ))}
       </select>
       <button onClick={onToggleFullScreen}>full</button>
+      <button
+        className="plus"
+        onClick={() => {
+          const player = document.querySelector(".player-wrapper");
+          const upRatio = (screenRatio * 11) / 10;
+          if (upRatio < 200) {
+            player.style.setProperty("--element-width", `${upRatio}%`);
+            player.style.setProperty(
+              "--element-height",
+              `${(upRatio * 56.25) / 100}%`
+            );
+            setScreenRatio(upRatio);
+          }
+        }}
+      >
+        &nbsp;+&nbsp;
+      </button>
+      {screenRatio.toFixed(2)}%
+      <button
+        className="minus"
+        onClick={() => {
+          const player = document.querySelector(".player-wrapper");
+          const downRatio = (screenRatio * 10) / 11;
+          player.style.setProperty("--element-width", `${downRatio}%`);
+          player.style.setProperty(
+            "--element-height",
+            `${(downRatio * 56.25) / 100}%`
+          );
+          setScreenRatio(downRatio);
+        }}
+      >
+        &nbsp;-&nbsp;
+      </button>
       <input
         type="range"
         min="0"
