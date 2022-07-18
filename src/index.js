@@ -34,13 +34,37 @@ let height = videojson.height;
 window.addEventListener("keypress", function(event) {
   const plus = document.querySelector(".plus");
   const minus = document.querySelector(".minus");
+  const play = document.querySelector("#play");
+
   if (event.key === "=") {
     plus.click();
   }
   if (event.key === "-") {
     minus.click();
   }
+  if (event.key === " ") {
+    play.click();
+  }
 });
+window.addEventListener("keydown", function(event) {
+  const volumeUp = document.querySelector(".volumeUp");
+  const volumeDown = document.querySelector(".volumeDown");
+  const rewind = document.querySelector(".rewind");
+  const forward = document.querySelector(".forward");
+  if (event.key === "ArrowLeft") {
+    rewind.click();
+  }
+  if (event.key === "ArrowRight") {
+    forward.click();
+  }
+  if (event.key === "ArrowUp") {
+    volumeUp.click();
+  }
+  if (event.key === "ArrowDown") {
+    volumeDown.click();
+  }
+});
+
 root.render(
   <BrowserRouter>
     <Navbar />

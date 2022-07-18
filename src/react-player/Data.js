@@ -54,6 +54,7 @@ export default function Data({
   fps,
 }) {
   const [select, setSelect] = useState("MOT20-01");
+  // pass in (boxes, scores, ids, width, height, fps, total frames)
   function pass(e) {
     passData = [];
     if (e.startsWith(options[0])) {

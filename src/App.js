@@ -49,6 +49,11 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const playerContainerRef = useRef(null);
 
   // handleState function give to PlayerControls
+
+  const handleVolume = (volume) => {
+    setState({ ...state, volume: volume });
+    console.log(volume);
+  };
   const handleTime = () => {
     setTime(playerRef.current.getCurrentTime());
   };
@@ -231,6 +236,8 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
         onPlayPause={handlePlayPause}
         onRewind={handleRewind}
         onFastFoward={handleFastForward}
+        volume={volume}
+        onChangeVolume={handleVolume}
         muted={muted}
         onMute={handleMute}
         playbackRate={playbackRate}

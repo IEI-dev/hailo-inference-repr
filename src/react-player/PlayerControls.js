@@ -5,6 +5,8 @@ export default function PlayerControls({
   onPlayPause,
   onRewind,
   onFastFoward,
+  volume,
+  onChangeVolume,
   muted,
   onMute,
   onPlaybackRateChange,
@@ -43,8 +45,45 @@ export default function PlayerControls({
           onChange={(e) => setNewUrl(e.target.value)}
         />
         <input id="search" type="submit" value={"Search"} />
+        {/* <input
+          type="range"
+          min="0"
+          max="100"
+          step="10"
+          value={volume}
+          onChange={onChangeVolume}
+        /> */}
+        <img
+          src="./pictures/volume.png"
+          alt="volume"
+          style={{ width: "3%" }}
+        ></img>
+        {volume.toFixed(1)}&nbsp;
+        <button
+          className="volumeUp"
+          onClick={(e) => {
+            e.preventDefault();
+            if (volume + 0.1 < 1.0) {
+              onChangeVolume(volume + 0.1);
+            }
+          }}
+        >
+          &nbsp;+&nbsp;
+        </button>
+        <button
+          className="volumeDown"
+          onClick={(e) => {
+            e.preventDefault();
+            if (volume - 0.1 > 0.0) {
+              onChangeVolume(volume - 0.1);
+            }
+          }}
+        >
+          &nbsp;-&nbsp;
+        </button>
       </form>
       <button
+        className="rewind"
         onClick={() => {
           onRewind();
         }}
@@ -61,6 +100,7 @@ export default function PlayerControls({
         </button>
       )}
       <button
+        className="forward"
         onClick={() => {
           onFastFoward();
         }}
@@ -68,9 +108,13 @@ export default function PlayerControls({
         forward
       </button>
       {muted ? (
-        <button onClick={onMute}>unmute</button>
+        <button id="mute" onClick={onMute}>
+          unmute
+        </button>
       ) : (
-        <button onClick={onMute}>mute</button>
+        <button id="mute" onClick={onMute}>
+          mute
+        </button>
       )}
       <select onChange={onPlaybackRateChange}>
         {rates.map((rate, index) => (
