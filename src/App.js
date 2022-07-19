@@ -22,6 +22,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const [frame, setFrame] = useState(0);
   const [limit, setLimit] = useState(329);
   const [screenRatio, setScreenRatio] = useState(100);
+  const [video, setVideo] = useState(null);
   // State
   const [state, setState] = useState({
     playing: false,
@@ -133,7 +134,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
     }
   }, [playing, time]);
   useEffect(() => {
-    getBox();
     getSize();
   }, [playing, screenRatio]);
 
@@ -166,7 +166,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   }
   //  trigger as the video starts, callback as every video frame
   const startDrawing = () => {
-    const video = document.querySelector("video");
     let startTime = 0.0;
     video.addEventListener("play", () => {
       if (!("requestVideoFrameCallback" in HTMLVideoElement.prototype)) {
@@ -217,6 +216,10 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           volume={volume}
           playbackRate={playbackRate}
           controls={false}
+          onReady={() => {
+            const video = document.querySelector("video");
+            setVideo(video);
+          }}
           onStart={() => {
             startDrawing();
           }}

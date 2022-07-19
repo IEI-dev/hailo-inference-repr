@@ -19,6 +19,9 @@
     font-size: 24px;
      text-decoration: none;
    }
+  p,pre {
+    margin: 0;
+  }
 
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -64,6 +67,15 @@
         top: 0;
       }
       .player-control{
+        background-color:darkgrey;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-left: 3.2%;
+        // padding-left: 3.2%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: 600;
         #videoURL{
           width: 30vw;
         }
@@ -72,10 +84,13 @@
           padding-right: 5px;
           margin-right: 4px;
           margin-top: 5px;
+          font-weight: 500;
           border: 1px solid black;
         }
       }
       .wrapper-right{
+        background-color:darkgrey;
+        padding: 1%;
         position: absolute;
         right:1vw;
         top: 5vw;

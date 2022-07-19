@@ -20,6 +20,10 @@ a {
   text-decoration: none;
 }
 
+p, pre {
+  margin: 0;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
@@ -62,6 +66,16 @@ body .wrapper .rect {
   position: absolute;
   top: 0;
 }
+body .wrapper .player-control {
+  background-color: darkgrey;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 3.2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 600;
+}
 body .wrapper .player-control #videoURL {
   width: 30vw;
 }
@@ -70,9 +84,12 @@ body .wrapper .player-control button, body .wrapper .player-control select, body
   padding-right: 5px;
   margin-right: 4px;
   margin-top: 5px;
+  font-weight: 500;
   border: 1px solid black;
 }
 body .wrapper .wrapper-right {
+  background-color: darkgrey;
+  padding: 1%;
   position: absolute;
   right: 1vw;
   top: 5vw;
