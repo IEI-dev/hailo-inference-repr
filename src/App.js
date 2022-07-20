@@ -23,6 +23,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const [limit, setLimit] = useState(329);
   const [screenRatio, setScreenRatio] = useState(100);
   const [video, setVideo] = useState(null);
+  const [key, setKey] = useState(0);
   // State
   const [state, setState] = useState({
     playing: false,
@@ -53,7 +54,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
 
   const handleVolume = (volume) => {
     setState({ ...state, volume: volume });
-    console.log(volume);
   };
   const handleTime = () => {
     setTime(playerRef.current.getCurrentTime());
@@ -111,7 +111,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
       const rect = playerContainerRef.current.getBoundingClientRect();
       setCanvas({
         x: rect.x,
-        y: rect.y,
+        y: 0, // rect.y
         width: rect.width,
         height: rect.height,
         wRatio: rect.width / sourceWidth,
@@ -133,9 +133,14 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
       };
     }
   }, [playing, time]);
+
   useEffect(() => {
     getSize();
   }, [playing, screenRatio]);
+
+  useEffect(() => {
+    setKey(key + 1);
+  }, [url]);
 
   // Size Component
   function Size() {
@@ -199,6 +204,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
       >
         <ReactPlayer
           id="player"
+          key={key}
           className="react-player"
           width="100%"
           height="100%"
@@ -219,6 +225,15 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           onReady={() => {
             const video = document.querySelector("video");
             setVideo(video);
+            const items = document.querySelectorAll(".list-group-item");
+            items.forEach((item) => {
+              item.addEventListener("click", () => {
+                items.forEach((item) => {
+                  item.classList.remove("active");
+                });
+                item.classList.add("active");
+              });
+            });
           }}
           onStart={() => {
             startDrawing();
@@ -290,7 +305,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           frame={frame}
         />
         <Elapsed elapsed={format(time)} duration={format(duration)} />
-
         <footer>
           <Size />
         </footer>

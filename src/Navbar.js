@@ -5,14 +5,13 @@ export default function Navbar() {
   return (
     <>
       <div className="bar">
-        {/* <h2>Canvas Experiments</h2> */}
-        <div className="dropdown">
+        {/* <div className="dropdown">
           <button
             className="btn btn-secondary dropdown-toggle"
             type="button"
             id="dropdownMenuButton1"
             data-bs-toggle="dropdown"
-            aria-expanded="false"
+            aria-expanded="true"
           >
             <img
               src="./canvas/painting.png"
@@ -38,6 +37,27 @@ export default function Navbar() {
               </Link>
             </li>
           </ul>
+        </div> */}
+        <div className="list-group">
+          <Link
+            to="./websocket"
+            className="list-group-item list-group-item-action"
+            aria-current="true"
+          >
+            WebSocket
+          </Link>
+          <Link
+            to="./"
+            className="list-group-item list-group-item-action active"
+          >
+            React-player
+          </Link>
+          <Link
+            to="./canvas"
+            className="list-group-item list-group-item-action"
+          >
+            Canvas
+          </Link>
         </div>
       </div>
     </>

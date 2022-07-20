@@ -35,6 +35,7 @@ window.addEventListener("keypress", function(event) {
   const plus = document.querySelector(".plus");
   const minus = document.querySelector(".minus");
   const play = document.querySelector("#play");
+  const fullscreen = document.querySelector(".fullscreen");
 
   if (event.key === "=") {
     plus.click();
@@ -44,6 +45,9 @@ window.addEventListener("keypress", function(event) {
   }
   if (event.key === " ") {
     play.click();
+  }
+  if (event.key === "f") {
+    fullscreen.click();
   }
 });
 window.addEventListener("keydown", function(event) {

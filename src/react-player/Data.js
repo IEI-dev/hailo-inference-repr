@@ -124,7 +124,7 @@ export default function Data({
   function Select() {
     return (
       <>
-        <h3>{select}</h3>
+        <h1>{select}</h1>
         <select
           id="videoJson"
           onChange={function(e) {
@@ -155,7 +155,6 @@ export default function Data({
           <span id="frame-info">{frame + 1}</span>frames{" "}
           <span id="fps-info">{fps}fps</span>
         </div>
-
         <pre id="metadata-info"></pre>
       </>
     );

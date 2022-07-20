@@ -39,9 +39,11 @@
       /* navbar */
     .bar{
       position: absolute;
-      width: 10vw;
       top: 5vh;
-      left: 5vw;
+      left: 2vw;
+      .list-group-item{
+        font-size: 20px;
+      }
     }
     .wrapper{
       width: 50vw;
@@ -58,11 +60,11 @@
           position: absolute;
           top: 0;
           left: 0;
-          z-index: 1;
+          z-index: 10;
         }
       }
       .rect{
-        z-index: 2;
+        z-index: 12;
         position: absolute;
         top: 0;
       }
@@ -92,8 +94,8 @@
         background-color:darkgrey;
         padding: 1%;
         position: absolute;
-        right:1vw;
-        top: 5vw;
+        right:2vw;
+        top: 5vh;
         select {
           border: 1px solid black;
         }

@@ -116,7 +116,9 @@ export default function PlayerControls({
             </option>
           ))}
         </select>
-        <button onClick={onToggleFullScreen}>full</button>
+        <button className="fullscreen" onClick={onToggleFullScreen}>
+          full
+        </button>
         <button
           className="plus"
           onClick={() => {
