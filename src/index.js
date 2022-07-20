@@ -31,41 +31,46 @@ let height = videojson.height;
 // console.log(boxes[200]);
 
 // scale
-window.addEventListener("keypress", function(event) {
+window.addEventListener("keypress", function(event) {});
+document.addEventListener("keydown", function(event) {
   const plus = document.querySelector(".plus");
   const minus = document.querySelector(".minus");
   const play = document.querySelector("#play");
   const fullscreen = document.querySelector(".fullscreen");
-
-  if (event.key === "=") {
-    plus.click();
-  }
-  if (event.key === "-") {
-    minus.click();
-  }
-  if (event.key === " ") {
-    play.click();
-  }
-  if (event.key === "f") {
-    fullscreen.click();
-  }
-});
-window.addEventListener("keydown", function(event) {
   const volumeUp = document.querySelector(".volumeUp");
   const volumeDown = document.querySelector(".volumeDown");
   const rewind = document.querySelector(".rewind");
   const forward = document.querySelector(".forward");
-  if (event.key === "ArrowLeft") {
-    rewind.click();
+  // eslint-disable-next-line
+  switch (event.key.toLowerCase()) {
+    case " ":
+      play.click();
+      break;
+    case "=":
+    case "+":
+      plus.click();
+      break;
+    case "-":
+      minus.click();
+      break;
+    case "f":
+      fullscreen.click();
+      break;
   }
-  if (event.key === "ArrowRight") {
-    forward.click();
-  }
-  if (event.key === "ArrowUp") {
-    volumeUp.click();
-  }
-  if (event.key === "ArrowDown") {
-    volumeDown.click();
+  // eslint-disable-next-line
+  switch (event.key) {
+    case "ArrowLeft":
+      rewind.click();
+      break;
+    case "ArrowRight":
+      forward.click();
+      break;
+    case "ArrowUp":
+      volumeUp.click();
+      break;
+    case "ArrowDown":
+      volumeDown.click();
+      break;
   }
 });
 
