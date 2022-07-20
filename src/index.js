@@ -33,6 +33,8 @@ let height = videojson.height;
 // scale
 window.addEventListener("keypress", function(event) {});
 document.addEventListener("keydown", function(event) {
+  const tagName = document.activeElement.tagName.toLowerCase();
+  if (tagName === "input") return;
   const plus = document.querySelector(".plus");
   const minus = document.querySelector(".minus");
   const play = document.querySelector("#play");
@@ -44,6 +46,7 @@ document.addEventListener("keydown", function(event) {
   // eslint-disable-next-line
   switch (event.key.toLowerCase()) {
     case " ":
+      if (tagName === "button") return;
       play.click();
       break;
     case "=":
