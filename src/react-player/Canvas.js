@@ -189,17 +189,16 @@ export default function Canvas({
   //   video.requestVideoFrameCallback(drawByFrames);
   // }
   useEffect(() => {
-    if (frame >= 1) {
-      drawByFrames();
-    }
+    drawByFrames();
   }, [frame, boxCheck, idCheck]);
   function drawByFrames() {
     let frameIndex = frame - 1;
+    if (frameIndex === -1) frameIndex = 0;
 
+    const box = boxRef.current;
+    const ctx = box.getContext("2d");
     if (ids[frameIndex] !== undefined) {
-      const box = boxRef.current;
-      const ctx = box.getContext("2d");
-      ctx.clearRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
+      ctx.clearRect(0, 0, window.innerWidth * 3, window.innerHeight * 3);
       ctx.lineWidth = 1;
       ctx.font = "bold 8px Arial";
 

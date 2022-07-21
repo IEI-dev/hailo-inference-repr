@@ -66,10 +66,12 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const handleRewind = () => {
     playerRef.current.seekTo(playerRef.current.getCurrentTime() - 5);
     handleTime();
+    console.log(frame);
   };
   const handleFastForward = () => {
     playerRef.current.seekTo(playerRef.current.getCurrentTime() + 5);
     handleTime();
+    console.log(frame);
   };
   const handleMute = () => {
     setState({ ...state, muted: !muted });
@@ -131,6 +133,8 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
       return () => {
         clearInterval(interval);
       };
+    } else {
+      handleTime();
     }
   }, [playing, time]);
 
@@ -223,6 +227,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           playbackRate={playbackRate}
           controls={false}
           onReady={() => {
+            setDuration(playerRef.current.getDuration());
             const video = document.querySelector("video");
             setVideo(video);
             const items = document.querySelectorAll(".list-group-item");
