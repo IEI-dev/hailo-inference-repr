@@ -190,7 +190,8 @@ export default function Canvas({
   // }
   useEffect(() => {
     drawByFrames();
-  }, [frame, boxCheck, idCheck]);
+  }, [frame, boxCheck, idCheck, width]);
+
   function drawByFrames() {
     let frameIndex = frame - 1;
     if (frameIndex === -1) frameIndex = 0;

@@ -5,6 +5,7 @@ import screenfull from "screenfull";
 import Elapsed from "./react-player/Elapsed";
 import Canvas from "./react-player/Canvas";
 import Data from "./react-player/Data";
+import Controls from "./react-player/Controls";
 
 // boxes, boxTime, ids give to Canvas
 function App({ ids, boxes, scores, basicWidth, basicHeight }) {
@@ -13,8 +14,8 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [playRatio, setPlayRatio] = useState(0);
-  const [boxCheck, setBoxCheck] = useState(true); // box and id props for PlayerControls callback and give to Canvas
-  const [idCheck, setIdCheck] = useState(true);
+  const [boxCheck, setBoxCheck] = useState(false); // box and id props for PlayerControls callback and give to Canvas
+  const [idCheck, setIdCheck] = useState(false);
   const [bxs, setBoxes] = useState(boxes);
   const [bxScores, setScores] = useState(scores);
   const [bxid, setIds] = useState(ids);
@@ -53,25 +54,27 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   // handleState function give to PlayerControls
 
   const handleVolume = (volume) => {
-    setState({ ...state, volume: volume });
+    setState({ ...state, volume: volume, muted: false });
   };
   const handleTime = () => {
     setTime(playerRef.current.getCurrentTime());
   };
   const handlePlayPause = () => {
     setState({ ...state, playing: !playing });
-    setDuration(playerRef.current.getDuration());
-    getSize();
+    // setDuration(playerRef.current.getDuration());
+    // getSize();
+  };
+  const seekToStart = () => {
+    playerRef.current.seekTo(0);
+    handleTime();
   };
   const handleRewind = () => {
     playerRef.current.seekTo(playerRef.current.getCurrentTime() - 5);
     handleTime();
-    console.log(frame);
   };
   const handleFastForward = () => {
     playerRef.current.seekTo(playerRef.current.getCurrentTime() + 5);
     handleTime();
-    console.log(frame);
   };
   const handleMute = () => {
     setState({ ...state, muted: !muted });
@@ -79,33 +82,64 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const handlePlaybackRateChange = (selectObject) => {
     setState({ ...state, playbackRate: Number(selectObject.target.value) });
   };
+  const handlePlaybackRate = () => {
+    let pb;
+    if (playbackRate < 2) {
+      pb = playbackRate + 0.5;
+    } else {
+      pb = 0.5;
+    }
+    setState({ ...state, playbackRate: pb });
+  };
   const toggleFullScreen = () => {
+    const playerWrapper = document.querySelector(".player-wrapper");
     screenfull.toggle(playerContainerRef.current);
+  };
+  const handleTheater = () => {
+    const playerWrapper = document.querySelector(".player-wrapper");
+    playerWrapper.classList.toggle("theater");
   };
   const handleUrl = (newUrl) => {
     setState({ ...state, url: newUrl });
   };
-  const onSeek = (e) => {
-    const seekto = playerRef.current.getDuration() * (+e.target.value / 100);
-    playerRef.current.seekTo(seekto);
+  // const onSeek = (e) => {
+  //   const seekto = playerRef.current.getDuration() * (+e.target.value / 100);
+  //   playerRef.current.seekTo(seekto);
+  //   handleTime();
+  //   setFrame(Math.round((+e.target.value * limit) / 100));
+  // };
+  const onSeek = (percent) => {
+    const seekto = duration * percent;
+    playerRef.current.getInternalPlayer().currentTime = seekto;
     handleTime();
-    setFrame(Math.round((+e.target.value * limit) / 100));
+    setFrame(Math.round(percent * limit));
   };
+
   const handleBoxes = (newUrl) => {
     handleUrl(newUrl);
   };
 
   // Update Time and Size
   const format = (sec) => {
-    const ms = Math.floor(sec * 1000) % 1000;
+    const ms = Math.floor(sec * 100) % 100; // Math.floor(sec * 1000) % 1000
+    const hour = Math.floor((sec * 1000) / 360000);
     const min = Math.floor((sec * 1000) / 60000);
     const seconds = Math.floor(Math.floor(sec * 1000 - min * 60000) / 1000);
-    const time =
-      min.toString().padStart(2, "0") +
-      ":" +
-      seconds.toString().padStart(2, "0") +
-      ":" +
-      ms.toString().padStart(3, "0");
+    let time;
+    if (hour === 0) {
+      time =
+        min.toString().padStart(2, "0") +
+        ":" +
+        seconds.toString().padStart(2, "0");
+    } else {
+      time =
+        hour.toString().padStart(2, "0") +
+        min.toString().padStart(2, "0") +
+        ":" +
+        seconds.toString().padStart(2, "0");
+    }
+
+    // ms.toString().padStart(2, "0"); // padStart(3, "0")
     return time;
   };
   const getSize = function() {
@@ -204,7 +238,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
       <div
         ref={playerContainerRef}
         className="player-wrapper"
-        style={{ border: "1px solid black" }}
+        data-volume-level="high"
       >
         <ReactPlayer
           id="player"
@@ -217,12 +251,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           muted={muted}
           playing={playing}
           loop={true}
-          // onEnded={() => {
-          //   const timeout = setTimeout(handlePlayPause, 100);
-          //   return () => {
-          //     clearTimeout(timeout);
-          //   };
-          // }}
           volume={volume}
           playbackRate={playbackRate}
           controls={false}
@@ -239,12 +267,70 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
                 item.classList.add("active");
               });
             });
+            const playerWrapper = document.querySelector(".player-wrapper");
+            document.addEventListener("fullscreenchange", () => {
+              playerWrapper.classList.toggle(
+                "full-screen",
+                document.fullscreenElement
+              );
+            });
           }}
           onStart={() => {
             startDrawing();
           }}
         />
+        {/* <PlayerControls
+          className="controls"
+          playing={playing}
+          onPlayPause={handlePlayPause}
+          onRewind={handleRewind}
+          onFastFoward={handleFastForward}
+          volume={volume}
+          onChangeVolume={handleVolume}
+          muted={muted}
+          onMute={handleMute}
+          playbackRate={playbackRate}
+          onPlaybackRateChange={handlePlaybackRateChange}
+          onToggleFullScreen={toggleFullScreen}
+          onSeek={onSeek}
+          onSearch={handleUrl}
+          url={url}
+          playRatio={playRatio}
+          boxCheck={boxCheck}
+          setBoxCheck={setBoxCheck}
+          idCheck={idCheck}
+          setIdCheck={setIdCheck}
+          time={time}
+          duration={duration}
+          setPlayRatio={setPlayRatio}
+          screenRatio={screenRatio}
+          setScreenRatio={setScreenRatio}
+        /> */}
+        <Controls
+          playing={playing}
+          onPlayPause={handlePlayPause}
+          seekToStart={seekToStart}
+          video={video}
+          onMute={handleMute}
+          muted={muted}
+          volume={volume}
+          onChangeVolume={handleVolume}
+          time={format(time)}
+          duration={format(duration)}
+          playbackRate={playbackRate}
+          onPlaybackRateChange={handlePlaybackRate}
+          onTheater={handleTheater}
+          boxCheck={boxCheck}
+          setBoxCheck={setBoxCheck}
+          idCheck={idCheck}
+          setIdCheck={setIdCheck}
+          onToggleFullScreen={toggleFullScreen}
+          state={state}
+          setState={setState}
+          onSeek={onSeek}
+        />
       </div>
+
       {/* <div className="data">
         {width}寬度
         {height}高度
@@ -253,33 +339,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
         {wRatio}寬比例
         {hRatio}高比例
       </div> */}
-      <PlayerControls
-        className="controls"
-        playing={playing}
-        onPlayPause={handlePlayPause}
-        onRewind={handleRewind}
-        onFastFoward={handleFastForward}
-        volume={volume}
-        onChangeVolume={handleVolume}
-        muted={muted}
-        onMute={handleMute}
-        playbackRate={playbackRate}
-        onPlaybackRateChange={handlePlaybackRateChange}
-        onToggleFullScreen={toggleFullScreen}
-        onSeek={onSeek}
-        onSearch={handleUrl}
-        url={url}
-        playRatio={playRatio}
-        boxCheck={boxCheck}
-        setBoxCheck={setBoxCheck}
-        idCheck={idCheck}
-        setIdCheck={setIdCheck}
-        time={time}
-        duration={duration}
-        setPlayRatio={setPlayRatio}
-        screenRatio={screenRatio}
-        setScreenRatio={setScreenRatio}
-      />
       <Canvas
         x={x}
         y={y}
