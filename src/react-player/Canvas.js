@@ -149,45 +149,15 @@ export default function Canvas({
     "#00FFFF",
     "#FAEBD7",
   ];
-  // let count = 0;
   useEffect(() => {
-    // if (wRatio !== 1) {
-    const box = boxRef.current;
-    const ctx = box.getContext("2d");
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(wRatio, hRatio);
-    // }
+    if (wRatio !== 1) {
+      const box = boxRef.current;
+      const ctx = box.getContext("2d");
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(wRatio, hRatio);
+    }
   }, [wRatio, hRatio]);
 
-  // function drawByFrames() {
-  //   if (count === 0) {
-  //     count++;
-  //   } else {
-  //     const box = boxRef.current;
-  //     const ctx = box.getContext("2d");
-  //     ctx.clearRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
-  //     ctx.lineWidth = 2;
-  //     ctx.font = "18px serif";
-  //     ctx.strokeStyle = "green";
-  //     for (let i = 0; i < ids[count - 1].length; i++) {
-  //       ctx.fillText(
-  //         `${ids[count - 1][i]}`,
-  //         boxes[count - 1][i][1],
-  //         boxes[count - 1][i][3] - 10
-  //       );
-  //       ctx.strokeRect(
-  //         boxes[count - 1][i][1],
-  //         boxes[count - 1][i][3],
-  //         boxes[count - 1][i][0],
-  //         boxes[count - 1][i][2]
-  //       );
-  //     }
-  //     console.log(boxes[count - 1]);
-  //     count++;
-  //   }
-
-  //   video.requestVideoFrameCallback(drawByFrames);
-  // }
   useEffect(() => {
     drawByFrames();
   }, [frame, boxCheck, idCheck, width]);

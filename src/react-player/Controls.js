@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { toggle } from "screenfull";
 
 export default function Controls({
   playing,
