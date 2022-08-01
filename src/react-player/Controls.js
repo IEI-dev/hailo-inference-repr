@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Controls({
   playing,
@@ -17,11 +17,14 @@ export default function Controls({
   setBoxCheck,
   idCheck,
   setIdCheck,
+  lineCheck,
+  setLineCheck,
   onToggleFullScreen,
   state,
   setState,
   onSeek,
 }) {
+  const [control, setControl] = useState(true);
   let isScrubbing = false;
   let wasPaused;
   function toggleScrubbing(e) {
@@ -56,11 +59,9 @@ export default function Controls({
   }
   useEffect(() => {
     const playerWrapper = document.querySelector(".player-wrapper");
-
     playing
       ? playerWrapper.classList.remove("paused")
       : playerWrapper.classList.add("paused");
-
     const timelineContainer = document.querySelector(".timeline-container");
     timelineContainer.addEventListener("mousedown", toggleScrubbing);
     timelineContainer.addEventListener("mousemove", handleTimelineUpdate);
@@ -70,8 +71,8 @@ export default function Controls({
     document.addEventListener("mousemove", (e) => {
       if (isScrubbing) handleTimelineUpdate(e);
     });
-    const rect = document.querySelector(".rect");
-    rect.addEventListener("click", onPlayPause);
+    // const rect = document.querySelector(".rect");
+    // rect.addEventListener("click", onPlayPause);
     return () => {
       timelineContainer.removeEventListener("mousedown", toggleScrubbing);
       document.removeEventListener("mouseup", (e) => {
@@ -81,7 +82,7 @@ export default function Controls({
       document.removeEventListener("mousemove", (e) => {
         if (isScrubbing) handleTimelineUpdate(e);
       });
-      rect.removeEventListener("click", onPlayPause);
+      // rect.removeEventListener("click", onPlayPause);
     };
   }, [playing]);
   useEffect(() => {
@@ -112,13 +113,17 @@ export default function Controls({
     }
     playerWrapper.dataset.volumeLevel = volumeLevel;
   }, [volume, muted]);
+
+  function toggleControls() {
+    const playerWrapper = document.querySelector(".player-wrapper");
+    playerWrapper.classList.toggle("control");
+    setControl(!control);
+  }
   return (
     <>
-      {/* <img className="thumbnail-img" alt="thumbnail" /> */}
       <div className="video-controls-container">
         <div className="timeline-container">
           <div className="timeline">
-            {/* <img className="preview-img" alt="preview" /> */}
             <div className="thumb-indicator"></div>
           </div>
         </div>
@@ -188,21 +193,6 @@ export default function Controls({
           <button className="speed-btn wide-btn" onClick={onPlaybackRateChange}>
             {playbackRate}x
           </button>
-
-          {/* <button className="theater-btn" onClick={onTheater}>
-          <svg className="tall" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M19 6H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H5V8h14v8z"
-            />
-          </svg>
-          <svg className="wide" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M19 7H5c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 8H5V9h14v6z"
-            />
-          </svg>
-        </button> */}
           <button className="full-screen-btn" onClick={onToggleFullScreen}>
             <svg className="open" viewBox="0 0 24 24">
               <path
@@ -261,9 +251,43 @@ export default function Controls({
                 </label>
               )}
             </div>
+            <div className="form-check form-switch">
+              <input
+                className="form-check-input id"
+                type="checkbox"
+                id="flexSwitchID"
+                // eslint-disable-next-line
+                checked={lineCheck}
+                onChange={() => {
+                  setLineCheck(!lineCheck);
+                }}
+              />
+              {lineCheck ? (
+                <label className="form-check-label" htmlFor="flexSwitchID">
+                  Line on
+                </label>
+              ) : (
+                <label className="form-check-label" htmlFor="flexSwitchID">
+                  Line off
+                </label>
+              )}
+            </div>
           </div>
         </div>
       </div>
+      {control ? (
+        <button onClick={toggleControls} type="button" className="btn-control">
+          <span className="material-symbols-rounded">
+            keyboard_double_arrow_up
+          </span>
+        </button>
+      ) : (
+        <button onClick={toggleControls} type="button" className="btn-control">
+          <span className="material-symbols-rounded">
+            keyboard_double_arrow_down
+          </span>
+        </button>
+      )}
     </>
   );
 }

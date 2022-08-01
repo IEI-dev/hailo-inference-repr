@@ -33,48 +33,52 @@ let height = videojson.height;
 document.addEventListener("keydown", function(event) {
   const tagName = document.activeElement.tagName.toLowerCase();
   if (tagName === "input") return;
-  // const plus = document.querySelector(".plus");
-  // const minus = document.querySelector(".minus");
+  const plus = document.querySelector(".plus");
+  const minus = document.querySelector(".minus");
   // const play = document.querySelector("#play");
   const play = document.querySelector(".play-pause-btn");
+  const mute = document.querySelector("#mute");
   // const fullscreen = document.querySelector(".fullscreen");
   const fullscreen = document.querySelector(".full-screen-btn");
-  // const volumeUp = document.querySelector(".volumeUp");
-  // const volumeDown = document.querySelector(".volumeDown");
-  // const rewind = document.querySelector(".rewind");
-  // const forward = document.querySelector(".forward");
+  const volumeUp = document.querySelector(".volumeUp");
+  const volumeDown = document.querySelector(".volumeDown");
+  const rewind = document.querySelector(".rewind");
+  const forward = document.querySelector(".forward");
   // eslint-disable-next-line
   switch (event.key.toLowerCase()) {
     case " ":
       if (tagName === "button") return;
       play.click();
       break;
-    // case "=":
-    // case "+":
-    //   plus.click();
-    //   break;
-    // case "-":
-    //   minus.click();
-    //   break;
+    case "=":
+    case "+":
+      plus.click();
+      break;
+    case "-":
+      minus.click();
+      break;
     case "f":
       fullscreen.click();
       break;
+    case "m":
+      mute.click();
+      break;
   }
   // eslint-disable-next-line
-  // switch (event.key) {
-  //   case "ArrowLeft":
-  //     rewind.click();
-  //     break;
-  //   case "ArrowRight":
-  //     forward.click();
-  //     break;
-  //   case "ArrowUp":
-  //     volumeUp.click();
-  //     break;
-  //   case "ArrowDown":
-  //     volumeDown.click();
-  //     break;
-  // }
+  switch (event.key) {
+    case "ArrowLeft":
+      rewind.click();
+      break;
+    case "ArrowRight":
+      forward.click();
+      break;
+    case "ArrowUp":
+      volumeUp.click();
+      break;
+    case "ArrowDown":
+      volumeDown.click();
+      break;
+  }
 });
 
 root.render(

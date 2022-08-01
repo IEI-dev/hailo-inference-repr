@@ -13,9 +13,9 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const [sourceHeight, setSH] = useState(540); //basicHeight
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
-  const [playRatio, setPlayRatio] = useState(0);
   const [boxCheck, setBoxCheck] = useState(false); // box and id props for PlayerControls callback and give to Canvas
   const [idCheck, setIdCheck] = useState(false);
+  const [lineCheck, setLineCheck] = useState(true);
   const [bxs, setBoxes] = useState(boxes);
   const [bxScores, setScores] = useState(scores);
   const [bxid, setIds] = useState(ids);
@@ -53,8 +53,8 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
 
   // handleState function give to PlayerControls
 
-  const handleVolume = (volume) => {
-    setState({ ...state, volume: volume, muted: false });
+  const handleVolume = (volume, muted = false) => {
+    setState({ ...state, volume: volume, muted: muted });
   };
   const handleTime = () => {
     setTime(playerRef.current.getCurrentTime());
@@ -79,9 +79,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const handleMute = () => {
     setState({ ...state, muted: !muted });
   };
-  const handlePlaybackRateChange = (selectObject) => {
-    setState({ ...state, playbackRate: Number(selectObject.target.value) });
-  };
+
   const handlePlaybackRate = () => {
     let pb;
     if (playbackRate < 2) {
@@ -92,22 +90,13 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
     setState({ ...state, playbackRate: pb });
   };
   const toggleFullScreen = () => {
-    const playerWrapper = document.querySelector(".player-wrapper");
     screenfull.toggle(playerContainerRef.current);
   };
-  const handleTheater = () => {
-    const playerWrapper = document.querySelector(".player-wrapper");
-    playerWrapper.classList.toggle("theater");
-  };
+
   const handleUrl = (newUrl) => {
     setState({ ...state, url: newUrl });
   };
-  // const onSeek = (e) => {
-  //   const seekto = playerRef.current.getDuration() * (+e.target.value / 100);
-  //   playerRef.current.seekTo(seekto);
-  //   handleTime();
-  //   setFrame(Math.round((+e.target.value * limit) / 100));
-  // };
+
   const onSeek = (percent) => {
     const seekto = duration * percent;
     playerRef.current.getInternalPlayer().currentTime = seekto;
@@ -233,105 +222,90 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   };
 
   return (
-    <div className="wrapper">
-      <header>{/* <h1>React-player</h1> */}</header>
-      <div
-        ref={playerContainerRef}
-        className="player-wrapper"
-        data-volume-level="high"
-      >
-        <ReactPlayer
-          id="player"
-          key={key}
-          className="react-player"
-          width="100%"
-          height="100%"
-          ref={playerRef}
-          url={url}
-          muted={muted}
-          playing={playing}
-          loop={true}
-          volume={volume}
-          playbackRate={playbackRate}
-          controls={false}
-          onReady={() => {
-            setDuration(playerRef.current.getDuration());
-            const video = document.querySelector("video");
-            setVideo(video);
-            const items = document.querySelectorAll(".list-group-item");
-            items.forEach((item) => {
-              item.addEventListener("click", () => {
-                items.forEach((item) => {
-                  item.classList.remove("active");
+    <>
+      <div className="wrapper">
+        <div
+          ref={playerContainerRef}
+          className="player-wrapper control"
+          data-volume-level="high"
+        >
+          <ReactPlayer
+            id="player"
+            key={key}
+            className="react-player"
+            width="100%"
+            height="100%"
+            ref={playerRef}
+            url={url}
+            muted={muted}
+            playing={playing}
+            loop={true}
+            volume={volume}
+            playbackRate={playbackRate}
+            controls={false}
+            onReady={() => {
+              setDuration(playerRef.current.getDuration());
+              const video = document.querySelector("video");
+              setVideo(video);
+              const items = document.querySelectorAll(".list-group-item");
+              items.forEach((item) => {
+                item.addEventListener("click", () => {
+                  items.forEach((item) => {
+                    item.classList.remove("active");
+                  });
+                  item.classList.add("active");
                 });
-                item.classList.add("active");
               });
-            });
-            const playerWrapper = document.querySelector(".player-wrapper");
-            document.addEventListener("fullscreenchange", () => {
-              playerWrapper.classList.toggle(
-                "full-screen",
-                document.fullscreenElement
-              );
-            });
-          }}
-          onStart={() => {
-            startDrawing();
-          }}
-        />
-        {/* <PlayerControls
-          className="controls"
-          playing={playing}
-          onPlayPause={handlePlayPause}
-          onRewind={handleRewind}
-          onFastFoward={handleFastForward}
-          volume={volume}
-          onChangeVolume={handleVolume}
-          muted={muted}
-          onMute={handleMute}
-          playbackRate={playbackRate}
-          onPlaybackRateChange={handlePlaybackRateChange}
-          onToggleFullScreen={toggleFullScreen}
-          onSeek={onSeek}
-          onSearch={handleUrl}
-          url={url}
-          playRatio={playRatio}
-          boxCheck={boxCheck}
-          setBoxCheck={setBoxCheck}
-          idCheck={idCheck}
-          setIdCheck={setIdCheck}
-          time={time}
-          duration={duration}
-          setPlayRatio={setPlayRatio}
-          screenRatio={screenRatio}
-          setScreenRatio={setScreenRatio}
-        /> */}
-        <Controls
-          playing={playing}
-          onPlayPause={handlePlayPause}
-          seekToStart={seekToStart}
-          video={video}
-          onMute={handleMute}
-          muted={muted}
-          volume={volume}
-          onChangeVolume={handleVolume}
-          time={format(time)}
-          duration={format(duration)}
-          playbackRate={playbackRate}
-          onPlaybackRateChange={handlePlaybackRate}
-          onTheater={handleTheater}
-          boxCheck={boxCheck}
-          setBoxCheck={setBoxCheck}
-          idCheck={idCheck}
-          setIdCheck={setIdCheck}
-          onToggleFullScreen={toggleFullScreen}
-          state={state}
-          setState={setState}
-          onSeek={onSeek}
-        />
-      </div>
-
-      {/* <div className="data">
+              const playerWrapper = document.querySelector(".player-wrapper");
+              document.addEventListener("fullscreenchange", () => {
+                playerWrapper.classList.toggle(
+                  "full-screen",
+                  document.fullscreenElement
+                );
+              });
+            }}
+            onStart={() => {
+              startDrawing();
+            }}
+          />
+          <PlayerControls
+            className="controls"
+            onRewind={handleRewind}
+            onFastFoward={handleFastForward}
+            volume={volume}
+            onChangeVolume={handleVolume}
+            muted={muted}
+            onMute={handleMute}
+            onSearch={handleUrl}
+            screenRatio={screenRatio}
+            setScreenRatio={setScreenRatio}
+          />
+          <Controls
+            playing={playing}
+            onPlayPause={handlePlayPause}
+            seekToStart={seekToStart}
+            video={video}
+            onMute={handleMute}
+            muted={muted}
+            volume={volume}
+            onChangeVolume={handleVolume}
+            time={format(time)}
+            duration={format(duration)}
+            playbackRate={playbackRate}
+            onPlaybackRateChange={handlePlaybackRate}
+            boxCheck={boxCheck}
+            setBoxCheck={setBoxCheck}
+            idCheck={idCheck}
+            setIdCheck={setIdCheck}
+            lineCheck={lineCheck}
+            setLineCheck={setLineCheck}
+            onToggleFullScreen={toggleFullScreen}
+            state={state}
+            setState={setState}
+            onSeek={onSeek}
+          />
+        </div>
+        {/* <div className="data">
         {width}寬度
         {height}高度
         {sourceWidth}來源寬度
@@ -339,41 +313,43 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
         {wRatio}寬比例
         {hRatio}高比例
       </div> */}
-      <Canvas
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-        boxes={bxs}
-        ids={bxid}
-        scores={bxScores}
-        wRatio={wRatio}
-        hRatio={hRatio}
-        boxCheck={boxCheck}
-        idCheck={idCheck}
-        fps={fps}
-        frame={frame}
-      />
-      <div className="wrapper-right">
-        <Data
-          handleBoxes={handleBoxes}
-          setBoxes={setBoxes}
-          setIds={setIds}
-          setScores={setScores}
-          setSW={setSW}
-          setSH={setSH}
-          setFps={setFps}
-          setLimit={setLimit}
-          handleTime={handleTime}
+        <Canvas
+          x={x}
+          y={y}
+          width={width}
+          height={height}
+          boxes={bxs}
+          ids={bxid}
+          scores={bxScores}
+          wRatio={wRatio}
+          hRatio={hRatio}
+          boxCheck={boxCheck}
+          idCheck={idCheck}
+          lineCheck={lineCheck}
           fps={fps}
           frame={frame}
         />
-        <Elapsed elapsed={format(time)} duration={format(duration)} />
-        <footer>
-          <Size />
-        </footer>
+        <div className="wrapper-right">
+          <Data
+            handleBoxes={handleBoxes}
+            setBoxes={setBoxes}
+            setIds={setIds}
+            setScores={setScores}
+            setSW={setSW}
+            setSH={setSH}
+            setFps={setFps}
+            setLimit={setLimit}
+            handleTime={handleTime}
+            fps={fps}
+            frame={frame}
+          />
+          <Elapsed elapsed={format(time)} duration={format(duration)} />
+          <footer>
+            <Size />
+          </footer>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
