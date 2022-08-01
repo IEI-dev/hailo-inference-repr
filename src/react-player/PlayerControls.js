@@ -105,7 +105,7 @@ export default function PlayerControls({
           onClick={() => {
             const player = document.querySelector(".player-wrapper");
             const downRatio = (screenRatio * 10) / 11;
-            if (downRatio > 20) {
+            if (downRatio > 65) {
               player.style.setProperty("--element-width", `${downRatio}%`);
               player.style.setProperty(
                 "--element-height",
