@@ -4,8 +4,10 @@ import PlayerControls from "./react-player/PlayerControls";
 import screenfull from "screenfull";
 import Elapsed from "./react-player/Elapsed";
 import Canvas from "./react-player/Canvas";
+import CanvasLine from "./react-player/CanvasLine";
 import Data from "./react-player/Data";
 import Controls from "./react-player/Controls";
+import Points from "./react-player/Points";
 
 // boxes, boxTime, ids give to Canvas
 function App({ ids, boxes, scores, basicWidth, basicHeight }) {
@@ -25,6 +27,15 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const [screenRatio, setScreenRatio] = useState(100);
   const [video, setVideo] = useState(null);
   const [key, setKey] = useState(0);
+  const [startpoint, setStartpoint] = useState({
+    sx: 0,
+    sy: 0,
+  });
+  const [endpoint, setEndpoint] = useState({
+    ex: 0,
+    ey: 0,
+  });
+  const [startend, setStartend] = useState("start");
   // State
   const [state, setState] = useState({
     playing: false,
@@ -300,8 +311,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
             lineCheck={lineCheck}
             setLineCheck={setLineCheck}
             onToggleFullScreen={toggleFullScreen}
-            state={state}
-            setState={setState}
             onSeek={onSeek}
           />
         </div>
@@ -329,6 +338,21 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           fps={fps}
           frame={frame}
         />
+        <CanvasLine
+          x={x}
+          y={y}
+          width={width}
+          height={height}
+          wRatio={wRatio}
+          hRatio={hRatio}
+          lineCheck={lineCheck}
+          startpoint={startpoint}
+          endpoint={endpoint}
+          setStartpoint={setStartpoint}
+          setEndpoint={setEndpoint}
+          startend={startend}
+          setStartend={setStartend}
+        />
         <div className="wrapper-right">
           <Data
             handleBoxes={handleBoxes}
@@ -344,9 +368,15 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
             frame={frame}
           />
           <Elapsed elapsed={format(time)} duration={format(duration)} />
-          <footer>
-            <Size />
-          </footer>
+          <Size />
+          <Points
+            width={width}
+            height={height}
+            startpoint={startpoint}
+            endpoint={endpoint}
+            setStartpoint={setStartpoint}
+            setEndpoint={setEndpoint}
+          />
         </div>
       </div>
     </>

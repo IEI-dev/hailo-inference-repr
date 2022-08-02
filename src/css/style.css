@@ -89,11 +89,16 @@ body .wrapper .wrapper-right {
   background-color: darkgrey;
   padding: 1%;
   position: absolute;
-  right: 2vw;
+  right: 1vw;
   top: 5vh;
 }
-body .wrapper .wrapper-right select {
-  border: 1px solid black;
+body .wrapper .wrapper-right form input {
+  width: 100%;
+}
+body .wrapper .wrapper-right button {
+  margin-top: 5%;
+  padding: 2%;
+  border-radius: 5%;
 }
 body .chat {
   display: flex;
@@ -225,7 +230,7 @@ body .chat ul {
 }
 
 .timeline-container {
-  height: 9px;
+  height: 7px;
   margin-inline: 0.5rem;
   cursor: pointer;
   display: flex;
@@ -234,7 +239,7 @@ body .chat ul {
 
 .timeline {
   background-color: rgba(255, 100, 100, 0.5);
-  height: 4px;
+  height: 3px;
   width: 100%;
   position: relative;
 }

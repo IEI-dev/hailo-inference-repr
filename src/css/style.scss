@@ -92,10 +92,17 @@ body {
       background-color: darkgrey;
       padding: 1%;
       position: absolute;
-      right: 2vw;
+      right: 1vw;
       top: 5vh;
-      select {
-        border: 1px solid black;
+      form {
+        input {
+          width: 100%;
+        }
+      }
+      button {
+        margin-top: 5%;
+        padding: 2%;
+        border-radius: 5%;
       }
     }
   }
@@ -232,7 +239,7 @@ body {
 }
 
 .timeline-container {
-  height: 9px;
+  height: 7px;
   margin-inline: 0.5rem;
   cursor: pointer;
   display: flex;
@@ -241,7 +248,7 @@ body {
 
 .timeline {
   background-color: rgba(255, 100, 100, 0.5);
-  height: 4px;
+  height: 3px;
   width: 100%;
   position: relative;
 }

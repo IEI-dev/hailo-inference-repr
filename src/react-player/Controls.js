@@ -20,8 +20,6 @@ export default function Controls({
   lineCheck,
   setLineCheck,
   onToggleFullScreen,
-  state,
-  setState,
   onSeek,
 }) {
   const [control, setControl] = useState(true);
