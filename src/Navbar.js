@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
+  useEffect(() => {
+    const items = document.querySelectorAll(".list-group-item");
+    items.forEach((item) => {
+      item.addEventListener("click", () => {
+        items.forEach((item) => {
+          console.log("triggered");
+          item.classList.remove("active");
+        });
+        item.classList.add("active");
+      });
+    });
+    return () => {
+      items.forEach((item) => {
+        item.removeEventListener("click", () => {
+          items.forEach((item) => {
+            console.log("triggered");
+            item.classList.remove("active");
+          });
+        });
+      });
+    };
+  }, []);
   return (
     <>
       <div className="bar">

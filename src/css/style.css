@@ -52,13 +52,18 @@ body .bar {
 body .bar .list-group-item {
   font-size: 20px;
 }
-body .wrapper {
+body #root {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+body #root .wrapper {
   width: 70vw;
+}
+body #root .wrapper .player-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-body .wrapper .player-wrapper {
   --element-width: 100%;
   --element-height: 56.25%;
   position: relative;
@@ -66,39 +71,55 @@ body .wrapper .player-wrapper {
   padding-top: var(--element-height);
   background-color: #000000;
 }
-body .wrapper .player-wrapper .react-player {
+body #root .wrapper .player-wrapper .react-player {
   position: absolute;
   top: 0;
   left: 0;
 }
-body .wrapper .player-control {
+body #root .wrapper .player-control {
   display: none;
 }
-body .wrapper .rect {
+body #root .wrapper .rect {
   z-index: 10;
   position: absolute;
   top: 0;
 }
-body .wrapper .line {
+body #root .wrapper .line {
   z-index: 15;
   position: absolute;
   top: 0;
 }
-body .wrapper .wrapper-right {
-  width: 12vw;
-  background-color: darkgrey;
+body #root .wrapper-left {
+  visibility: hidden;
+  max-width: 12vw;
   padding: 1%;
-  position: absolute;
-  right: 1vw;
-  top: 5vh;
+  align-self: center;
+  background-color: darkgrey;
 }
-body .wrapper .wrapper-right form input {
+body #root .wrapper-left select {
+  width: 50%;
+  display: flex;
+}
+body #root .wrapper-left.control {
+  visibility: visible;
+}
+body #root .wrapper-right {
+  visibility: hidden;
+  max-width: 12vw;
+  padding: 1%;
+  align-self: center;
+  background-color: darkgrey;
+}
+body #root .wrapper-right form input {
   width: 100%;
 }
-body .wrapper .wrapper-right button {
+body #root .wrapper-right button {
   margin-top: 5%;
   padding: 2%;
   border-radius: 5%;
+}
+body #root .wrapper-right.control {
+  visibility: visible;
 }
 body .chat {
   display: flex;
@@ -118,6 +139,7 @@ body .chat ul {
 }
 
 .video-controls-container {
+  width: 70vw;
   position: absolute;
   left: 0;
   right: 0;

@@ -52,48 +52,67 @@ body {
       font-size: 20px;
     }
   }
-  .wrapper {
-    width: 70vw;
-    // max-width: 1000px;
+  #root {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .player-wrapper {
-      --element-width: 100%;
-      --element-height: 56.25%;
-      position: relative;
-      width: var(--element-width);
-      padding-top: var(--element-height);
-      background-color: #000000;
-      .react-player {
+    justify-content: space-around;
+    .wrapper {
+      width: 70vw;
+      // display: flex;
+      // justify-content: space-around;
+      .player-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        --element-width: 100%;
+        --element-height: 56.25%;
+        position: relative;
+        width: var(--element-width);
+        // width: 70vw;
+        padding-top: var(--element-height);
+        background-color: #000000;
+        .react-player {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+      .player-control {
+        display: none;
+        // position: absolute;
+        // bottom: -150px;
+      }
+      .rect {
+        z-index: 10;
         position: absolute;
         top: 0;
-        left: 0;
+      }
+      .line {
+        z-index: 15;
+        position: absolute;
+        top: 0;
       }
     }
-    .player-control {
-      display: none;
-      // position: absolute;
-      // bottom: -150px;
+    .wrapper-left {
+      visibility: hidden;
+      max-width: 12vw;
+      padding: 1%;
+      align-self: center;
+      background-color: darkgrey;
+      select {
+        width: 50%;
+        display: flex;
+      }
     }
-    .rect {
-      z-index: 10;
-      position: absolute;
-      top: 0;
-    }
-    .line {
-      z-index: 15;
-      position: absolute;
-      top: 0;
+    .wrapper-left.control {
+      visibility: visible;
     }
     .wrapper-right {
-      width: 12vw;
-      background-color: darkgrey;
+      visibility: hidden;
+      max-width: 12vw;
       padding: 1%;
-      position: absolute;
-      right: 1vw;
-      top: 5vh;
+      align-self: center;
+      background-color: darkgrey;
       form {
         input {
           width: 100%;
@@ -105,7 +124,11 @@ body {
         border-radius: 5%;
       }
     }
+    .wrapper-right.control {
+      visibility: visible;
+    }
   }
+
   .chat {
     display: flex;
     flex-direction: column;
@@ -126,6 +149,7 @@ body {
 
 // new youtube ui
 .video-controls-container {
+  width: 70vw;
   position: absolute;
   left: 0;
   right: 0;

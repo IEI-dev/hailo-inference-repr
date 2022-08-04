@@ -8,11 +8,11 @@ export default function Canvas({
   boxes,
   ids,
   scores,
+  keys,
   wRatio,
   hRatio,
   boxCheck,
   idCheck,
-  lineCheck,
   fps,
   // video,
   frame,
@@ -151,6 +151,57 @@ export default function Canvas({
     "#FAEBD7",
   ];
 
+  let EDGES = [
+    [0, 1],
+    [0, 2],
+    [1, 3],
+    [2, 4],
+    [3, 5],
+    [4, 6],
+    [5, 7],
+    [6, 8],
+    [7, 9],
+    [8, 10],
+    [5, 11],
+    [6, 12],
+    [11, 13],
+    [12, 14],
+    [13, 15],
+    [14, 16],
+    [11, 12],
+  ];
+
+  let colors = [
+    [255, 0, 0],
+    [255, 85, 0],
+    [255, 170, 0],
+    [255, 255, 0],
+    [170, 255, 0],
+    [85, 255, 0],
+    [0, 255, 0],
+    [0, 255, 85],
+    [0, 255, 170],
+    [0, 255, 255],
+    [0, 170, 255],
+    [0, 85, 255],
+    [0, 0, 255],
+    [85, 0, 255],
+    [170, 0, 255],
+    [255, 0, 255],
+    [255, 0, 170],
+    [255, 0, 85],
+  ];
+
+  function drawEdges(ctx, onekpts) {
+    console.log("draw");
+    for (let i = 0; i < EDGES.length; i++) {
+      let [pti0, pti1] = EDGES[i];
+      ctx.moveTo(onekpts[pti0][0], onekpts[pti0][1]);
+      ctx.lineTo(onekpts[pti1][0], onekpts[pti1][1]);
+      ctx.stroke();
+    }
+  }
+
   useEffect(() => {
     if (wRatio !== 1) {
       const box = boxRef.current;
@@ -167,13 +218,17 @@ export default function Canvas({
   }, [frame, boxCheck, idCheck, width]);
 
   function drawByFrames(ctx) {
-    let frameIndex = frame - 1;
-    if (frameIndex === -1) frameIndex = 0;
-
+    let frameIndex = frame;
     if (ids[frameIndex] !== undefined) {
       ctx.clearRect(0, 0, window.innerWidth * 3, window.innerHeight * 3);
       ctx.lineWidth = 1;
       ctx.font = "bold 8px Arial";
+      ctx.strokeStyle = "green";
+
+      ctx.beginPath();
+      for (let i = 0; i < keys[frameIndex].length; i++) {
+        drawEdges(ctx, keys[frameIndex][i]);
+      }
 
       for (let i = 0; i < ids[frameIndex].length; i++) {
         if (idCheck) {

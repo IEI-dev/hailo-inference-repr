@@ -8,11 +8,23 @@ import CanvasLine from "./react-player/CanvasLine";
 import Data from "./react-player/Data";
 import Controls from "./react-player/Controls";
 import Points from "./react-player/Points";
+import People from "./react-player/People";
 
 // boxes, boxTime, ids give to Canvas
-function App({ ids, boxes, scores, basicWidth, basicHeight }) {
-  const [sourceWidth, setSW] = useState(960); //basicWidth
-  const [sourceHeight, setSH] = useState(540); //basicHeight
+function App({
+  ids,
+  boxes,
+  scores,
+  attrs,
+  basicWidth,
+  basicHeight,
+  idAll,
+  basicFps,
+  entranceAll,
+  keys,
+}) {
+  const [sourceWidth, setSW] = useState(basicWidth); //basicWidth MOT20-01 960
+  const [sourceHeight, setSH] = useState(basicHeight); //basicHeight MOT20-01 540
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [boxCheck, setBoxCheck] = useState(false); // box and id props for PlayerControls callback and give to Canvas
@@ -21,7 +33,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
   const [bxs, setBoxes] = useState(boxes);
   const [bxScores, setScores] = useState(scores);
   const [bxid, setIds] = useState(ids);
-  const [fps, setFps] = useState(25.0);
+  const [fps, setFps] = useState(basicFps);
   const [frame, setFrame] = useState(0);
   const [limit, setLimit] = useState(329);
   const [screenRatio, setScreenRatio] = useState(100);
@@ -43,7 +55,8 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
     volume: 0.1,
     playbackRate: 1.0,
     // url: `./videos/palace.mp4`,
-    url: `./videos/MOT20-01-raw.webm`,
+    // url: `./videos/MOT20-01-raw.webm`,
+    url: `./videos/pwalk1.mp4`,
     // url: `./videos/MOT20-05-raw.webm`,
     // url: `./videos/tc1.mp4`,
   });
@@ -57,6 +70,8 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
     hRatio: 1,
   });
   const { x, y, width, height, wRatio, hRatio } = canvas;
+  const [leftControl, setLeftControl] = useState(true);
+  const [rightControl, setRightControl] = useState(true);
 
   // Ref
   const playerRef = useRef(null);
@@ -207,6 +222,17 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
       </div>
     );
   }
+  function toggleLeftControls() {
+    const wrapperLeft = document.querySelector(".wrapper-left");
+    wrapperLeft.classList.toggle("control");
+    setLeftControl(!leftControl);
+  }
+  function toggleRightControls() {
+    const wrapperRight = document.querySelector(".wrapper-right");
+    wrapperRight.classList.toggle("control");
+    setRightControl(!rightControl);
+  }
+
   //  trigger as the video starts, callback as every video frame
   const startDrawing = () => {
     let startTime = 0.0;
@@ -234,6 +260,39 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
 
   return (
     <>
+      <div className="wrapper-left control">
+        <People
+          ids={ids}
+          attrs={attrs}
+          frame={frame}
+          linecheck={lineCheck}
+          idAll={idAll}
+          entranceAll={entranceAll}
+        />
+      </div>
+
+      {leftControl ? (
+        <button
+          onClick={toggleLeftControls}
+          type="button"
+          className="btn-control-left"
+        >
+          <span className="material-symbols-rounded">
+            keyboard_double_arrow_right
+          </span>
+        </button>
+      ) : (
+        <button
+          onClick={toggleLeftControls}
+          type="button"
+          className="btn-control-left"
+        >
+          <span className="material-symbols-rounded">
+            keyboard_double_arrow_left
+          </span>
+        </button>
+      )}
+
       <div className="wrapper">
         <div
           ref={playerContainerRef}
@@ -250,7 +309,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
             url={url}
             muted={muted}
             playing={playing}
-            loop={true}
+            loop={true} //false to test frames .etc
             volume={volume}
             playbackRate={playbackRate}
             controls={false}
@@ -258,22 +317,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
               setDuration(playerRef.current.getDuration());
               const video = document.querySelector("video");
               setVideo(video);
-              const items = document.querySelectorAll(".list-group-item");
-              items.forEach((item) => {
-                item.addEventListener("click", () => {
-                  items.forEach((item) => {
-                    item.classList.remove("active");
-                  });
-                  item.classList.add("active");
-                });
-              });
-              const playerWrapper = document.querySelector(".player-wrapper");
-              document.addEventListener("fullscreenchange", () => {
-                playerWrapper.classList.toggle(
-                  "full-screen",
-                  document.fullscreenElement
-                );
-              });
             }}
             onStart={() => {
               startDrawing();
@@ -314,6 +357,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
             onSeek={onSeek}
           />
         </div>
+
         {/* <div className="data">
         {width}寬度
         {height}高度
@@ -321,7 +365,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
         {sourceHeight}來源高度
         {wRatio}寬比例
         {hRatio}高比例
-      </div> */}
+        </div> */}
         <Canvas
           x={x}
           y={y}
@@ -337,6 +381,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           lineCheck={lineCheck}
           fps={fps}
           frame={frame}
+          keys={keys}
         />
         <CanvasLine
           x={x}
@@ -353,31 +398,53 @@ function App({ ids, boxes, scores, basicWidth, basicHeight }) {
           startend={startend}
           setStartend={setStartend}
         />
-        <div className="wrapper-right">
-          <Data
-            handleBoxes={handleBoxes}
-            setBoxes={setBoxes}
-            setIds={setIds}
-            setScores={setScores}
-            setSW={setSW}
-            setSH={setSH}
-            setFps={setFps}
-            setLimit={setLimit}
-            handleTime={handleTime}
-            fps={fps}
-            frame={frame}
-          />
-          <Elapsed elapsed={format(time)} duration={format(duration)} />
-          <Size />
-          <Points
-            width={width}
-            height={height}
-            startpoint={startpoint}
-            endpoint={endpoint}
-            setStartpoint={setStartpoint}
-            setEndpoint={setEndpoint}
-          />
-        </div>
+      </div>
+      {rightControl ? (
+        <button
+          onClick={toggleRightControls}
+          type="button"
+          className="btn-control-right"
+        >
+          <span className="material-symbols-rounded">
+            keyboard_double_arrow_left
+          </span>
+        </button>
+      ) : (
+        <button
+          onClick={toggleRightControls}
+          type="button"
+          className="btn-control-right"
+        >
+          <span className="material-symbols-rounded">
+            keyboard_double_arrow_right
+          </span>
+        </button>
+      )}
+
+      <div className="wrapper-right control">
+        <Data
+          handleBoxes={handleBoxes}
+          setBoxes={setBoxes}
+          setIds={setIds}
+          setScores={setScores}
+          setSW={setSW}
+          setSH={setSH}
+          setFps={setFps}
+          setLimit={setLimit}
+          handleTime={handleTime}
+          fps={fps.toFixed(2)}
+          frame={frame}
+        />
+        <Elapsed elapsed={format(time)} duration={format(duration)} />
+        <Size />
+        <Points
+          width={width}
+          height={height}
+          startpoint={startpoint}
+          endpoint={endpoint}
+          setStartpoint={setStartpoint}
+          setEndpoint={setEndpoint}
+        />
       </div>
     </>
   );

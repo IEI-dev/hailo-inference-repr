@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 import CanvasPractices from "./canvas/index";
 import Websocket from "./websocket/Websocket";
 import BtsSocket from "./websocket/BtsSocket";
 import Chat from "./websocket/Chat";
 // import videojson from "./json/tc1.json";
-import videojson from "./json/MOT20-01.json";
+import videojson from "./json/pwalk1_new.json";
 // import videojson from "./json/palace.json";
 import "./css/style.css";
 
@@ -16,18 +16,41 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 let boxes = [];
 let ids = [];
-let scores = [];
+// let scores = [];
+let attrs = [];
 for (let i = 0; i < videojson.frames.length; i++) {
   ids.push(videojson.frames[i].ids);
 }
 for (let i = 0; i < videojson.frames.length; i++) {
-  boxes.push(videojson.frames[i].boxes);
+  boxes.push(videojson.frames[i].mot.boxes);
 }
 for (let i = 0; i < videojson.frames.length; i++) {
-  scores.push(videojson.frames[i].scores); // add seconds for the bug
+  attrs.push(videojson.frames[i].attr.people);
 }
+
+// for (let i = 0; i < videojson.frames.length; i++) {
+//   scores.push(videojson.frames[i].scores); // add seconds for the bug
+// }
 let width = videojson.width;
 let height = videojson.height;
+let allLength =
+  videojson.frames[videojson.frames.length - 1].entrance.all.length;
+let idAll =
+  videojson.frames[videojson.frames.length - 1].entrance.all[allLength - 1];
+let fps = videojson.fps;
+
+let entranceAll = [];
+for (let i = 0; i < videojson.frames.length; i++) {
+  entranceAll.push(videojson.frames[i].entrance.all.length);
+}
+
+let keys = [];
+for (let i = 0; i < videojson.frames.length; i++) {
+  keys.push(videojson.frames[i].kpt.keypoint[0]);
+}
+
+console.log(keys);
+console.log(boxes);
 
 // scale
 document.addEventListener("keydown", function(event) {
@@ -83,7 +106,7 @@ document.addEventListener("keydown", function(event) {
 
 root.render(
   <BrowserRouter>
-    <Navbar />
+    {/* <Navbar /> */}
     <Routes>
       <Route
         path="/"
@@ -91,9 +114,14 @@ root.render(
           <App
             ids={ids}
             boxes={boxes}
-            scores={scores}
+            // scores={scores}
+            attrs={attrs}
             basicWidth={width}
             basicHeight={height}
+            basicFps={fps}
+            idAll={idAll} // biggest id
+            entranceAll={entranceAll}
+            keys={keys}
           />
         }
       />

@@ -4,11 +4,12 @@ function drawLines(ctx, startpoint, endpoint) {
   console.log("here");
   if (ctx) {
     console.log("there");
+    ctx.strokeStyle = "lightgreen";
+    ctx.lineStyle = "lightgreen";
     ctx.clearRect(0, 0, window.innerWidth * 3, window.innerHeight * 3);
-    if (startpoint.sx !== 0 && startpoint.sy !== 0) {
+    if (startpoint.sx >= 0 && startpoint.sy >= 0) {
       ctx.beginPath();
       ctx.lineWidth = 3;
-      ctx.strokeStyle = "lightgreen";
       ctx.arc(startpoint.sx, startpoint.sy, 3, 0, Math.PI * 2);
       ctx.moveTo(startpoint.sx, startpoint.sy);
 
@@ -36,8 +37,12 @@ export default function CanvasLine({
 }) {
   const lineRef = useRef(null);
   useEffect(() => {
-    setStartpoint({ sx: 0, sy: 0 });
-    setEndpoint({ ex: 0, ey: 0 });
+    const line = lineRef.current;
+    const ctx = line.getContext("2d");
+    // ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // ctx.scale(wRatio, hRatio);
+    setStartpoint({ sx: 0, sy: 360 });
+    setEndpoint({ ex: 1280, ey: 360 });
     setStartend("start");
   }, [wRatio, hRatio]);
 

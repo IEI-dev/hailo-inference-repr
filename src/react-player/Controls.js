@@ -23,6 +23,7 @@ export default function Controls({
   onSeek,
 }) {
   const [control, setControl] = useState(true);
+
   let isScrubbing = false;
   let wasPaused;
   function toggleScrubbing(e) {
