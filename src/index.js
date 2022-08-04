@@ -49,9 +49,6 @@ for (let i = 0; i < videojson.frames.length; i++) {
   keys.push(videojson.frames[i].kpt.keypoint[0]);
 }
 
-console.log(keys);
-console.log(boxes);
-
 // scale
 document.addEventListener("keydown", function(event) {
   const tagName = document.activeElement.tagName.toLowerCase();
