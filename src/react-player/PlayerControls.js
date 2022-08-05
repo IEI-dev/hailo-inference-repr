@@ -10,8 +10,17 @@ export default function PlayerControls({
   onSearch,
   screenRatio,
   setScreenRatio,
+  wrapperLeftRef,
+  wrapperRightRef,
+  btnControlLeftRef,
+  btnControlRightRef,
+  setLeftControl,
+  setRightControl,
+  vw,
+  setVw,
 }) {
   const [newUrl, setNewUrl] = useState("");
+
   return (
     <div className="player-control">
       <form
@@ -85,16 +94,45 @@ export default function PlayerControls({
         <button
           className="plus"
           onClick={() => {
-            const player = document.querySelector(".player-wrapper");
-            const upRatio = (screenRatio * 11) / 10;
-            if (upRatio < 200) {
-              player.style.setProperty("--element-width", `${upRatio}%`);
-              player.style.setProperty(
-                "--element-height",
-                `${(upRatio * 56.25) / 100}%`
-              );
-              setScreenRatio(upRatio);
+            wrapperLeftRef.current.classList.remove("control");
+            wrapperRightRef.current.classList.remove("control");
+            wrapperLeftRef.current.classList.add("hide");
+            wrapperRightRef.current.classList.add("hide");
+            btnControlLeftRef.current.classList.add("hide");
+            btnControlRightRef.current.classList.add("hide");
+
+            const newVw = vw + 10;
+            setVw(newVw);
+            const wrapper = document.querySelector(".wrapper");
+            wrapper.style.setProperty("--wrapper-width", `${newVw}vw`);
+
+            if (newVw === 70) {
+              wrapperLeftRef.current.classList.remove("hide");
+              wrapperRightRef.current.classList.remove("hide");
+              btnControlLeftRef.current.classList.remove("hide");
+              btnControlRightRef.current.classList.remove("hide");
+              setLeftControl(false);
+              setRightControl(false);
             }
+
+            // const player = document.querySelector(".player-wrapper");
+            // const upRatio = (screenRatio * 11) / 10;
+            // if (upRatio < 200) {
+            //   player.style.setProperty("--element-width", `${upRatio}%`);
+            //   player.style.setProperty(
+            //     "--element-height",
+            //     `${(upRatio * 56.25) / 100}%`
+            //   );
+            //   setScreenRatio(upRatio);
+            // }
+            // if (upRatio === 100) {
+            // wrapperLeftRef.current.classList.remove("hide");
+            // wrapperRightRef.current.classList.remove("hide");
+            // btnControlLeftRef.current.classList.remove("hide");
+            // btnControlRightRef.current.classList.remove("hide");
+            // setLeftControl(false);
+            // setRightControl(false);
+            // }
           }}
         >
           &nbsp;+&nbsp;
@@ -103,16 +141,45 @@ export default function PlayerControls({
         <button
           className="minus"
           onClick={() => {
-            const player = document.querySelector(".player-wrapper");
-            const downRatio = (screenRatio * 10) / 11;
-            if (downRatio > 65) {
-              player.style.setProperty("--element-width", `${downRatio}%`);
-              player.style.setProperty(
-                "--element-height",
-                `${(downRatio * 56.25) / 100}%`
-              );
-              setScreenRatio(downRatio);
+            wrapperLeftRef.current.classList.remove("control");
+            wrapperRightRef.current.classList.remove("control");
+            wrapperLeftRef.current.classList.add("hide");
+            wrapperRightRef.current.classList.add("hide");
+            btnControlLeftRef.current.classList.add("hide");
+            btnControlRightRef.current.classList.add("hide");
+
+            const newVw = vw - 10;
+            setVw(newVw);
+            const wrapper = document.querySelector(".wrapper");
+            wrapper.style.setProperty("--wrapper-width", `${newVw}vw`);
+
+            if (newVw === 70) {
+              wrapperLeftRef.current.classList.remove("hide");
+              wrapperRightRef.current.classList.remove("hide");
+              btnControlLeftRef.current.classList.remove("hide");
+              btnControlRightRef.current.classList.remove("hide");
+              setLeftControl(false);
+              setRightControl(false);
             }
+
+            // const player = document.querySelector(".player-wrapper");
+            // const downRatio = (screenRatio * 10) / 11;
+            // if (downRatio > 65) {
+            //   player.style.setProperty("--element-width", `${downRatio}%`);
+            //   player.style.setProperty(
+            //     "--element-height",
+            //     `${(downRatio * 56.25) / 100}%`
+            //   );
+            //   setScreenRatio(downRatio);
+            // }
+            // if (downRatio === 100) {
+            //   wrapperLeftRef.current.classList.remove("hide");
+            //   wrapperRightRef.current.classList.remove("hide");
+            //   btnControlLeftRef.current.classList.remove("hide");
+            //   btnControlRightRef.current.classList.remove("hide");
+            //   setLeftControl(false);
+            //   setRightControl(false);
+            // }
           }}
         >
           &nbsp;-&nbsp;

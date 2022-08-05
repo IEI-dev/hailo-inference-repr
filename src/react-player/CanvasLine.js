@@ -37,8 +37,9 @@ export default function CanvasLine({
 }) {
   const lineRef = useRef(null);
   useEffect(() => {
-    const line = lineRef.current;
-    const ctx = line.getContext("2d");
+    // you may also transform the line as screenRatio changes, but it will effects your mouse event's accuracy
+    // const line = lineRef.current;
+    // const ctx = line.getContext("2d");
     // ctx.setTransform(1, 0, 0, 1, 0, 0);
     // ctx.scale(wRatio, hRatio);
     setStartpoint({ sx: 0, sy: 360 });

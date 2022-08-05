@@ -55,10 +55,16 @@ body .bar .list-group-item {
 body #root {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
+  gap: 1%;
 }
 body #root .wrapper {
-  width: 70vw;
+  --wrapper-width: 70vw;
+  width: var(--wrapper-width);
+}
+body #root .wrapper h1 {
+  text-align: center;
 }
 body #root .wrapper .player-wrapper {
   display: flex;
@@ -91,7 +97,7 @@ body #root .wrapper .line {
 }
 body #root .wrapper-left {
   visibility: hidden;
-  max-width: 12vw;
+  max-width: 10vw;
   padding: 1%;
   align-self: center;
   background-color: darkgrey;
@@ -102,10 +108,14 @@ body #root .wrapper-left select {
 }
 body #root .wrapper-left.control {
   visibility: visible;
+  display: block;
+}
+body #root .wrapper-left.hide {
+  display: none;
 }
 body #root .wrapper-right {
   visibility: hidden;
-  max-width: 12vw;
+  max-width: 10vw;
   padding: 1%;
   align-self: center;
   background-color: darkgrey;
@@ -120,6 +130,24 @@ body #root .wrapper-right button {
 }
 body #root .wrapper-right.control {
   visibility: visible;
+  display: block;
+}
+body #root .wrapper-right.hide {
+  display: none;
+}
+body #root .btn-control-left {
+  height: 60%;
+  display: block;
+}
+body #root .btn-control-left.hide {
+  display: none;
+}
+body #root .btn-control-right {
+  height: 60%;
+  display: block;
+}
+body #root .btn-control-right.hide {
+  display: none;
 }
 body .chat {
   display: flex;
@@ -139,7 +167,7 @@ body .chat ul {
 }
 
 .video-controls-container {
-  width: 70vw;
+  width: 100%;
   position: absolute;
   left: 0;
   right: 0;

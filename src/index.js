@@ -39,9 +39,9 @@ let idAll =
   videojson.frames[videojson.frames.length - 1].entrance.all[allLength - 1];
 let fps = videojson.fps;
 
-let entranceAll = [];
+let entrance = [];
 for (let i = 0; i < videojson.frames.length; i++) {
-  entranceAll.push(videojson.frames[i].entrance.all.length);
+  entrance.push(videojson.frames[i].entrance);
 }
 
 let keys = [];
@@ -117,7 +117,7 @@ root.render(
             basicHeight={height}
             basicFps={fps}
             idAll={idAll} // biggest id
-            entranceAll={entranceAll}
+            entrance={entrance}
             keys={keys}
           />
         }

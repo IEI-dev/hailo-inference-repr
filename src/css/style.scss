@@ -55,11 +55,15 @@ body {
   #root {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+    gap: 1%;
     .wrapper {
-      width: 70vw;
-      // display: flex;
-      // justify-content: space-around;
+      --wrapper-width: 70vw;
+      width: var(--wrapper-width);
+      h1 {
+        text-align: center;
+      }
       .player-wrapper {
         display: flex;
         flex-direction: column;
@@ -68,7 +72,6 @@ body {
         --element-height: 56.25%;
         position: relative;
         width: var(--element-width);
-        // width: 70vw;
         padding-top: var(--element-height);
         background-color: #000000;
         .react-player {
@@ -95,7 +98,7 @@ body {
     }
     .wrapper-left {
       visibility: hidden;
-      max-width: 12vw;
+      max-width: 10vw;
       padding: 1%;
       align-self: center;
       background-color: darkgrey;
@@ -103,13 +106,17 @@ body {
         width: 50%;
         display: flex;
       }
-    }
-    .wrapper-left.control {
-      visibility: visible;
+      &.control {
+        visibility: visible;
+        display: block;
+      }
+      &.hide {
+        display: none;
+      }
     }
     .wrapper-right {
       visibility: hidden;
-      max-width: 12vw;
+      max-width: 10vw;
       padding: 1%;
       align-self: center;
       background-color: darkgrey;
@@ -123,9 +130,27 @@ body {
         padding: 2%;
         border-radius: 5%;
       }
+      &.control {
+        visibility: visible;
+        display: block;
+      }
+      &.hide {
+        display: none;
+      }
     }
-    .wrapper-right.control {
-      visibility: visible;
+    .btn-control-left {
+      height: 60%;
+      display: block;
+      &.hide {
+        display: none;
+      }
+    }
+    .btn-control-right {
+      height: 60%;
+      display: block;
+      &.hide {
+        display: none;
+      }
     }
   }
 
@@ -149,7 +174,7 @@ body {
 
 // new youtube ui
 .video-controls-container {
-  width: 70vw;
+  width: 100%;
   position: absolute;
   left: 0;
   right: 0;

@@ -20,7 +20,7 @@ function App({
   basicHeight,
   idAll,
   basicFps,
-  entranceAll,
+  entrance,
   keys,
 }) {
   const [sourceWidth, setSW] = useState(basicWidth); //basicWidth MOT20-01 960
@@ -37,6 +37,7 @@ function App({
   const [frame, setFrame] = useState(0);
   const [limit, setLimit] = useState(329);
   const [screenRatio, setScreenRatio] = useState(100);
+  const [vw, setVw] = useState(70);
   const [video, setVideo] = useState(null);
   const [key, setKey] = useState(0);
   const [startpoint, setStartpoint] = useState({
@@ -76,6 +77,10 @@ function App({
   // Ref
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
+  const wrapperLeftRef = useRef(null);
+  const wrapperRightRef = useRef(null);
+  const btnControlLeftRef = useRef(null);
+  const btnControlRightRef = useRef(null);
 
   // handleState function give to PlayerControls
 
@@ -136,7 +141,8 @@ function App({
 
   // Update Time and Size
   const format = (sec) => {
-    const ms = Math.floor(sec * 100) % 100; // Math.floor(sec * 1000) % 1000
+    // const ms = Math.floor(sec * 100) % 100;  // use this line to show ms
+    // Math.floor(sec * 1000) % 1000
     const hour = Math.floor((sec * 1000) / 360000);
     const min = Math.floor((sec * 1000) / 60000);
     const seconds = Math.floor(Math.floor(sec * 1000 - min * 60000) / 1000);
@@ -160,9 +166,10 @@ function App({
   const getSize = function() {
     if (playerRef) {
       const rect = playerContainerRef.current.getBoundingClientRect();
+      console.log(rect);
       setCanvas({
         x: rect.x,
-        y: 0, // rect.y
+        y: rect.top + window.scrollY,
         width: rect.width,
         height: rect.height,
         wRatio: rect.width / sourceWidth,
@@ -189,7 +196,7 @@ function App({
 
   useEffect(() => {
     getSize();
-  }, [playing, screenRatio]);
+  }, [screenRatio, vw, video]);
 
   useEffect(() => {
     setKey(key + 1);
@@ -207,7 +214,7 @@ function App({
       }
       window.addEventListener("resize", handleResize);
 
-      return (_) => {
+      return () => {
         window.removeEventListener("resize", handleResize);
       };
     });
@@ -224,12 +231,18 @@ function App({
   }
   function toggleLeftControls() {
     const wrapperLeft = document.querySelector(".wrapper-left");
+    const wrapperRight = document.querySelector(".wrapper-right");
     wrapperLeft.classList.toggle("control");
+    wrapperLeft.classList.remove("hide");
+    wrapperRight.classList.remove("hide");
     setLeftControl(!leftControl);
   }
   function toggleRightControls() {
+    const wrapperLeft = document.querySelector(".wrapper-left");
     const wrapperRight = document.querySelector(".wrapper-right");
     wrapperRight.classList.toggle("control");
+    wrapperLeft.classList.remove("hide");
+    wrapperRight.classList.remove("hide");
     setRightControl(!rightControl);
   }
 
@@ -260,14 +273,14 @@ function App({
 
   return (
     <>
-      <div className="wrapper-left control">
+      <div className="wrapper-left control" ref={wrapperLeftRef}>
         <People
           ids={ids}
           attrs={attrs}
           frame={frame}
           linecheck={lineCheck}
           idAll={idAll}
-          entranceAll={entranceAll}
+          entrance={entrance}
         />
       </div>
 
@@ -276,6 +289,7 @@ function App({
           onClick={toggleLeftControls}
           type="button"
           className="btn-control-left"
+          ref={btnControlLeftRef}
         >
           <span className="material-symbols-rounded">
             keyboard_double_arrow_right
@@ -286,6 +300,7 @@ function App({
           onClick={toggleLeftControls}
           type="button"
           className="btn-control-left"
+          ref={btnControlLeftRef}
         >
           <span className="material-symbols-rounded">
             keyboard_double_arrow_left
@@ -294,6 +309,7 @@ function App({
       )}
 
       <div className="wrapper">
+        <h1>Video Player</h1>
         <div
           ref={playerContainerRef}
           className="player-wrapper control"
@@ -333,6 +349,14 @@ function App({
             onSearch={handleUrl}
             screenRatio={screenRatio}
             setScreenRatio={setScreenRatio}
+            wrapperLeftRef={wrapperLeftRef}
+            wrapperRightRef={wrapperRightRef}
+            btnControlLeftRef={btnControlLeftRef}
+            btnControlRightRef={btnControlRightRef}
+            setLeftControl={setLeftControl}
+            setRightControl={setRightControl}
+            vw={vw}
+            setVw={setVw}
           />
           <Controls
             playing={playing}
@@ -404,6 +428,7 @@ function App({
           onClick={toggleRightControls}
           type="button"
           className="btn-control-right"
+          ref={btnControlRightRef}
         >
           <span className="material-symbols-rounded">
             keyboard_double_arrow_left
@@ -414,6 +439,7 @@ function App({
           onClick={toggleRightControls}
           type="button"
           className="btn-control-right"
+          ref={btnControlRightRef}
         >
           <span className="material-symbols-rounded">
             keyboard_double_arrow_right
@@ -421,7 +447,7 @@ function App({
         </button>
       )}
 
-      <div className="wrapper-right control">
+      <div className="wrapper-right control" ref={wrapperRightRef}>
         <Data
           handleBoxes={handleBoxes}
           setBoxes={setBoxes}

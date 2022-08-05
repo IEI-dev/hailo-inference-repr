@@ -6,9 +6,7 @@ export default function People({
   linecheck,
   attrs,
   idAll,
-  entranceAll,
-  leftControl,
-  setLeftControl,
+  entrance,
 }) {
   const [personId, setPersonId] = useState(0);
   const [index, setIndex] = useState(-1);
@@ -47,7 +45,10 @@ export default function People({
       <div>
         <>
           <p>
-            num: {ids[frame].length} / all count: {entranceAll[frame]}
+            in: {entrance[frame].in.length} / out: {entrance[frame].out.length}
+          </p>
+          <p>
+            num: {ids[frame].length} / all count: {entrance[frame].all.length}
           </p>
           <h3>People Attribute</h3>
           <div>
@@ -88,7 +89,11 @@ export default function People({
               </>
             ) : (
               <>
-                {personId ? <p>id {personId} not found.</p> : ""}
+                {personId && personId !== "All" ? (
+                  <p>id {personId} not found.</p>
+                ) : (
+                  ""
+                )}
                 <p>Select an id listed below.</p>
               </>
             )}
