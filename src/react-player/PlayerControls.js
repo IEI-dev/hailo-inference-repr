@@ -101,10 +101,12 @@ export default function PlayerControls({
             btnControlLeftRef.current.classList.add("hide");
             btnControlRightRef.current.classList.add("hide");
 
-            const newVw = vw + 10;
-            setVw(newVw);
-            const wrapper = document.querySelector(".wrapper");
-            wrapper.style.setProperty("--wrapper-width", `${newVw}vw`);
+            let newVw = vw + 10;
+            if (newVw < 110) {
+              setVw(newVw);
+              const wrapper = document.querySelector(".wrapper");
+              wrapper.style.setProperty("--wrapper-width", `${newVw}vw`);
+            }
 
             if (newVw === 70) {
               wrapperLeftRef.current.classList.remove("hide");
@@ -148,10 +150,12 @@ export default function PlayerControls({
             btnControlLeftRef.current.classList.add("hide");
             btnControlRightRef.current.classList.add("hide");
 
-            const newVw = vw - 10;
-            setVw(newVw);
-            const wrapper = document.querySelector(".wrapper");
-            wrapper.style.setProperty("--wrapper-width", `${newVw}vw`);
+            let newVw = vw - 10;
+            if (newVw > 40) {
+              setVw(newVw);
+              const wrapper = document.querySelector(".wrapper");
+              wrapper.style.setProperty("--wrapper-width", `${newVw}vw`);
+            }
 
             if (newVw === 70) {
               wrapperLeftRef.current.classList.remove("hide");
