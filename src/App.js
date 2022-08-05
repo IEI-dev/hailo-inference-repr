@@ -30,6 +30,7 @@ function App({
   const [boxCheck, setBoxCheck] = useState(false); // box and id props for PlayerControls callback and give to Canvas
   const [idCheck, setIdCheck] = useState(false);
   const [lineCheck, setLineCheck] = useState(true);
+  const [edgeCheck, setEdgeCheck] = useState(false);
   const [bxs, setBoxes] = useState(boxes);
   const [bxScores, setScores] = useState(scores);
   const [bxid, setIds] = useState(ids);
@@ -377,6 +378,8 @@ function App({
             setIdCheck={setIdCheck}
             lineCheck={lineCheck}
             setLineCheck={setLineCheck}
+            edgeCheck={edgeCheck}
+            setEdgeCheck={setEdgeCheck}
             onToggleFullScreen={toggleFullScreen}
             onSeek={onSeek}
           />
@@ -403,6 +406,7 @@ function App({
           boxCheck={boxCheck}
           idCheck={idCheck}
           lineCheck={lineCheck}
+          edgeCheck={edgeCheck}
           fps={fps}
           frame={frame}
           keys={keys}

@@ -19,6 +19,8 @@ export default function Controls({
   setIdCheck,
   lineCheck,
   setLineCheck,
+  edgeCheck,
+  setEdgeCheck,
   onToggleFullScreen,
   onSeek,
 }) {
@@ -268,6 +270,27 @@ export default function Controls({
               ) : (
                 <label className="form-check-label" htmlFor="flexSwitchID">
                   Line off
+                </label>
+              )}
+            </div>
+            <div className="form-check form-switch">
+              <input
+                className="form-check-input id"
+                type="checkbox"
+                id="flexSwitchID"
+                // eslint-disable-next-line
+                checked={edgeCheck}
+                onChange={() => {
+                  setEdgeCheck(!edgeCheck);
+                }}
+              />
+              {edgeCheck ? (
+                <label className="form-check-label" htmlFor="flexSwitchID">
+                  Edge on
+                </label>
+              ) : (
+                <label className="form-check-label" htmlFor="flexSwitchID">
+                  Edge off
                 </label>
               )}
             </div>

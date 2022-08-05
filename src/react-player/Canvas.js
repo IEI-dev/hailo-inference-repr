@@ -13,6 +13,7 @@ export default function Canvas({
   hRatio,
   boxCheck,
   idCheck,
+  edgeCheck,
   fps,
   // video,
   frame,
@@ -218,7 +219,7 @@ export default function Canvas({
     const box = boxRef.current;
     const ctx = box.getContext("2d");
     drawByFrames(ctx);
-  }, [frame, boxCheck, idCheck, width]);
+  }, [frame, boxCheck, idCheck, edgeCheck, width]);
 
   function drawByFrames(ctx) {
     let frameIndex = frame;
@@ -253,7 +254,9 @@ export default function Canvas({
             boxes[frameIndex][i][3]
           );
         }
-        drawEdges(ctx, keys[frameIndex][i]);
+        if (edgeCheck) {
+          drawEdges(ctx, keys[frameIndex][i]);
+        }
       }
     }
   }
