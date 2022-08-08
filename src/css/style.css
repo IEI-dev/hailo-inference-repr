@@ -82,6 +82,16 @@ body #root .wrapper .player-wrapper .react-player {
   top: 0;
   left: 0;
 }
+body #root .wrapper .player-wrapper .btn-control {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+body #root .wrapper .player-wrapper .btn-control .material-symbols-rounded {
+  font-size: 48px;
+}
 body #root .wrapper .player-control {
   display: none;
 }
@@ -342,15 +352,4 @@ body .chat ul {
 .player-wrapper.scrubbing .timeline,
 .timeline-container:hover .timeline {
   height: 100%;
-}
-
-.btn-control {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
-.btn-control .material-symbols-rounded {
-  font-size: 48px;
 }/*# sourceMappingURL=style.css.map */

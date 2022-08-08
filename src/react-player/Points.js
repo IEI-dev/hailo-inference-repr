@@ -1,10 +1,10 @@
 import React from "react";
 
-function strToNum(str) {
+export function strToNum(str) {
   return parseInt(str);
 }
 
-function limitWidth(value, width) {
+export function limitWidth(value, width) {
   if (value < 0) {
     return 0;
   } else if (value > width) {
@@ -12,7 +12,7 @@ function limitWidth(value, width) {
   }
   return value;
 }
-function limitHeight(value, height) {
+export function limitHeight(value, height) {
   if (value < 0) {
     return 0;
   } else if (value > height) {

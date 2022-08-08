@@ -15,6 +15,7 @@ export default function People({
     setIndex(ids[frame].indexOf(parseInt(personId)));
   }, [frame, personId]);
 
+  // choose id based on all's length
   function Options() {
     let row = [];
     for (let i = 0; i < idAll; i++) {
@@ -24,59 +25,128 @@ export default function People({
   }
 
   function Attributes() {
-    let row = [];
+    let row = {};
+    let output = [];
     if (ids[frame][index] === undefined) {
       return;
     }
+    // if value is true, return every key's value in paragraph, can switch key to svg you want
     for (let i = 0; i < 10; i++) {
-      row.push(
-        <p key={i}>
-          {Object.keys(attrs[frame][index])[i].toString()}
-          &nbsp;:&nbsp;{Object.values(attrs[frame][index])[i].toString()}
-        </p>
-      );
-    }
+      if (Object.values(attrs[frame][index])[i]) {
+        let key = Object.keys(attrs[frame][index])[i];
+        let value = Object.values(attrs[frame][index])[i];
+        row[key] = value;
 
-    return row;
+        switch (key) {
+          case "gender":
+            output.push(
+              <p key={i}>
+                {key}&nbsp;:&nbsp;{value.toString()}
+              </p>
+            );
+            break;
+          case "age":
+            output.push(
+              <p key={i}>
+                {key}&nbsp;:&nbsp;{value.toString()}
+              </p>
+            );
+            break;
+          case "side":
+            output.push(
+              <p key={i}>
+                {key}&nbsp;:&nbsp;{value.toString()}
+              </p>
+            );
+            break;
+          case "glasses":
+            output.push(
+              <p key={i}>
+                {key}&nbsp;:&nbsp;{value.toString()}
+              </p>
+            );
+            break;
+          case "hat":
+            output.push(
+              <p key={i}>
+                {key}&nbsp;:&nbsp;{value.toString()}
+              </p>
+            );
+            break;
+          case "holdobjectsinfront":
+            output.push(<p key={i}>objects &nbsp;:&nbsp;{value.toString()}</p>);
+            break;
+          case "bag":
+            output.push(
+              <p key={i}>
+                {key}&nbsp;:&nbsp;{value.toString()}
+              </p>
+            );
+            break;
+          case "upper":
+            output.push(
+              <p key={i}>
+                {key}&nbsp;:&nbsp;{value.toString()}
+              </p>
+            );
+            break;
+          case "lower":
+            output.push(
+              <p key={i}>
+                {key}&nbsp;:&nbsp;{value.toString()}
+              </p>
+            );
+            break;
+          case "boots":
+            output.push(
+              <p key={i}>
+                {key}&nbsp;:&nbsp;{value.toString()}
+              </p>
+            );
+            break;
+          default:
+            return;
+        }
+      }
+    }
+    return output;
   }
 
   return (
-    <>
+    <div>
+      <p>
+        in: {entrance[frame].in.length} / out: {entrance[frame].out.length}
+      </p>
+      <p>
+        num: {ids[frame].length} / all count: {entrance[frame].all.length}
+      </p>
+      <h3>People Attribute</h3>
       <div>
-        <>
-          <p>
-            in: {entrance[frame].in.length} / out: {entrance[frame].out.length}
-          </p>
-          <p>
-            num: {ids[frame].length} / all count: {entrance[frame].all.length}
-          </p>
-          <h3>People Attribute</h3>
-          <div>
-            <label htmlFor="ids">Choose an id: </label>
-            <select
-              id="ids"
-              onChange={(e) => {
-                if (e.target.value === "All") {
-                  setIndex(-1);
-                }
-                setPersonId(e.target.value);
-                // setIndex(ids[frame].indexOf(parseInt(e.target.value)));
-              }}
-              value={personId}
-            >
-              <option key={-1}>All</option>
-              <Options />
-              {/* {ids[frame].map((id, i) => {
+        <label htmlFor="ids">Choose an id: </label>
+        <select
+          id="ids"
+          onChange={(e) => {
+            if (e.target.value === "All") {
+              setIndex(-1);
+            }
+            setPersonId(e.target.value);
+            // setIndex(ids[frame].indexOf(parseInt(e.target.value)));
+          }}
+          value={personId}
+        >
+          <option key={-1}>All</option>
+          <Options />
+          {/* {ids[frame].map((id, i) => {
             return <option key={i}>{id}</option>;
           })} */}
-            </select>
-          </div>
-          <div>
-            {index !== -1 ? (
-              <>
-                <p>{`id ${ids[frame][index]}`} : </p>
-                <Attributes />
-                {/* <p>{attrs[frame][index].gender}</p>
+        </select>
+      </div>
+      <div>
+        {index !== -1 ? (
+          <>
+            <p>{`id ${ids[frame][index]}`} : </p>
+            <Attributes />
+            {/* <p>{attrs[frame][index].gender}</p>
               <p>{attrs[frame][index].age}</p>
               <p>{attrs[frame][index].side}</p>
               <p>{attrs[frame][index].glasses}</p>
@@ -86,28 +156,26 @@ export default function People({
               <p>{attrs[frame][index].upper}</p>
               <p>{attrs[frame][index].lower}</p>
               <p>{attrs[frame][index].boots}</p> */}
-              </>
+          </>
+        ) : (
+          <>
+            {personId && personId !== "All" ? (
+              <p>id {personId} not found.</p>
             ) : (
-              <>
-                {personId && personId !== "All" ? (
-                  <p>id {personId} not found.</p>
-                ) : (
-                  ""
-                )}
-                <p>Select an id listed below.</p>
-              </>
+              ""
             )}
-            {index === -1 &&
-              attrs[frame].map((people, i) => {
-                return (
-                  <p key={i}>
-                    {`id${ids[frame][i]}`} : {people.gender}, {people.age}
-                  </p>
-                );
-              })}
-          </div>
-        </>
+            <p>Select an id listed below.</p>
+          </>
+        )}
+        {index === -1 &&
+          attrs[frame].map((people, i) => {
+            return (
+              <p key={i}>
+                {`id${ids[frame][i]}`} : {people.gender}, {people.age}
+              </p>
+            );
+          })}
       </div>
-    </>
+    </div>
   );
 }
