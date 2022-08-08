@@ -4,19 +4,11 @@ export function strToNum(str) {
   return parseInt(str);
 }
 
-export function limitWidth(value, width) {
+export function limitWidthHeight(value, limit) {
   if (value < 0) {
     return 0;
-  } else if (value > width) {
-    return width;
-  }
-  return value;
-}
-export function limitHeight(value, height) {
-  if (value < 0) {
-    return 0;
-  } else if (value > height) {
-    return height;
+  } else if (value > limit) {
+    return limit;
   }
   return value;
 }
@@ -44,7 +36,7 @@ export default function Points({
           onChange={(e) =>
             setStartpoint({
               ...startpoint,
-              sx: limitWidth(e.target.value, width),
+              sx: limitWidthHeight(e.target.value, width),
             })
           }
           value={strToNum(startpoint.sx)}
@@ -57,7 +49,7 @@ export default function Points({
           onChange={(e) =>
             setStartpoint({
               ...startpoint,
-              sy: limitHeight(e.target.value, height),
+              sy: limitWidthHeight(e.target.value, height),
             })
           }
           value={strToNum(startpoint.sy)}
@@ -68,7 +60,10 @@ export default function Points({
           type="number"
           step="1"
           onChange={(e) =>
-            setEndpoint({ ...endpoint, ex: limitWidth(e.target.value, width) })
+            setEndpoint({
+              ...endpoint,
+              ex: limitWidthHeight(e.target.value, width),
+            })
           }
           value={strToNum(endpoint.ex)}
           name="ex"
@@ -80,7 +75,7 @@ export default function Points({
           onChange={(e) =>
             setEndpoint({
               ...endpoint,
-              ey: limitHeight(e.target.value, height),
+              ey: limitWidthHeight(e.target.value, height),
             })
           }
           value={strToNum(endpoint.ey)}
