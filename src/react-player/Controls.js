@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function Controls({
+  playerContainerRef,
   playing,
   onPlayPause,
   seekToStart,
@@ -34,8 +35,8 @@ export default function Controls({
     const percent =
       Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
     isScrubbing = (e.buttons & 1) === 1;
-    const playerWrapper = document.querySelector(".player-wrapper");
-    playerWrapper.classList.toggle("scrubbing", isScrubbing);
+    // const playerWrapper = document.querySelector(".player-wrapper");
+    playerContainerRef.current.classList.toggle("scrubbing", isScrubbing);
     const video = document.querySelector("video");
     if (isScrubbing) {
       wasPaused = video.paused;
@@ -59,10 +60,10 @@ export default function Controls({
     }
   }
   useEffect(() => {
-    const playerWrapper = document.querySelector(".player-wrapper");
+    // const playerWrapper = document.querySelector(".player-wrapper");
     playing
-      ? playerWrapper.classList.remove("paused")
-      : playerWrapper.classList.add("paused");
+      ? playerContainerRef.current.classList.remove("paused")
+      : playerContainerRef.current.classList.add("paused");
     const timelineContainer = document.querySelector(".timeline-container");
     timelineContainer.addEventListener("mousedown", toggleScrubbing);
     timelineContainer.addEventListener("mousemove", handleTimelineUpdate);
@@ -103,7 +104,7 @@ export default function Controls({
     }
   }, [video]);
   useEffect(() => {
-    const playerWrapper = document.querySelector(".player-wrapper");
+    // const playerWrapper = document.querySelector(".player-wrapper");
     let volumeLevel;
     if (volume === 0 || muted === true) {
       volumeLevel = "muted";
@@ -112,17 +113,17 @@ export default function Controls({
     } else {
       volumeLevel = "low";
     }
-    playerWrapper.dataset.volumeLevel = volumeLevel;
+    playerContainerRef.current.dataset.volumeLevel = volumeLevel;
   }, [volume, muted]);
 
   function toggleControls() {
-    const playerWrapper = document.querySelector(".player-wrapper");
-    playerWrapper.classList.toggle("control");
+    // const playerWrapper = document.querySelector(".player-wrapper");
+    playerContainerRef.current.classList.toggle("control");
     setControl(!control);
   }
   return (
-    <>
-      <div className="video-controls-container">
+    <div>
+      <div className="video-controls-container" data-testid="video-controls">
         <div className="timeline-container">
           <div className="timeline">
             <div className="thumb-indicator"></div>
@@ -310,6 +311,6 @@ export default function Controls({
           </span>
         </button>
       )}
-    </>
+    </div>
   );
 }

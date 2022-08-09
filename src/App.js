@@ -360,6 +360,7 @@ function App({
             setVw={setVw}
           />
           <Controls
+            playerContainerRef={playerContainerRef}
             playing={playing}
             onPlayPause={handlePlayPause}
             seekToStart={seekToStart}

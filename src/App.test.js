@@ -15,6 +15,39 @@
 //   expect(queryByLabelText(/pause/)).toBeTruthy();
 // });
 
+import React from "react";
+import App from "./App";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+// jest.mock("./react-player/PlayerControls", () => () => {
+//   return <mock-PlayerControls data-testid="playercontrols" />;
+// });
+// jest.mock("./react-player/Elapsed", () => () => {
+//   return <mock-Elapsed data-testid="elapsed" />;
+// });
+// jest.mock("./react-player/Canvas", () => () => {
+//   return <mock-Canvas data-testid="canvas" />;
+// });
+// jest.mock("./react-player/CanvasLine", () => () => {
+//   return <mock-CanvasLine data-testid="canvasline" />;
+// });
+// jest.mock("./react-player/Data", () => () => {
+//   return <mock-Data data-testid="data" />;
+// });
+// jest.mock("./react-player/Controls", () => () => {
+//   return <mock-Controls data-testid="controls" />;
+// });
+// jest.mock("./react-player/Points", () => () => {
+//   return <mock-Points data-testid="points" />;
+// });
+// jest.mock("./react-player/People", () => () => {
+//   return <mock-People data-testid="people" />;
+// });
+
+// describe("testing Controls", () => {
+//   render(<App basicFps={29.97} />);
+// });
+
 test("easy test", () => {
   const sum = (a, b) => {
     return a + b;
