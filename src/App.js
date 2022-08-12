@@ -168,7 +168,6 @@ function App({
   const getSize = function() {
     if (playerRef) {
       const rect = playerContainerRef.current.getBoundingClientRect();
-      console.log(rect);
       setCanvas({
         x: rect.x,
         y: rect.top + window.scrollY,
