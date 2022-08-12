@@ -9,6 +9,7 @@ export default function Canvas({
   ids,
   scores,
   keys,
+  action,
   wRatio,
   hRatio,
   boxCheck,
@@ -230,12 +231,26 @@ export default function Canvas({
 
       for (let i = 0; i < ids[frameIndex].length; i++) {
         if (idCheck) {
+          let stringIds = ids[frameIndex][i].toString() + ".0";
+          console.log(stringIds);
           ctx.fillStyle = "black";
           ctx.fillText(
             `${ids[frameIndex][i]}`,
             boxes[frameIndex][i][0],
             boxes[frameIndex][i][1] - 5
           );
+          console.log(action[frameIndex][stringIds]);
+          if (
+            action[frameIndex][stringIds] &&
+            action[frameIndex][stringIds].class[0] === 1
+          ) {
+            ctx.fillStyle = "red";
+            ctx.fillText(
+              "falling",
+              boxes[frameIndex][i][0] + boxes[frameIndex][i][2],
+              boxes[frameIndex][i][1] - 5
+            );
+          }
         }
         if (boxCheck) {
           ctx.strokeStyle = "blue";

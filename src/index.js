@@ -49,6 +49,11 @@ for (let i = 0; i < videojson.frames.length; i++) {
   keys.push(videojson.frames[i].kpt.keypoint[0]);
 }
 
+let action = [];
+for (let i = 0; i < videojson.frames.length; i++) {
+  action.push(videojson.frames[i].action);
+}
+
 // scale
 document.addEventListener("keydown", function(event) {
   const tagName = document.activeElement.tagName.toLowerCase();
@@ -119,6 +124,7 @@ root.render(
             idAll={idAll} // biggest id
             entrance={entrance}
             keys={keys}
+            action={action}
           />
         }
       />

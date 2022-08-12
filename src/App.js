@@ -22,6 +22,7 @@ function App({
   basicFps,
   entrance,
   keys,
+  action,
 }) {
   const [sourceWidth, setSW] = useState(basicWidth); //basicWidth MOT20-01 960
   const [sourceHeight, setSH] = useState(basicHeight); //basicHeight MOT20-01 540
@@ -411,6 +412,7 @@ function App({
           fps={fps}
           frame={frame}
           keys={keys}
+          action={action}
         />
         <CanvasLine
           x={x}
