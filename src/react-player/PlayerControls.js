@@ -1,3 +1,4 @@
+// invisible playercontrol for forward, backward, pause, play, mute. Searching bar may be useful soon.
 import React, { useState } from "react";
 
 export default function PlayerControls({

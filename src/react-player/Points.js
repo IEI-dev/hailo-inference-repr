@@ -1,3 +1,4 @@
+// wrapper-right form to set points
 import React from "react";
 
 export function strToNum(str) {

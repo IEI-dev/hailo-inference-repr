@@ -1,3 +1,4 @@
+// People Attributes
 import React, { useState, useEffect } from "react";
 
 export default function People({
