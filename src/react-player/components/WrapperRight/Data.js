@@ -1,10 +1,10 @@
 // to give the correct data and url to video-player based on select bar's selection.
 import React, { useState } from "react";
-import mot20_01Json from "../json/MOT20-01.json";
-import tc1Json from "../json/tc1.json";
-import pwalk1Json from "../json/pwalk1.json";
-import jisooJson from "../json/jisoo_september.json";
-import palaceJson from "../json/palace.json";
+import mot20_01Json from "../../../json/MOT20-01.json";
+import tc1Json from "../../../json/tc1.json";
+import pwalk1Json from "../../../json/pwalk1.json";
+import jisooJson from "../../../json/jisoo_september.json";
+import palaceJson from "../../../json/palace.json";
 class FrameData {
   constructor(json, boxes = [], ids = [], scores = []) {
     for (let i = 0; i < json.frames.length; i++) {

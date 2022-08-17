@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
-import PlayerControls from "./react-player/PlayerControls";
+import PlayerControls from "./react-player/components/Controls/PlayerControls";
 import screenfull from "screenfull";
-import Elapsed from "./react-player/Elapsed";
-import Canvas from "./react-player/Canvas";
-import CanvasLine from "./react-player/CanvasLine";
-import Data from "./react-player/Data";
-import Controls from "./react-player/Controls";
-import Points from "./react-player/Points";
-import People from "./react-player/People";
+import Elapsed from "./react-player/components/WrapperRight/Elapsed";
+import Canvas from "./react-player/components/Canvas/Canvas";
+import CanvasLine from "./react-player/components/Canvas/CanvasLine";
+import Data from "./react-player/components/WrapperRight/Data";
+import Controls from "./react-player/components/Controls/Controls";
+import Points from "./react-player/components/WrapperRight/Points";
+import People from "./react-player/components/WrapperLeft/People";
 
 // boxes, boxTime, ids give to Canvas
 function App({
@@ -386,14 +386,6 @@ function App({
           />
         </div>
 
-        {/* <div className="data">
-        {width}寬度
-        {height}高度
-        {sourceWidth}來源寬度
-        {sourceHeight}來源高度
-        {wRatio}寬比例
-        {hRatio}高比例
-        </div> */}
         <Canvas
           x={x}
           y={y}

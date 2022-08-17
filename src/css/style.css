@@ -112,6 +112,7 @@ body #root .wrapper-left {
   padding: 1%;
   align-self: center;
   background-color: darkgrey;
+  border-radius: 5%;
 }
 body #root .wrapper-left select {
   width: 50%;
@@ -130,6 +131,7 @@ body #root .wrapper-right {
   padding: 1%;
   align-self: center;
   background-color: darkgrey;
+  border-radius: 2%;
 }
 body #root .wrapper-right form input {
   width: 100%;
