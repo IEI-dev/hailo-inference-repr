@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import ReactPlayer from "react-player";
 import PlayerControls from "./react-player/components/Controls/PlayerControls";
 import screenfull from "screenfull";
@@ -9,6 +9,7 @@ import Data from "./react-player/components/WrapperRight/Data";
 import Controls from "./react-player/components/Controls/Controls";
 import Points from "./react-player/components/WrapperRight/Points";
 import People from "./react-player/components/WrapperLeft/People";
+import Context from "./react-player/context/defaultContext";
 
 // boxes, boxTime, ids give to Canvas
 function App({
@@ -24,6 +25,9 @@ function App({
   keys,
   action,
 }) {
+  const appContext = useContext(Context);
+  const { dataArray } = appContext;
+  console.log(dataArray.pwalk1_new);
   const [sourceWidth, setSW] = useState(basicWidth); //basicWidth MOT20-01 960
   const [sourceHeight, setSH] = useState(basicHeight); //basicHeight MOT20-01 540
   const [duration, setDuration] = useState(0);
