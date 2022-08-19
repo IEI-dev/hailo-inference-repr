@@ -23,7 +23,7 @@ export default function Points({
   setEndpoint,
 }) {
   return (
-    <>
+    <div className="points">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -91,6 +91,6 @@ export default function Points({
       >
         Reset
       </button>
-    </>
+    </div>
   );
 }
