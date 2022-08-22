@@ -31,10 +31,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-svg {
-  width: 18px;
-}
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -221,6 +217,9 @@ body .chat ul {
   gap: 1rem;
   padding-right: 0.5rem;
 }
+.video-controls-container .controls .switches input {
+  cursor: pointer;
+}
 .video-controls-container::before {
   content: "";
   position: absolute;
@@ -299,15 +298,13 @@ body .chat ul {
   display: flex;
   align-items: center;
 }
-
-.timeline {
+.timeline-container .timeline {
   background-color: rgba(255, 100, 100, 0.5);
   height: 3px;
   width: 100%;
   position: relative;
 }
-
-.timeline::before {
+.timeline-container .timeline::before {
   content: "";
   position: absolute;
   left: 0;
@@ -317,8 +314,7 @@ body .chat ul {
   background-color: rgb(150, 150, 150);
   display: none;
 }
-
-.timeline::after {
+.timeline-container .timeline::after {
   content: "";
   position: absolute;
   left: 0;
@@ -327,8 +323,7 @@ body .chat ul {
   right: calc(100% - var(--progress-position) * 100%);
   background-color: red;
 }
-
-.timeline .thumb-indicator {
+.timeline-container .timeline .thumb-indicator {
   --scale: 0;
   position: absolute;
   transform: translateX(-50%) scale(var(--scale));
