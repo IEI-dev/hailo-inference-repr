@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useContext } from "react";
-import Context from "../../context/defaultContext";
+import { DataContext } from "../../context/DataContext";
 
 let EDGES = [
   [0, 1],
@@ -180,19 +180,18 @@ export default function Canvas({
   y,
   width,
   height,
-  scores,
   wRatio,
   hRatio,
   boxCheck,
   idCheck,
   edgeCheck,
-  fps,
+  // fps,
   // video,
   frame,
 }) {
   const boxRef = useRef(null);
-  const appContext = useContext(Context);
-  const { ids, boxes, keys, action } = appContext.dataArray.pwalk1_new;
+  const { data } = useContext(DataContext);
+  const { ids, boxes, action, keys } = data;
 
   function drawEdges(ctx, onekpts) {
     ctx.lineWidth = 3;
@@ -282,14 +281,12 @@ export default function Canvas({
   }
 
   return (
-    <>
-      <canvas
-        className="rect"
-        ref={boxRef}
-        width={width}
-        height={height}
-        style={{ left: x, top: y, border: "2px solid red" }}
-      ></canvas>
-    </>
+    <canvas
+      className="rect"
+      ref={boxRef}
+      width={width}
+      height={height}
+      style={{ left: x, top: y, border: "2px solid red" }}
+    ></canvas>
   );
 }

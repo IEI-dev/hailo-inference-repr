@@ -1,10 +1,11 @@
 // to give the correct data and url to video-player based on select bar's selection.
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import mot20_01Json from "../../../json/MOT20-01.json";
 import tc1Json from "../../../json/tc1.json";
 import pwalk1Json from "../../../json/pwalk1.json";
 import jisooJson from "../../../json/jisoo_september.json";
 import palaceJson from "../../../json/palace.json";
+import { DataContext } from "../../context/DataContext";
 class FrameData {
   constructor(json, boxes = [], ids = [], scores = []) {
     for (let i = 0; i < json.frames.length; i++) {
@@ -42,7 +43,7 @@ let options = ["MOT20-01", "tc1", "pwalk1", "jisoo", "palace"];
 let newUrl;
 
 export default function Data({
-  handleBoxes,
+  handleUrl,
   setBoxes,
   setIds,
   setScores,
@@ -54,6 +55,8 @@ export default function Data({
   frame,
   fps,
 }) {
+  const { data, addData } = useContext(DataContext);
+  // const { fps } = data;
   const [select, setSelect] = useState("MOT20-01");
   // pass in (boxes, scores, ids, width, height, fps, total frames)
   function pass(e) {
@@ -82,6 +85,7 @@ export default function Data({
         29.97,
         481
       );
+      // addData(tc1Json);
       newUrl = url[1];
     }
     if (e.startsWith(options[2])) {
@@ -131,7 +135,7 @@ export default function Data({
           onChange={function(e) {
             setSelect(e.target.value);
             pass(e.target.value);
-            handleBoxes(newUrl);
+            handleUrl(newUrl);
             setBoxes(passData[0]);
             setScores(passData[1]);
             setIds(passData[2]);

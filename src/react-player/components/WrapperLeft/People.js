@@ -1,12 +1,13 @@
 // People Attributes
 import React, { useState, useEffect, useContext } from "react";
-import Context from "../../context/defaultContext";
+import { DataContext } from "../../context/DataContext";
 
 export default function People({ frame, linecheck }) {
   const [personId, setPersonId] = useState(0);
   const [index, setIndex] = useState(-1);
-  const appContext = useContext(Context);
-  const { ids, idAll, attrs, entrance } = appContext.dataArray.pwalk1_new;
+
+  const { data } = useContext(DataContext);
+  const { ids, idAll, attrs, entrance } = data;
 
   useEffect(() => {
     setIndex(ids[frame].indexOf(parseInt(personId)));

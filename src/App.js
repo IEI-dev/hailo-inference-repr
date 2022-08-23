@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import PlayerControls from "./react-player/components/Controls/PlayerControls";
 import screenfull from "screenfull";
@@ -9,25 +9,9 @@ import Data from "./react-player/components/WrapperRight/Data";
 import Controls from "./react-player/components/Controls/Controls";
 import Points from "./react-player/components/WrapperRight/Points";
 import People from "./react-player/components/WrapperLeft/People";
-import Context from "./react-player/context/defaultContext";
-
+import DataContextProvider from "./react-player/context/DataContext";
 // boxes, boxTime, ids give to Canvas
-function App({
-  ids,
-  boxes,
-  scores,
-  attrs,
-  basicWidth,
-  basicHeight,
-  idAll,
-  basicFps,
-  entrance,
-  keys,
-  action,
-}) {
-  const appContext = useContext(Context);
-  const { dataArray } = appContext;
-  console.log(dataArray.pwalk1_new);
+function App({ ids, boxes, scores, basicWidth, basicHeight, basicFps }) {
   const [sourceWidth, setSW] = useState(basicWidth); //basicWidth MOT20-01 960
   const [sourceHeight, setSH] = useState(basicHeight); //basicHeight MOT20-01 540
   const [duration, setDuration] = useState(0);
@@ -67,7 +51,7 @@ function App({
     // url: `./videos/MOT20-05-raw.webm`,
     // url: `./videos/tc1.mp4`,
   });
-  const { playing, muted, volume, playbackRate, url } = state; // dedectionary
+  const { playing, muted, volume, playbackRate, url } = state; // dedictionary
   const [canvas, setCanvas] = useState({
     x: 0,
     y: 0,
@@ -141,9 +125,9 @@ function App({
     setFrame(Math.round(percent * limit));
   };
 
-  const handleBoxes = (newUrl) => {
-    handleUrl(newUrl);
-  };
+  // const handleBoxes = (newUrl) => {
+  //   handleUrl(newUrl);
+  // };
 
   // Update Time and Size
   const format = (sec) => {
@@ -277,16 +261,9 @@ function App({
   };
 
   return (
-    <>
+    <DataContextProvider>
       <div className="wrapper-left control" ref={wrapperLeftRef}>
-        <People
-          ids={ids}
-          attrs={attrs}
-          frame={frame}
-          linecheck={lineCheck}
-          idAll={idAll}
-          entrance={entrance}
-        />
+        <People frame={frame} linecheck={lineCheck} />
       </div>
 
       {leftControl ? (
@@ -389,25 +366,18 @@ function App({
             onSeek={onSeek}
           />
         </div>
-
         <Canvas
           x={x}
           y={y}
           width={width}
           height={height}
-          boxes={bxs}
-          ids={bxid}
-          scores={bxScores}
           wRatio={wRatio}
           hRatio={hRatio}
           boxCheck={boxCheck}
           idCheck={idCheck}
-          lineCheck={lineCheck}
           edgeCheck={edgeCheck}
-          fps={fps}
+          // fps={fps}
           frame={frame}
-          keys={keys}
-          action={action}
         />
         <CanvasLine
           x={x}
@@ -451,7 +421,7 @@ function App({
 
       <div className="wrapper-right control" ref={wrapperRightRef}>
         <Data
-          handleBoxes={handleBoxes}
+          handleUrl={handleUrl}
           setBoxes={setBoxes}
           setIds={setIds}
           setScores={setScores}
@@ -474,7 +444,7 @@ function App({
           setEndpoint={setEndpoint}
         />
       </div>
-    </>
+    </DataContextProvider>
   );
 }
 
