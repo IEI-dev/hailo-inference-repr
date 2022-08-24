@@ -11,6 +11,7 @@ import Chat from "./websocket/Chat";
 import videojson from "./json/pwalk1_new.json";
 // import videojson from "./json/palace.json";
 import "./css/style.css";
+import DataContextProvider from "./react-player/context/DataContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -113,19 +114,21 @@ root.render(
       <Route
         path="/"
         element={
-          <App
-            ids={ids}
-            boxes={boxes}
-            // scores={scores}
-            attrs={attrs}
-            basicWidth={width}
-            basicHeight={height}
-            basicFps={fps}
-            idAll={idAll} // biggest id
-            entrance={entrance}
-            keys={keys}
-            action={action}
-          />
+          <DataContextProvider>
+            <App
+              ids={ids}
+              boxes={boxes}
+              // scores={scores}
+              attrs={attrs}
+              basicWidth={width}
+              basicHeight={height}
+              basicFps={fps}
+              idAll={idAll} // biggest id
+              entrance={entrance}
+              keys={keys}
+              action={action}
+            />
+          </DataContextProvider>
         }
       />
       <Route path="/websocket" element={<Websocket />} />

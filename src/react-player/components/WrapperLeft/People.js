@@ -10,7 +10,9 @@ export default function People({ frame, linecheck }) {
   const { ids, idAll, attrs, entrance } = data;
 
   useEffect(() => {
-    setIndex(ids[frame].indexOf(parseInt(personId)));
+    if (ids[frame]) {
+      setIndex(ids[frame].indexOf(parseInt(personId)));
+    }
   }, [frame, personId]);
 
   // choose id based on all's length
@@ -25,9 +27,7 @@ export default function People({ frame, linecheck }) {
   function Attributes() {
     let row = {};
     let output = [];
-    if (ids[frame][index] === undefined) {
-      return;
-    }
+
     // if value is true, return every key's value in paragraph, can switch key to svg you want
     for (let i = 0; i < 10; i++) {
       if (Object.values(attrs[frame][index])[i]) {
@@ -109,71 +109,74 @@ export default function People({ frame, linecheck }) {
     }
     return output;
   }
-
-  return (
-    <div>
-      <p>
-        in: {entrance[frame].in.length} / out: {entrance[frame].out.length}
-      </p>
-      <p>
-        num: {ids[frame].length} / all count: {entrance[frame].all.length}
-      </p>
-      <h3>People Attribute</h3>
+  if (ids[frame] !== undefined) {
+    return (
       <div>
-        <label htmlFor="ids">Choose an id: </label>
-        <select
-          id="ids"
-          onChange={(e) => {
-            if (e.target.value === "All") {
-              setIndex(-1);
-            }
-            setPersonId(e.target.value);
-            // setIndex(ids[frame].indexOf(parseInt(e.target.value)));
-          }}
-          value={personId}
-        >
-          <option key={-1}>All</option>
-          <Options />
-          {/* {ids[frame].map((id, i) => {
-            return <option key={i}>{id}</option>;
-          })} */}
-        </select>
+        <p>
+          in: {entrance[frame].in.length} / out: {entrance[frame].out.length}
+        </p>
+        <p>
+          num: {ids[frame].length} / all count: {entrance[frame].all.length}
+        </p>
+        <h3>People Attribute</h3>
+        <div>
+          <label htmlFor="ids">Choose an id: </label>
+          <select
+            id="ids"
+            onChange={(e) => {
+              if (e.target.value === "All") {
+                setIndex(-1);
+              }
+              setPersonId(e.target.value);
+              // setIndex(ids[frame].indexOf(parseInt(e.target.value)));
+            }}
+            value={personId}
+          >
+            <option key={-1}>All</option>
+            <Options />
+            {/* {ids[frame].map((id, i) => {
+              return <option key={i}>{id}</option>;
+            })} */}
+          </select>
+        </div>
+        <div>
+          {index !== -1 ? (
+            <>
+              <p>{`id ${ids[frame][index]}`} : </p>
+              <Attributes />
+              {/* <p>{attrs[frame][index].gender}</p>
+                <p>{attrs[frame][index].age}</p>
+                <p>{attrs[frame][index].side}</p>
+                <p>{attrs[frame][index].glasses}</p>
+                <p>{attrs[frame][index].hat}</p>
+                <p>{attrs[frame][index].holdobjectsinfront}</p>
+                <p>{attrs[frame][index].bag}</p>
+                <p>{attrs[frame][index].upper}</p>
+                <p>{attrs[frame][index].lower}</p>
+                <p>{attrs[frame][index].boots}</p> */}
+            </>
+          ) : (
+            <>
+              {personId && personId !== "All" ? (
+                <p>id {personId} not found.</p>
+              ) : (
+                ""
+              )}
+              <p>Select an id listed below.</p>
+            </>
+          )}
+          {index === -1 &&
+            attrs[frame].map((people, i) => {
+              return (
+                <p key={i}>
+                  {`id${ids[frame][i]}`} : {people.gender}, {people.age}
+                </p>
+              );
+            })}
+        </div>
       </div>
-      <div>
-        {index !== -1 ? (
-          <>
-            <p>{`id ${ids[frame][index]}`} : </p>
-            <Attributes />
-            {/* <p>{attrs[frame][index].gender}</p>
-              <p>{attrs[frame][index].age}</p>
-              <p>{attrs[frame][index].side}</p>
-              <p>{attrs[frame][index].glasses}</p>
-              <p>{attrs[frame][index].hat}</p>
-              <p>{attrs[frame][index].holdobjectsinfront}</p>
-              <p>{attrs[frame][index].bag}</p>
-              <p>{attrs[frame][index].upper}</p>
-              <p>{attrs[frame][index].lower}</p>
-              <p>{attrs[frame][index].boots}</p> */}
-          </>
-        ) : (
-          <>
-            {personId && personId !== "All" ? (
-              <p>id {personId} not found.</p>
-            ) : (
-              ""
-            )}
-            <p>Select an id listed below.</p>
-          </>
-        )}
-        {index === -1 &&
-          attrs[frame].map((people, i) => {
-            return (
-              <p key={i}>
-                {`id${ids[frame][i]}`} : {people.gender}, {people.age}
-              </p>
-            );
-          })}
-      </div>
-    </div>
-  );
+    );
+  } else {
+    return <h3>People Attribute</h3>;
+  }
 }

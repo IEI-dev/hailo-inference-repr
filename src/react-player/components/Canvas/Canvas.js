@@ -185,8 +185,6 @@ export default function Canvas({
   boxCheck,
   idCheck,
   edgeCheck,
-  // fps,
-  // video,
   frame,
 }) {
   const boxRef = useRef(null);

@@ -1,5 +1,7 @@
 import React, { createContext, useState } from "react";
-import pwalk1Json_new from "../../json/pwalk1_new.json";
+// import pwalk1Json_new from "../../json/pwalk1_new.json";
+// import retailcctvJson from "../../json/retailcctv.json";
+import retailroberyJson from "../../json/retailrobery.json";
 export const DataContext = createContext();
 
 const DataContextProvider = (props) => {
@@ -62,12 +64,19 @@ const DataContextProvider = (props) => {
       this.keys = keys;
       this.action = action;
       this.length = json.frames.length;
+      this.frame_count = json.frame_count;
     }
   }
-  const basic = new FrameData_new(pwalk1Json_new);
+  // const basic = new FrameData_new(pwalk1Json_new);
+  const basic = new FrameData_new(retailroberyJson);
   const [data, setData] = useState(basic);
-  const addData = (json) => {
-    let newData = new FrameData_old(json);
+  const addData = (json, classType = "new") => {
+    let newData;
+    if (classType === "old") {
+      newData = new FrameData_old(json);
+    } else {
+      newData = new FrameData_new(json);
+    }
     setData(newData);
   };
   return (

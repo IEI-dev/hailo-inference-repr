@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import ReactPlayer from "react-player";
 import PlayerControls from "./react-player/components/Controls/PlayerControls";
 import screenfull from "screenfull";
@@ -9,9 +9,12 @@ import Data from "./react-player/components/WrapperRight/Data";
 import Controls from "./react-player/components/Controls/Controls";
 import Points from "./react-player/components/WrapperRight/Points";
 import People from "./react-player/components/WrapperLeft/People";
-import DataContextProvider from "./react-player/context/DataContext";
+import { DataContext } from "./react-player/context/DataContext";
+
 // boxes, boxTime, ids give to Canvas
-function App({ ids, boxes, scores, basicWidth, basicHeight, basicFps }) {
+function App({ basicWidth, basicHeight }) {
+  const { data } = useContext(DataContext);
+  const { fps, frame_count } = data;
   const [sourceWidth, setSW] = useState(basicWidth); //basicWidth MOT20-01 960
   const [sourceHeight, setSH] = useState(basicHeight); //basicHeight MOT20-01 540
   const [duration, setDuration] = useState(0);
@@ -20,12 +23,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight, basicFps }) {
   const [idCheck, setIdCheck] = useState(false);
   const [lineCheck, setLineCheck] = useState(true);
   const [edgeCheck, setEdgeCheck] = useState(false);
-  const [bxs, setBoxes] = useState(boxes);
-  const [bxScores, setScores] = useState(scores);
-  const [bxid, setIds] = useState(ids);
-  const [fps, setFps] = useState(basicFps);
   const [frame, setFrame] = useState(0);
-  const [limit, setLimit] = useState(329);
   const [screenRatio, setScreenRatio] = useState(100);
   const [vw, setVw] = useState(70);
   const [video, setVideo] = useState(null);
@@ -47,7 +45,9 @@ function App({ ids, boxes, scores, basicWidth, basicHeight, basicFps }) {
     playbackRate: 1.0,
     // url: `./videos/palace.mp4`,
     // url: `./videos/MOT20-01-raw.webm`,
-    url: `./videos/pwalk1.mp4`,
+    // url: `./videos/pwalk1.mp4`,
+    // url: `./videos/retailcctv_orig.mp4`,
+    url: `./videos/retailrobery_orig.mp4`,
     // url: `./videos/MOT20-05-raw.webm`,
     // url: `./videos/tc1.mp4`,
   });
@@ -122,12 +122,8 @@ function App({ ids, boxes, scores, basicWidth, basicHeight, basicFps }) {
     const seekto = duration * percent;
     playerRef.current.getInternalPlayer().currentTime = seekto;
     handleTime();
-    setFrame(Math.round(percent * limit));
+    setFrame(Math.round(percent * frame_count));
   };
-
-  // const handleBoxes = (newUrl) => {
-  //   handleUrl(newUrl);
-  // };
 
   // Update Time and Size
   const format = (sec) => {
@@ -261,7 +257,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight, basicFps }) {
   };
 
   return (
-    <DataContextProvider>
+    <>
       <div className="wrapper-left control" ref={wrapperLeftRef}>
         <People frame={frame} linecheck={lineCheck} />
       </div>
@@ -376,7 +372,6 @@ function App({ ids, boxes, scores, basicWidth, basicHeight, basicFps }) {
           boxCheck={boxCheck}
           idCheck={idCheck}
           edgeCheck={edgeCheck}
-          // fps={fps}
           frame={frame}
         />
         <CanvasLine
@@ -422,15 +417,9 @@ function App({ ids, boxes, scores, basicWidth, basicHeight, basicFps }) {
       <div className="wrapper-right control" ref={wrapperRightRef}>
         <Data
           handleUrl={handleUrl}
-          setBoxes={setBoxes}
-          setIds={setIds}
-          setScores={setScores}
           setSW={setSW}
           setSH={setSH}
-          setFps={setFps}
-          setLimit={setLimit}
           handleTime={handleTime}
-          fps={fps.toFixed(2)}
           frame={frame}
         />
         <Elapsed elapsed={format(time)} duration={format(duration)} />
@@ -444,7 +433,7 @@ function App({ ids, boxes, scores, basicWidth, basicHeight, basicFps }) {
           setEndpoint={setEndpoint}
         />
       </div>
-    </DataContextProvider>
+    </>
   );
 }
 
