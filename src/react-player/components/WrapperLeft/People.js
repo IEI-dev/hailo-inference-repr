@@ -180,7 +180,7 @@ export default function People({ frame, linecheck }) {
     return (
       <>
         <h5>People Attributes</h5>
-        <p>Nothing to show.</p>
+        <p>Nothing here.</p>
       </>
     );
   }

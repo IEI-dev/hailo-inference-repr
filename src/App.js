@@ -11,12 +11,15 @@ import Points from "./react-player/components/WrapperRight/Points";
 import People from "./react-player/components/WrapperLeft/People";
 import { DataContext } from "./react-player/context/DataContext";
 
-// boxes, boxTime, ids give to Canvas
-function App({ basicWidth, basicHeight }) {
+function App() {
   const { data } = useContext(DataContext);
-  const { fps, frame_count } = data;
-  const [sourceWidth, setSW] = useState(basicWidth); //basicWidth MOT20-01 960
-  const [sourceHeight, setSH] = useState(basicHeight); //basicHeight MOT20-01 540
+  const {
+    fps,
+    frame_count,
+    width: basicWidth,
+    height: basicHeight,
+    entrance_line,
+  } = data;
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [boxCheck, setBoxCheck] = useState(false); // box and id props for PlayerControls callback and give to Canvas
@@ -29,12 +32,12 @@ function App({ basicWidth, basicHeight }) {
   const [video, setVideo] = useState(null);
   const [key, setKey] = useState(0);
   const [startpoint, setStartpoint] = useState({
-    sx: 0,
-    sy: 0,
+    sx: entrance_line[0],
+    sy: entrance_line[1],
   });
   const [endpoint, setEndpoint] = useState({
-    ex: 0,
-    ey: 0,
+    ex: entrance_line[2],
+    ey: entrance_line[3],
   });
   const [startend, setStartend] = useState("start");
   // State
@@ -43,13 +46,13 @@ function App({ basicWidth, basicHeight }) {
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
+    // url: `./videos/MOT20-05-raw.webm`,
+    // url: `./videos/tc1.mp4`,
     // url: `./videos/palace.mp4`,
     // url: `./videos/MOT20-01-raw.webm`,
     // url: `./videos/pwalk1.mp4`,
     // url: `./videos/retailcctv_orig.mp4`,
     url: `./videos/retailrobery_orig.mp4`,
-    // url: `./videos/MOT20-05-raw.webm`,
-    // url: `./videos/tc1.mp4`,
   });
   const { playing, muted, volume, playbackRate, url } = state; // dedictionary
   const [canvas, setCanvas] = useState({
@@ -157,8 +160,8 @@ function App({ basicWidth, basicHeight }) {
         y: rect.top + window.scrollY,
         width: rect.width,
         height: rect.height,
-        wRatio: rect.width / sourceWidth,
-        hRatio: rect.height / sourceHeight,
+        wRatio: rect.width / basicWidth,
+        hRatio: rect.height / basicHeight,
       });
     } else return;
   };
@@ -215,19 +218,15 @@ function App({ basicWidth, basicHeight }) {
     );
   }
   function toggleLeftControls() {
-    const wrapperLeft = document.querySelector(".wrapper-left");
-    const wrapperRight = document.querySelector(".wrapper-right");
-    wrapperLeft.classList.toggle("control");
-    wrapperLeft.classList.remove("hide");
-    wrapperRight.classList.remove("hide");
+    wrapperLeftRef.current.classList.toggle("control");
+    wrapperLeftRef.current.classList.remove("hide");
+    wrapperRightRef.current.classList.remove("hide");
     setLeftControl(!leftControl);
   }
   function toggleRightControls() {
-    const wrapperLeft = document.querySelector(".wrapper-left");
-    const wrapperRight = document.querySelector(".wrapper-right");
-    wrapperRight.classList.toggle("control");
-    wrapperLeft.classList.remove("hide");
-    wrapperRight.classList.remove("hide");
+    wrapperRightRef.current.classList.toggle("control");
+    wrapperLeftRef.current.classList.remove("hide");
+    wrapperRightRef.current.classList.remove("hide");
     setRightControl(!rightControl);
   }
 
@@ -258,10 +257,11 @@ function App({ basicWidth, basicHeight }) {
 
   return (
     <>
+      {/* wrapper-left */}
       <div className="wrapper-left control" ref={wrapperLeftRef}>
         <People frame={frame} linecheck={lineCheck} />
       </div>
-
+      {/* wrapper-left control button */}
       {leftControl ? (
         <button
           onClick={toggleLeftControls}
@@ -285,7 +285,7 @@ function App({ basicWidth, basicHeight }) {
           </span>
         </button>
       )}
-
+      {/* wrapper-middle */}
       <div className="wrapper">
         <h1>Video Player</h1>
         <div
@@ -390,6 +390,7 @@ function App({ basicWidth, basicHeight }) {
           setStartend={setStartend}
         />
       </div>
+      {/* wrapper-right control button */}
       {rightControl ? (
         <button
           onClick={toggleRightControls}
@@ -413,15 +414,9 @@ function App({ basicWidth, basicHeight }) {
           </span>
         </button>
       )}
-
+      {/* wrapper-right */}
       <div className="wrapper-right control" ref={wrapperRightRef}>
-        <Data
-          handleUrl={handleUrl}
-          setSW={setSW}
-          setSH={setSH}
-          handleTime={handleTime}
-          frame={frame}
-        />
+        <Data handleUrl={handleUrl} handleTime={handleTime} frame={frame} />
         <Elapsed elapsed={format(time)} duration={format(duration)} />
         <Size />
         <Points

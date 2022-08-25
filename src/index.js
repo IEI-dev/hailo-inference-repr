@@ -7,53 +7,10 @@ import CanvasPractices from "./canvas/index";
 import Websocket from "./websocket/Websocket";
 import BtsSocket from "./websocket/BtsSocket";
 import Chat from "./websocket/Chat";
-// import videojson from "./json/tc1.json";
-import videojson from "./json/pwalk1_new.json";
-// import videojson from "./json/palace.json";
 import "./css/style.css";
 import DataContextProvider from "./react-player/context/DataContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
-let boxes = [];
-let ids = [];
-// let scores = [];
-let attrs = [];
-for (let i = 0; i < videojson.frames.length; i++) {
-  ids.push(videojson.frames[i].ids);
-}
-for (let i = 0; i < videojson.frames.length; i++) {
-  boxes.push(videojson.frames[i].mot.boxes);
-}
-for (let i = 0; i < videojson.frames.length; i++) {
-  attrs.push(videojson.frames[i].attr.people);
-}
-
-// for (let i = 0; i < videojson.frames.length; i++) {
-//   scores.push(videojson.frames[i].scores); // add seconds for the bug
-// }
-let width = videojson.width;
-let height = videojson.height;
-let allLength =
-  videojson.frames[videojson.frames.length - 1].entrance.all.length;
-let idAll =
-  videojson.frames[videojson.frames.length - 1].entrance.all[allLength - 1];
-let fps = videojson.fps;
-
-let entrance = [];
-for (let i = 0; i < videojson.frames.length; i++) {
-  entrance.push(videojson.frames[i].entrance);
-}
-
-let keys = [];
-for (let i = 0; i < videojson.frames.length; i++) {
-  keys.push(videojson.frames[i].kpt.keypoint[0]);
-}
-
-let action = [];
-for (let i = 0; i < videojson.frames.length; i++) {
-  action.push(videojson.frames[i].action);
-}
 
 // scale
 document.addEventListener("keydown", function(event) {
@@ -115,19 +72,7 @@ root.render(
         path="/"
         element={
           <DataContextProvider>
-            <App
-              ids={ids}
-              boxes={boxes}
-              // scores={scores}
-              attrs={attrs}
-              basicWidth={width}
-              basicHeight={height}
-              basicFps={fps}
-              idAll={idAll} // biggest id
-              entrance={entrance}
-              keys={keys}
-              action={action}
-            />
+            <App />
           </DataContextProvider>
         }
       />
