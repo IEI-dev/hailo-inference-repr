@@ -36,9 +36,7 @@ export default function Controls({
     const percent =
       Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
     isScrubbing = (e.buttons & 1) === 1;
-    // const playerWrapper = document.querySelector(".player-wrapper");
     playerContainerRef.current.classList.toggle("scrubbing", isScrubbing);
-    const video = document.querySelector("video");
     if (isScrubbing) {
       wasPaused = video.paused;
       video.pause();

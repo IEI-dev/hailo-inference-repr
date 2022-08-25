@@ -27,7 +27,6 @@ function App() {
   const [lineCheck, setLineCheck] = useState(true);
   const [edgeCheck, setEdgeCheck] = useState(false);
   const [frame, setFrame] = useState(0);
-  const [screenRatio, setScreenRatio] = useState(100);
   const [vw, setVw] = useState(70);
   const [video, setVideo] = useState(null);
   const [key, setKey] = useState(0);
@@ -184,7 +183,7 @@ function App() {
 
   useEffect(() => {
     getSize();
-  }, [screenRatio, vw, video]);
+  }, [vw, video]);
 
   useEffect(() => {
     setKey(key + 1);
@@ -325,8 +324,6 @@ function App() {
             muted={muted}
             onMute={handleMute}
             onSearch={handleUrl}
-            screenRatio={screenRatio}
-            setScreenRatio={setScreenRatio}
             wrapperLeftRef={wrapperLeftRef}
             wrapperRightRef={wrapperRightRef}
             btnControlLeftRef={btnControlLeftRef}

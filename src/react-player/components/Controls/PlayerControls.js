@@ -9,8 +9,6 @@ export default function PlayerControls({
   muted,
   onMute,
   onSearch,
-  screenRatio,
-  setScreenRatio,
   wrapperLeftRef,
   wrapperRightRef,
   btnControlLeftRef,
@@ -117,30 +115,10 @@ export default function PlayerControls({
               setLeftControl(false);
               setRightControl(false);
             }
-
-            // const player = document.querySelector(".player-wrapper");
-            // const upRatio = (screenRatio * 11) / 10;
-            // if (upRatio < 200) {
-            //   player.style.setProperty("--element-width", `${upRatio}%`);
-            //   player.style.setProperty(
-            //     "--element-height",
-            //     `${(upRatio * 56.25) / 100}%`
-            //   );
-            //   setScreenRatio(upRatio);
-            // }
-            // if (upRatio === 100) {
-            // wrapperLeftRef.current.classList.remove("hide");
-            // wrapperRightRef.current.classList.remove("hide");
-            // btnControlLeftRef.current.classList.remove("hide");
-            // btnControlRightRef.current.classList.remove("hide");
-            // setLeftControl(false);
-            // setRightControl(false);
-            // }
           }}
         >
           &nbsp;+&nbsp;
         </button>
-        {screenRatio.toFixed(2)}%
         <button
           className="minus"
           onClick={() => {
@@ -166,25 +144,6 @@ export default function PlayerControls({
               setLeftControl(false);
               setRightControl(false);
             }
-
-            // const player = document.querySelector(".player-wrapper");
-            // const downRatio = (screenRatio * 10) / 11;
-            // if (downRatio > 65) {
-            //   player.style.setProperty("--element-width", `${downRatio}%`);
-            //   player.style.setProperty(
-            //     "--element-height",
-            //     `${(downRatio * 56.25) / 100}%`
-            //   );
-            //   setScreenRatio(downRatio);
-            // }
-            // if (downRatio === 100) {
-            //   wrapperLeftRef.current.classList.remove("hide");
-            //   wrapperRightRef.current.classList.remove("hide");
-            //   btnControlLeftRef.current.classList.remove("hide");
-            //   btnControlRightRef.current.classList.remove("hide");
-            //   setLeftControl(false);
-            //   setRightControl(false);
-            // }
           }}
         >
           &nbsp;-&nbsp;
