@@ -106,11 +106,12 @@ body {
     .wrapper-left {
       visibility: hidden;
       max-width: 10vw;
-      min-height: 70%;
+      max-height: 70vh;
       padding: 1%;
       align-self: center;
       background-color: darkgrey;
       border-radius: 5%;
+      overflow: auto;
       select {
         width: 50%;
         display: flex;

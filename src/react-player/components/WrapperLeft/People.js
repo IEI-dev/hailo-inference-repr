@@ -118,7 +118,7 @@ export default function People({ frame, linecheck }) {
         <p>
           num: {ids[frame].length} / all count: {entrance[frame].all.length}
         </p>
-        <h3>People Attribute</h3>
+        <h5>People Attributes</h5>
         <div>
           <label htmlFor="ids">Choose an id: </label>
           <select
@@ -177,6 +177,11 @@ export default function People({ frame, linecheck }) {
       </div>
     );
   } else {
-    return <h3>People Attribute</h3>;
+    return (
+      <>
+        <h5>People Attributes</h5>
+        <p>Nothing to show.</p>
+      </>
+    );
   }
 }

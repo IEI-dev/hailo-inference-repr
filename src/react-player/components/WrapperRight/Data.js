@@ -149,7 +149,7 @@ export default function Data({
   function Select() {
     return (
       <div className="data">
-        <h2>{select}</h2>
+        <h5>{select}</h5>
         <select
           id="videoJson"
           onChange={function(e) {
