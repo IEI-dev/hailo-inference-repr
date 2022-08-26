@@ -66,6 +66,7 @@ const DataContextProvider = (props) => {
       this.length = json.frames.length;
       this.frame_count = json.frame_count;
       this.entrance_line = json.entrance_line;
+      this.basicIndex = -1;
     }
   }
   // const basic = new FrameData_new(pwalk1Json_new);

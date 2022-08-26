@@ -3,16 +3,19 @@ import React, { useState, useEffect, useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 
 export default function People({ frame, linecheck }) {
-  const [personId, setPersonId] = useState(0);
-  const [index, setIndex] = useState(-1);
-
   const { data } = useContext(DataContext);
-  const { ids, idAll, attrs, entrance } = data;
+  const { ids, idAll, attrs, entrance, basicIndex } = data;
+  const [personId, setPersonId] = useState(0);
+  const [index, setIndex] = useState(basicIndex);
 
+  useEffect(() => {
+    console.log("hi");
+  }, []);
   useEffect(() => {
     if (ids[frame]) {
       setIndex(ids[frame].indexOf(parseInt(personId)));
     }
+    console.log(personId, frame);
   }, [frame, personId]);
 
   // choose id based on all's length
@@ -107,6 +110,7 @@ export default function People({ frame, linecheck }) {
         }
       }
     }
+
     return output;
   }
   if (ids[frame] !== undefined) {

@@ -3,8 +3,8 @@ import React from "react";
 
 export default function Elapsed({ elapsed, duration }) {
   return (
-    <div>
+    <p>
       {elapsed}/{duration}
-    </div>
+    </p>
   );
 }
