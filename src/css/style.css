@@ -52,7 +52,6 @@ body #root {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
   gap: 1%;
 }
 body #root .wrapper {
@@ -102,11 +101,11 @@ body #root .wrapper .line {
   top: 0;
 }
 body #root .wrapper-left {
+  margin-top: 7%;
   visibility: hidden;
   max-width: 10vw;
-  max-height: 70vh;
+  height: 70vh;
   padding: 1%;
-  align-self: center;
   background-color: darkgrey;
   border-radius: 5%;
   overflow: auto;
@@ -123,10 +122,10 @@ body #root .wrapper-left.hide {
   display: none;
 }
 body #root .wrapper-right {
+  margin-top: 7%;
   visibility: hidden;
   max-width: 10vw;
   padding: 1%;
-  align-self: center;
   background-color: darkgrey;
   border-radius: 2%;
 }
@@ -146,6 +145,7 @@ body #root .wrapper-right.hide {
   display: none;
 }
 body #root .btn-control-left {
+  margin-top: 10%;
   height: 60%;
   display: block;
 }
@@ -153,6 +153,7 @@ body #root .btn-control-left.hide {
   display: none;
 }
 body #root .btn-control-right {
+  margin-top: 10%;
   height: 60%;
   display: block;
 }
