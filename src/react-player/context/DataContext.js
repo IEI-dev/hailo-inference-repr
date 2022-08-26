@@ -33,6 +33,14 @@ const DataContextProvider = (props) => {
       keys = [],
       action = []
     ) {
+      // for (let i = 0; i < 101; i++) {
+      //   ids.push([]);
+      //   boxes.push([]);
+      //   attrs.push([]);
+      //   entrance.push([]);
+      //   keys.push([]);
+      //   action.push([]);
+      // }
       for (let i = 0; i < json.frames.length; i++) {
         ids.push(json.frames[i].ids);
       }
@@ -80,6 +88,7 @@ const DataContextProvider = (props) => {
       newData = new FrameData_new(json);
     }
     setData(newData);
+    console.log(data.length);
   };
   return (
     <DataContext.Provider value={{ data, addData }}>

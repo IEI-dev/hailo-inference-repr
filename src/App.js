@@ -10,6 +10,7 @@ import Controls from "./react-player/components/Controls/Controls";
 import Points from "./react-player/components/WrapperRight/Points";
 import People from "./react-player/components/WrapperLeft/People";
 import { DataContext } from "./react-player/context/DataContext";
+import FrameFps from "./react-player/components/WrapperRight/FrameFps";
 
 function App() {
   const { data } = useContext(DataContext);
@@ -414,6 +415,7 @@ function App() {
       {/* wrapper-right */}
       <div className="wrapper-right control" ref={wrapperRightRef}>
         <Data handleUrl={handleUrl} handleTime={handleTime} frame={frame} />
+        <FrameFps frame={frame} fps={fps} />
         <Elapsed elapsed={format(time)} duration={format(duration)} />
         <Size />
         <Points

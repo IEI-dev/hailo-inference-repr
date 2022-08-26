@@ -9,19 +9,20 @@ import { DataContext } from "../../context/DataContext";
 import pwalkJson_new from "../../../json/pwalk1_new.json";
 import retailcctvJson from "../../../json/retailcctv.json";
 import retailroberyJson from "../../../json/retailrobery.json";
+import streetgang1Json from "../../../json/streetgang1.json";
 
-let options = ["retailrobery", "retailcctv", "pwalk1"];
+let options = ["retailrobery", "retailcctv", "pwalk1", "streetgang1"];
 
 let url = [
   "./videos/retailrobery_orig.mp4",
   "./videos/retailcctv_orig.mp4",
   "./videos/pwalk1.mp4",
+  "./videos/streetgang1.mp4",
 ];
 let newUrl;
 
-export default function Data({ handleUrl, handleTime, frame }) {
-  const { data, addData } = useContext(DataContext);
-  const { fps } = data;
+export default function Data({ handleUrl, handleTime }) {
+  const { addData } = useContext(DataContext);
   const [select, setSelect] = useState("retailrobery");
 
   function pass(e) {
@@ -36,6 +37,10 @@ export default function Data({ handleUrl, handleTime, frame }) {
     if (e.startsWith(options[2])) {
       newUrl = url[2];
       addData(pwalkJson_new);
+    }
+    if (e.startsWith(options[3])) {
+      newUrl = url[3];
+      addData(streetgang1Json);
     }
   }
   function Select() {
@@ -61,11 +66,6 @@ export default function Data({ handleUrl, handleTime, frame }) {
             </option>
           ))}
         </select>
-        <div>
-          <span id="frame-info">{frame + 1}</span>frames{" "}
-          <span id="fps-info">{fps}fps</span>
-        </div>
-        <pre id="metadata-info"></pre>
       </div>
     );
   }
