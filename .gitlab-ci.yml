@@ -27,7 +27,7 @@ test1:
 test2:
   stage: test
   script:
-    - echo "Do another parallel test here"
+    - npm test
     - echo "For example run a lint test"
 
 deploy1:
