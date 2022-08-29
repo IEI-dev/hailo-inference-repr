@@ -22,7 +22,7 @@ describe("render Points to test", () => {
     expect(limitWidthHeight(15, 10)).toEqual(10);
   });
 
-  test("click reset btn", () => {
+  test("click reset btn trigger two function", () => {
     render(
       <Points
         width={1280}
@@ -33,8 +33,25 @@ describe("render Points to test", () => {
         setEndpoint={mockSetEndPoint}
       />
     );
-    fireEvent.click(screen.getByText("Reset"));
-    expect(mockSetStartPoint.mock.calls.length).toBe(1);
-    expect(mockSetEndPoint.mock.calls.length).toBe(1);
+    const resetButton = screen.getByRole("button", { name: /Reset/i });
+    fireEvent.click(resetButton);
+    expect(mockSetStartPoint).toBeCalled();
+    expect(mockSetEndPoint).toBeCalled();
   });
+  // test("click reset btn to reset sx, sy, ex, ey", () => {
+  //   render(
+  //     <Points
+  //       width={1280}
+  //       height={720}
+  //       startpoint={{ sx: 0, sy: 0 }}
+  //       endpoint={{ ex: 0, ey: 0 }}
+  //       setStartpoint={mockSetStartPoint}
+  //       setEndpoint={mockSetEndPoint}
+  //     />
+  //   );
+  //   const resetButton = screen.getByRole("button", { name: /Reset/i });
+  //   const sx = screen.getByRole('')
+  //   fireEvent.click(resetButton);
+  //   expect(sx.value).toBe(0);
+  // });
 });

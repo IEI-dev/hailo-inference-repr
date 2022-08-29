@@ -14,32 +14,13 @@ import FrameFps from "./react-player/components/WrapperRight/FrameFps";
 
 function App() {
   const { data } = useContext(DataContext);
-  const {
-    fps,
-    frame_count,
-    width: basicWidth,
-    height: basicHeight,
-    entrance_line,
-  } = data;
+  const { fps, frame_count, width: basicWidth, height: basicHeight } = data;
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
-  const [boxCheck, setBoxCheck] = useState(false); // box and id props for PlayerControls callback and give to Canvas
-  const [idCheck, setIdCheck] = useState(false);
-  const [lineCheck, setLineCheck] = useState(true);
-  const [edgeCheck, setEdgeCheck] = useState(false);
   const [frame, setFrame] = useState(0);
   const [vw, setVw] = useState(70);
   const [video, setVideo] = useState(null);
   const [key, setKey] = useState(0);
-  const [startpoint, setStartpoint] = useState({
-    sx: entrance_line[0],
-    sy: entrance_line[1],
-  });
-  const [endpoint, setEndpoint] = useState({
-    ex: entrance_line[2],
-    ey: entrance_line[3],
-  });
-  const [startend, setStartend] = useState("start");
   // State
   const [state, setState] = useState({
     playing: false,
@@ -259,7 +240,7 @@ function App() {
     <>
       {/* wrapper-left */}
       <div className="wrapper-left control" ref={wrapperLeftRef}>
-        <People frame={frame} linecheck={lineCheck} />
+        <People frame={frame} />
       </div>
       {/* wrapper-left control button */}
       {leftControl ? (
@@ -348,14 +329,6 @@ function App() {
             duration={format(duration)}
             playbackRate={playbackRate}
             onPlaybackRateChange={handlePlaybackRate}
-            boxCheck={boxCheck}
-            setBoxCheck={setBoxCheck}
-            idCheck={idCheck}
-            setIdCheck={setIdCheck}
-            lineCheck={lineCheck}
-            setLineCheck={setLineCheck}
-            edgeCheck={edgeCheck}
-            setEdgeCheck={setEdgeCheck}
             onToggleFullScreen={toggleFullScreen}
             onSeek={onSeek}
           />
@@ -367,9 +340,6 @@ function App() {
           height={height}
           wRatio={wRatio}
           hRatio={hRatio}
-          boxCheck={boxCheck}
-          idCheck={idCheck}
-          edgeCheck={edgeCheck}
           frame={frame}
         />
         <CanvasLine
@@ -379,13 +349,6 @@ function App() {
           height={height}
           wRatio={wRatio}
           hRatio={hRatio}
-          lineCheck={lineCheck}
-          startpoint={startpoint}
-          endpoint={endpoint}
-          setStartpoint={setStartpoint}
-          setEndpoint={setEndpoint}
-          startend={startend}
-          setStartend={setStartend}
         />
       </div>
       {/* wrapper-right control button */}
@@ -418,14 +381,7 @@ function App() {
         <FrameFps frame={frame} fps={fps} />
         <Elapsed elapsed={format(time)} duration={format(duration)} />
         <Size />
-        <Points
-          width={width}
-          height={height}
-          startpoint={startpoint}
-          endpoint={endpoint}
-          setStartpoint={setStartpoint}
-          setEndpoint={setEndpoint}
-        />
+        <Points width={width} height={height} />
       </div>
     </>
   );

@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
+import { CanvasContext } from "../../context/CanvasContext";
+import { DataContext } from "../../context/DataContext";
 
 function drawLines(ctx, startpoint, endpoint) {
   console.log("here");
@@ -20,30 +22,27 @@ function drawLines(ctx, startpoint, endpoint) {
   }
 }
 
-export default function CanvasLine({
-  x,
-  y,
-  width,
-  height,
-  wRatio,
-  hRatio,
-  lineCheck,
-  startpoint,
-  endpoint,
-  setStartpoint,
-  setEndpoint,
-  startend,
-  setStartend,
-}) {
+export default function CanvasLine({ x, y, width, height, wRatio, hRatio }) {
   const lineRef = useRef(null);
+  const {
+    startpoint,
+    endpoint,
+    setStartpoint,
+    setEndpoint,
+    lineCheck,
+    startend,
+    setStartend,
+  } = useContext(CanvasContext);
+  const { data } = useContext(DataContext);
+  const { entrance_line } = data;
   useEffect(() => {
     // you may also transform the line as screenRatio changes, but it will effects your mouse event's accuracy
     // const line = lineRef.current;
     // const ctx = line.getContext("2d");
     // ctx.setTransform(1, 0, 0, 1, 0, 0);
     // ctx.scale(wRatio, hRatio);
-    setStartpoint({ sx: 0, sy: 360 });
-    setEndpoint({ ex: 1280, ey: 360 });
+    setStartpoint({ sx: entrance_line[0], sy: entrance_line[1] });
+    setEndpoint({ ex: entrance_line[2], ey: entrance_line[3] });
     setStartend("start");
   }, [wRatio, hRatio]);
 

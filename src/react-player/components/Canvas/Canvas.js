@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { DataContext } from "../../context/DataContext";
+import { CanvasContext } from "../../context/CanvasContext";
 
 let EDGES = [
   [0, 1],
@@ -175,21 +176,11 @@ let colors = [
 //   "#FAEBD7",
 // ];
 
-export default function Canvas({
-  x,
-  y,
-  width,
-  height,
-  wRatio,
-  hRatio,
-  boxCheck,
-  idCheck,
-  edgeCheck,
-  frame,
-}) {
+export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
   const boxRef = useRef(null);
   const { data } = useContext(DataContext);
   const { ids, boxes, action, keys } = data;
+  const { boxCheck, idCheck, edgeCheck } = useContext(CanvasContext);
 
   function drawEdges(ctx, onekpts) {
     ctx.lineWidth = 3;

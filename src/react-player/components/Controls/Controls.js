@@ -1,5 +1,6 @@
 //  Youtube ui controls
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { CanvasContext } from "../../context/CanvasContext";
 
 export default function Controls({
   playerContainerRef,
@@ -15,19 +16,20 @@ export default function Controls({
   duration,
   playbackRate,
   onPlaybackRateChange,
-  boxCheck,
-  setBoxCheck,
-  idCheck,
-  setIdCheck,
-  lineCheck,
-  setLineCheck,
-  edgeCheck,
-  setEdgeCheck,
   onToggleFullScreen,
   onSeek,
 }) {
   const [control, setControl] = useState(true);
-
+  const {
+    boxCheck,
+    setBoxCheck,
+    idCheck,
+    setIdCheck,
+    lineCheck,
+    setLineCheck,
+    edgeCheck,
+    setEdgeCheck,
+  } = useContext(CanvasContext);
   let isScrubbing = false;
   let wasPaused;
   function toggleScrubbing(e) {

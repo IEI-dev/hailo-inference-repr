@@ -1,5 +1,6 @@
 // wrapper-right form to set points
-import React from "react";
+import React, { useContext } from "react";
+import { CanvasContext } from "../../context/CanvasContext";
 
 export function strToNum(str) {
   return parseInt(str);
@@ -14,14 +15,10 @@ export function limitWidthHeight(value, limit) {
   return value;
 }
 
-export default function Points({
-  width,
-  height,
-  startpoint,
-  endpoint,
-  setStartpoint,
-  setEndpoint,
-}) {
+export default function Points({ width, height }) {
+  const { startpoint, endpoint, setStartpoint, setEndpoint } = useContext(
+    CanvasContext
+  );
   return (
     <div className="points">
       <form
@@ -29,20 +26,23 @@ export default function Points({
           e.preventDefault();
         }}
       >
-        <label htmlFor="sx">Start X:</label>
-        <input
-          type="number"
-          min="1"
-          step="1"
-          onChange={(e) =>
-            setStartpoint({
-              ...startpoint,
-              sx: limitWidthHeight(e.target.value, width),
-            })
-          }
-          value={strToNum(startpoint.sx)}
-          name="sx"
-        />
+        <label htmlFor="sx">
+          Start X:{" "}
+          <input
+            type="number"
+            min="1"
+            step="1"
+            onChange={(e) =>
+              setStartpoint({
+                ...startpoint,
+                sx: limitWidthHeight(e.target.value, width),
+              })
+            }
+            value={strToNum(startpoint.sx)}
+            name="sx"
+          />
+        </label>
+
         <label htmlFor="sy">Start Y:</label>
         <input
           type="number"

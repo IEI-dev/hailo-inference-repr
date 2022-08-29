@@ -9,6 +9,7 @@ import BtsSocket from "./websocket/BtsSocket";
 import Chat from "./websocket/Chat";
 import "./css/style.css";
 import DataContextProvider from "./react-player/context/DataContext";
+import CanvasContextProvider from "./react-player/context/CanvasContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -72,7 +73,9 @@ root.render(
         path="/"
         element={
           <DataContextProvider>
-            <App />
+            <CanvasContextProvider>
+              <App />
+            </CanvasContextProvider>
           </DataContextProvider>
         }
       />

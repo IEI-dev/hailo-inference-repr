@@ -88,7 +88,6 @@ const DataContextProvider = (props) => {
       newData = new FrameData_new(json);
     }
     setData(newData);
-    console.log(data.length);
   };
   return (
     <DataContext.Provider value={{ data, addData }}>
