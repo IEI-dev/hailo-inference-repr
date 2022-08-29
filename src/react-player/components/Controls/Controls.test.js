@@ -5,23 +5,23 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 describe("testing Controls", () => {
-  const mockRef = {
-    current: {
-      classList: {
-        add: jest.fn(),
-        remove: jest.fn(),
-      },
-      dataset: {
-        volumeLevel: jest.mock,
-      },
-    },
-  };
-  console.log(mockRef.current.dataset.volumeLevel);
-  const mockVideo = {
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-  };
-  render(<Controls playerContainerRef={mockRef} video={mockVideo} />);
+  // const mockRef = {
+  //   current: {
+  //     classList: {
+  //       add: jest.fn(),
+  //       remove: jest.fn(),
+  //     },
+  //     dataset: {
+  //       volumeLevel: jest.mock,
+  //     },
+  //   },
+  // };
+  // console.log(mockRef.current.dataset.volumeLevel);
+  // const mockVideo = {
+  //   addEventListener: jest.fn(),
+  //   removeEventListener: jest.fn(),
+  // };
+  // render(<Controls playerContainerRef={mockRef} video={mockVideo} />);
 
   test("easy test", () => {
     screen.debug();
