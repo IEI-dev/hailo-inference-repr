@@ -15,22 +15,36 @@ after_script:
 
 build1:
   stage: build
+  cache:
+    key: "$CI_JOB_NAME-cache"
+    paths:
+      - node-modules/
   script:
-    - echo "Do your build here"
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build
 
 test1:
   stage: test
+  cache:
+    key: "$CI_JOB_NAME-cache"
+    paths:
+      - node_modules/
   script:
-    - echo "Do a test here"
-    - echo "For example run a test suite"
+    - npm run test
 
-test2:
-  stage: test
-  script:
-    - npm test
-    - echo "For example run a lint test"
-
-deploy1:
+deploy:
   stage: deploy
+  dependencies:
+    - build
   script:
-    - echo "Do your deploy here"
+    - rm -rf public
+    - cp build/index.html build/404.html
+    - mv build public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
