@@ -168,7 +168,7 @@ export default function People({ frame }) {
           {index === -1 &&
             attrs[frame].map((people, i) => {
               return (
-                <p key={i}>
+                <p key={i} data-testid="all_attrs">
                   {`id${ids[frame][i]}`} : {people.gender}, {people.age}
                 </p>
               );
