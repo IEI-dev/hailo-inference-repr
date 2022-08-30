@@ -1,6 +1,8 @@
 import React from "react";
 import Points, { strToNum, limitWidthHeight } from "./Points";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
+import CanvasContextProvider from "../../context/CanvasContext";
+import DataContextProvider from "../../context/DataContext";
 import "@testing-library/jest-dom/extend-expect";
 
 afterAll(cleanup);
@@ -18,9 +20,15 @@ describe("render Points to test", () => {
     expect(limitWidthHeight(15, 10)).toEqual(10);
   });
 
-  // test("click reset btn trigger two function", () => {
-  //   render(<Points width={1280} height={720} />);
-  //   const resetButton = screen.getByRole("button", { name: /Reset/i });
-  //   expect(resetButton).toBeInTheDocument();
-  // });
+  test("click reset btn trigger two function", () => {
+    render(
+      <DataContextProvider>
+        <CanvasContextProvider>
+          <Points width={1280} height={720} />
+        </CanvasContextProvider>
+      </DataContextProvider>
+    );
+    const resetButton = screen.getByRole("button", { name: /Reset/i });
+    expect(resetButton).toBeInTheDocument();
+  });
 });
