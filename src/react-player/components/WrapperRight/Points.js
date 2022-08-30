@@ -27,9 +27,11 @@ export default function Points({ width, height }) {
         }}
       >
         <label htmlFor="sx">
-          Start X:{" "}
+          Start X:
           <input
             type="number"
+            id="sx"
+            data-testid="sx"
             min="1"
             step="1"
             onChange={(e) =>
@@ -39,49 +41,61 @@ export default function Points({ width, height }) {
               })
             }
             value={strToNum(startpoint.sx)}
-            name="sx"
+            name="startX"
           />
         </label>
 
-        <label htmlFor="sy">Start Y:</label>
-        <input
-          type="number"
-          step="1"
-          onChange={(e) =>
-            setStartpoint({
-              ...startpoint,
-              sy: limitWidthHeight(e.target.value, height),
-            })
-          }
-          value={strToNum(startpoint.sy)}
-          name="sy"
-        />
-        <label htmlFor="ex">End X:</label>
-        <input
-          type="number"
-          step="1"
-          onChange={(e) =>
-            setEndpoint({
-              ...endpoint,
-              ex: limitWidthHeight(e.target.value, width),
-            })
-          }
-          value={strToNum(endpoint.ex)}
-          name="ex"
-        />
-        <label htmlFor="ey">End Y:</label>
-        <input
-          type="number"
-          step="1"
-          onChange={(e) =>
-            setEndpoint({
-              ...endpoint,
-              ey: limitWidthHeight(e.target.value, height),
-            })
-          }
-          value={strToNum(endpoint.ey)}
-          name="ey"
-        />
+        <label htmlFor="sy">
+          Start Y:
+          <input
+            type="number"
+            id="sy"
+            data-testid="sy"
+            step="1"
+            onChange={(e) =>
+              setStartpoint({
+                ...startpoint,
+                sy: limitWidthHeight(e.target.value, height),
+              })
+            }
+            value={strToNum(startpoint.sy)}
+            name="startY"
+          />
+        </label>
+        <label htmlFor="ex">
+          End X:
+          <input
+            type="number"
+            id="ex"
+            data-testid="ex"
+            step="1"
+            onChange={(e) =>
+              setEndpoint({
+                ...endpoint,
+                ex: limitWidthHeight(e.target.value, width),
+              })
+            }
+            value={strToNum(endpoint.ex)}
+            name="endX"
+          />
+        </label>
+        <label htmlFor="ey">
+          End Y:
+          <input
+            type="number"
+            id="ey"
+            data-testid="ey"
+            step="1"
+            onChange={(e) =>
+              setEndpoint({
+                ...endpoint,
+                ey: limitWidthHeight(e.target.value, height),
+              })
+            }
+            value={strToNum(endpoint.ey)}
+            name="endY"
+          />
+        </label>
       </form>
       <button
         onClick={() => {
