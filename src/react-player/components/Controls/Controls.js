@@ -87,7 +87,7 @@ export default function Controls({
       });
       // rect.removeEventListener("click", onPlayPause);
     };
-  }, [playing]);
+  }, [video]);
   useEffect(() => {
     if (video !== null) {
       const timelineContainer = document.querySelector(".timeline-container");

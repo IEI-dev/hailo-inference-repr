@@ -72,6 +72,7 @@ function App() {
   const seekToStart = () => {
     playerRef.current.seekTo(0);
     handleTime();
+    setFrame(0);
   };
   const handleRewind = () => {
     playerRef.current.seekTo(playerRef.current.getCurrentTime() - 5);
@@ -377,7 +378,7 @@ function App() {
       )}
       {/* wrapper-right */}
       <div className="wrapper-right control" ref={wrapperRightRef}>
-        <Data handleUrl={handleUrl} handleTime={handleTime} frame={frame} />
+        <Data handleUrl={handleUrl} seekToStart={seekToStart} frame={frame} />
         <FrameFps frame={frame} fps={fps} />
         <Elapsed elapsed={format(time)} duration={format(duration)} />
         <Size />

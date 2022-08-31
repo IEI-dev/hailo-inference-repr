@@ -21,7 +21,7 @@ let url = [
 ];
 let newUrl;
 
-export default function Data({ handleUrl, handleTime }) {
+export default function Data({ handleUrl, seekToStart }) {
   const { addData } = useContext(DataContext);
   const [select, setSelect] = useState("retailrobery");
 
@@ -53,7 +53,7 @@ export default function Data({ handleUrl, handleTime }) {
             setSelect(e.target.value);
             pass(e.target.value);
             handleUrl(newUrl);
-            handleTime();
+            seekToStart();
             const canvas = document.querySelector("canvas");
             const ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);

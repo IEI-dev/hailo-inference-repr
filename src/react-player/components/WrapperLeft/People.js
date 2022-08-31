@@ -14,6 +14,11 @@ export default function People({ frame }) {
     }
   }, [frame, personId]);
 
+  useEffect(() => {
+    setPersonId(0);
+    setIndex(-1);
+  }, [data]);
+
   // choose id based on all's length
   function Options() {
     let row = [];
