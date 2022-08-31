@@ -1,8 +1,8 @@
 import React from "react";
-import Points, { strToNum, limitWidthHeight } from "./Points";
+import Points, { strToNum, limitWidthHeight } from "../Points";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
-import CanvasContextProvider from "../../context/CanvasContext";
-import DataContextProvider from "../../context/DataContext";
+import CanvasContextProvider from "../../../context/CanvasContext";
+import DataContextProvider from "../../../context/DataContext";
 import "@testing-library/jest-dom";
 
 afterAll(cleanup);

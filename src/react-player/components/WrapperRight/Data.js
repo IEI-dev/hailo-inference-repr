@@ -47,6 +47,7 @@ export default function Data({ handleUrl, seekToStart }) {
     return (
       <div className="data">
         <h5>{select}</h5>
+        <label htmlFor="videoJson">Choose video: </label>
         <select
           id="videoJson"
           onChange={function(e) {
@@ -55,8 +56,15 @@ export default function Data({ handleUrl, seekToStart }) {
             handleUrl(newUrl);
             seekToStart();
             const canvas = document.querySelector("canvas");
-            const ctx = canvas.getContext("2d");
-            ctx.clearRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
+            if (canvas) {
+              const ctx = canvas.getContext("2d");
+              ctx.clearRect(
+                0,
+                0,
+                window.innerWidth * 2,
+                window.innerHeight * 2
+              );
+            }
           }}
           value={select}
         >
