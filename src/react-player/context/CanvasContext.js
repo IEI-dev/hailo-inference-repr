@@ -6,6 +6,14 @@ export const CanvasContext = createContext();
 const CanvasContextProvider = (props) => {
   const { data } = useContext(DataContext);
   const { entrance_line } = data;
+  const [canvas, setCanvas] = useState({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    wRatio: 1,
+    hRatio: 1,
+  });
   const [startpoint, setStartpoint] = useState({
     sx: entrance_line[0],
     sy: entrance_line[1],
@@ -19,9 +27,12 @@ const CanvasContextProvider = (props) => {
   const [lineCheck, setLineCheck] = useState(true);
   const [edgeCheck, setEdgeCheck] = useState(false);
   const [startend, setStartend] = useState("start");
+
   return (
     <CanvasContext.Provider
       value={{
+        canvas,
+        setCanvas,
         startpoint,
         setStartpoint,
         endpoint,

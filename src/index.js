@@ -10,6 +10,7 @@ import Chat from "./websocket/Chat";
 import "./css/style.css";
 import DataContextProvider from "./react-player/context/DataContext";
 import CanvasContextProvider from "./react-player/context/CanvasContext";
+import VideoContextProvider from "./react-player/context/VideoContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -72,11 +73,13 @@ root.render(
       <Route
         path="/"
         element={
-          <DataContextProvider>
-            <CanvasContextProvider>
-              <App />
-            </CanvasContextProvider>
-          </DataContextProvider>
+          <VideoContextProvider>
+            <DataContextProvider>
+              <CanvasContextProvider>
+                <App />
+              </CanvasContextProvider>
+            </DataContextProvider>
+          </VideoContextProvider>
         }
       />
       <Route path="/websocket" element={<Websocket />} />

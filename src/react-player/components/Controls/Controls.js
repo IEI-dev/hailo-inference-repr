@@ -1,6 +1,7 @@
 //  Youtube ui controls
 import React, { useEffect, useContext } from "react";
 import { CanvasContext } from "../../context/CanvasContext";
+import Duration from "./Duration";
 import ToggleControls from "./ToggleControls";
 
 export default function Controls({
@@ -183,10 +184,7 @@ export default function Controls({
             />
           </div>
 
-          <div className="duration-container">
-            <div className="current-time">{time}</div>/
-            <div className="total-time">{duration}</div>
-          </div>
+          <Duration time={time} duration={duration} />
 
           <button className="speed-btn wide-btn" onClick={onPlaybackRateChange}>
             {playbackRate}x

@@ -2,49 +2,33 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import ReactPlayer from "react-player";
 import PlayerControls from "./react-player/components/Controls/PlayerControls";
 import screenfull from "screenfull";
-import Elapsed from "./react-player/components/WrapperRight/Elapsed";
+
 import Canvas from "./react-player/components/Canvas/Canvas";
 import CanvasLine from "./react-player/components/Canvas/CanvasLine";
 import Data from "./react-player/components/WrapperRight/Data";
 import Controls from "./react-player/components/Controls/Controls";
 import Points from "./react-player/components/WrapperRight/Points";
 import People from "./react-player/components/WrapperLeft/People";
-import { DataContext } from "./react-player/context/DataContext";
 import FrameFps from "./react-player/components/WrapperRight/FrameFps";
+import { CanvasContext } from "./react-player/context/CanvasContext";
+import { DataContext } from "./react-player/context/DataContext";
+import { VideoContext } from "./react-player/context/VideoContext";
 
 function App() {
+  const { canvas, setCanvas } = useContext(CanvasContext);
+  const { x, y, width, height, wRatio, hRatio } = canvas;
   const { data } = useContext(DataContext);
   const { fps, frame_count, width: basicWidth, height: basicHeight } = data;
+  const { state, setState } = useContext(VideoContext);
+  const { playing, muted, volume, playbackRate, url, key } = state; // dedictionary
+
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [frame, setFrame] = useState(0);
   const [vw, setVw] = useState(70);
   const [video, setVideo] = useState(null);
-  const [key, setKey] = useState(0);
+  // const [key, setKey] = useState(0);
   // State
-  const [state, setState] = useState({
-    playing: false,
-    muted: false,
-    volume: 0.1,
-    playbackRate: 1.0,
-    // url: `./videos/MOT20-05-raw.webm`,
-    // url: `./videos/tc1.mp4`,
-    // url: `./videos/palace.mp4`,
-    // url: `./videos/MOT20-01-raw.webm`,
-    // url: `./videos/pwalk1.mp4`,
-    // url: `./videos/retailcctv_orig.mp4`,
-    url: `./videos/retailrobery_orig.mp4`,
-  });
-  const { playing, muted, volume, playbackRate, url } = state; // dedictionary
-  const [canvas, setCanvas] = useState({
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-    wRatio: 1,
-    hRatio: 1,
-  });
-  const { x, y, width, height, wRatio, hRatio } = canvas;
   const [leftControl, setLeftControl] = useState(true);
   const [rightControl, setRightControl] = useState(true);
 
@@ -56,7 +40,7 @@ function App() {
   const btnControlLeftRef = useRef(null);
   const btnControlRightRef = useRef(null);
 
-  // handleState function give to PlayerControls
+  // handleState functions
 
   const handleVolume = (volume, muted = false) => {
     setState({ ...state, volume: volume, muted: muted });
@@ -111,29 +95,7 @@ function App() {
   };
 
   // Update Time and Size
-  const format = (sec) => {
-    // const ms = Math.floor(sec * 100) % 100;  // use this line to show ms
-    // Math.floor(sec * 1000) % 1000
-    const hour = Math.floor((sec * 1000) / 360000);
-    const min = Math.floor((sec * 1000) / 60000);
-    const seconds = Math.floor(Math.floor(sec * 1000 - min * 60000) / 1000);
-    let time;
-    if (hour === 0) {
-      time =
-        min.toString().padStart(2, "0") +
-        ":" +
-        seconds.toString().padStart(2, "0");
-    } else {
-      time =
-        hour.toString().padStart(2, "0") +
-        min.toString().padStart(2, "0") +
-        ":" +
-        seconds.toString().padStart(2, "0");
-    }
 
-    // ms.toString().padStart(2, "0"); // padStart(3, "0")
-    return time;
-  };
   const getSize = function() {
     if (playerRef) {
       const rect = playerContainerRef.current.getBoundingClientRect();
@@ -169,7 +131,7 @@ function App() {
   }, [vw, video]);
 
   useEffect(() => {
-    setKey(key + 1);
+    setState({ ...state, key: key + 1 });
   }, [url]);
 
   // Size Component
@@ -199,6 +161,7 @@ function App() {
       </div>
     );
   }
+  // toggleControls, left and right
   function toggleLeftControls() {
     wrapperLeftRef.current.classList.toggle("control");
     wrapperLeftRef.current.classList.remove("hide");
@@ -326,8 +289,8 @@ function App() {
             muted={muted}
             volume={volume}
             onChangeVolume={handleVolume}
-            time={format(time)}
-            duration={format(duration)}
+            time={time}
+            duration={duration}
             playbackRate={playbackRate}
             onPlaybackRateChange={handlePlaybackRate}
             onToggleFullScreen={toggleFullScreen}
@@ -380,7 +343,6 @@ function App() {
       <div className="wrapper-right control" ref={wrapperRightRef}>
         <Data handleUrl={handleUrl} seekToStart={seekToStart} frame={frame} />
         <FrameFps frame={frame} fps={fps} />
-        <Elapsed elapsed={format(time)} duration={format(duration)} />
         <Size />
         <Points width={width} height={height} />
       </div>
