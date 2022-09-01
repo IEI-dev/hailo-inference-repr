@@ -9,8 +9,14 @@ export default function CheckBox({ labelOn, labelOff }) {
 
   return (
     <label>
-      <input type="checkbox" checked={isChecked} onChange={onChange} />
+      <input
+        type="checkbox"
+        className={isChecked ? "checked" : "notChecked"}
+        checked={isChecked}
+        onChange={onChange}
+      />
       {isChecked ? labelOn : labelOff}
+      {isChecked ? <h1>Hi, check!</h1> : <h1>Hi, no check!</h1>}
     </label>
   );
 }
