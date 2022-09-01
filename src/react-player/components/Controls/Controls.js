@@ -1,6 +1,7 @@
 //  Youtube ui controls
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { CanvasContext } from "../../context/CanvasContext";
+import ToggleControls from "./ToggleControls";
 
 export default function Controls({
   playerContainerRef,
@@ -19,7 +20,6 @@ export default function Controls({
   onToggleFullScreen,
   onSeek,
 }) {
-  const [control, setControl] = useState(true);
   const {
     boxCheck,
     setBoxCheck,
@@ -117,11 +117,6 @@ export default function Controls({
     playerContainerRef.current.dataset.volumeLevel = volumeLevel;
   }, [volume, muted]);
 
-  function toggleControls() {
-    // const playerWrapper = document.querySelector(".player-wrapper");
-    playerContainerRef.current.classList.toggle("control");
-    setControl(!control);
-  }
   return (
     <div>
       <div className="video-controls-container" data-testid="video-controls">
@@ -299,19 +294,7 @@ export default function Controls({
           </div>
         </div>
       </div>
-      {control ? (
-        <button onClick={toggleControls} type="button" className="btn-control">
-          <span className="material-symbols-rounded">
-            keyboard_double_arrow_up
-          </span>
-        </button>
-      ) : (
-        <button onClick={toggleControls} type="button" className="btn-control">
-          <span className="material-symbols-rounded">
-            keyboard_double_arrow_down
-          </span>
-        </button>
-      )}
+      <ToggleControls playerContainerRef={playerContainerRef} />
     </div>
   );
 }
