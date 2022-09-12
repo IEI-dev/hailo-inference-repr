@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { DataContext } from "../DataContext";
-import DataContextProvider from "../DataContext";
+import DataContextProvider, {
+  DataContext,
+  FrameData_old,
+} from "../DataContext";
+import tc1Json_old from "../../../json/tc1.json";
 
 describe("<DataContextProvider />", () => {
   const TestComponent = () => {
-    const { data, setData } = useContext(DataContext);
+    const { data } = useContext(DataContext);
     const {
       ids,
       boxes,
@@ -112,6 +115,45 @@ describe("<DataContextProvider />", () => {
     });
     it("basicIndex equals to -1", () => {
       renderTestComponentTestCount(/basicIndex/i, -1);
+    });
+  });
+  const TestComponent2 = () => {
+    const oldData = new FrameData_old(tc1Json_old);
+    const { boxes, ids, scores, width, height } = oldData;
+    return (
+      <div className="data_old">
+        <p>boxes' length: {boxes[0].length}</p>
+        <p>ids' length: {ids[0].length}</p>
+        <p>scores' length: {scores[0].length}</p>
+        <p>width: {width}</p>
+        <p>height: {height}</p>
+      </div>
+    );
+  };
+  describe("render TestComponent2 and check text", () => {
+    function renderTestComponent2TestCount(text, count) {
+      render(
+        <DataContextProvider>
+          <TestComponent2 />
+        </DataContextProvider>
+      );
+      const target = screen.getByText(text);
+      expect(target).toHaveTextContent(count);
+    }
+    it("ids' length equals to 2", () => {
+      renderTestComponent2TestCount(/ids/i, 2);
+    });
+    it("boxes' length equals to 2", () => {
+      renderTestComponent2TestCount(/boxes/i, 2);
+    });
+    it("scores' length equals to 2", () => {
+      renderTestComponent2TestCount(/scores/i, 2);
+    });
+    it("width equals to 640", () => {
+      renderTestComponent2TestCount(/width/i, 640);
+    });
+    it("height equals to 360", () => {
+      renderTestComponent2TestCount(/height/i, 360);
     });
   });
 });
