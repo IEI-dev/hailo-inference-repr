@@ -20,7 +20,7 @@ function App() {
   const { data } = useContext(DataContext);
   const { fps, frame_count, width: basicWidth, height: basicHeight } = data;
   const { state, setState } = useContext(VideoContext);
-  const { playing, muted, volume, playbackRate, url, key } = state; // dedictionary
+  const { playing, muted, volume, playbackRate, url, key } = state;
 
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
@@ -141,13 +141,10 @@ function App() {
       width: window.innerWidth,
     };
     useEffect(() => {
-      function handleResize() {
-        getSize();
-      }
-      window.addEventListener("resize", handleResize);
+      window.addEventListener("resize", getSize);
 
       return () => {
-        window.removeEventListener("resize", handleResize);
+        window.removeEventListener("resize", getSize);
       };
     });
     return (
