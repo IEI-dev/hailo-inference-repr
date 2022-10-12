@@ -10,6 +10,7 @@ import Controls from "./react-player/components/Controls/Controls";
 import Points from "./react-player/components/WrapperRight/Points";
 import People from "./react-player/components/WrapperLeft/People";
 import FrameFps from "./react-player/components/WrapperRight/FrameFps";
+import Size from "./react-player/components/Size/Size";
 import { CanvasContext } from "./react-player/context/CanvasContext";
 import { DataContext } from "./react-player/context/DataContext";
 import { VideoContext } from "./react-player/context/VideoContext";
@@ -40,7 +41,7 @@ function App() {
   const btnControlLeftRef = useRef(null);
   const btnControlRightRef = useRef(null);
 
-  // handleState functions
+  // handleState functions pass to Control.js
 
   const handleVolume = (volume, muted = false) => {
     setState({ ...state, volume: volume, muted: muted });
@@ -135,29 +136,29 @@ function App() {
   }, [url]);
 
   // Size Component
-  function Size() {
-    const dimensions = {
-      height: window.innerHeight,
-      width: window.innerWidth,
-    };
-    useEffect(() => {
-      window.addEventListener("resize", getSize);
+  // function Size() {
+  //   const dimensions = {
+  //     height: window.innerHeight,
+  //     width: window.innerWidth,
+  //   };
+  //   useEffect(() => {
+  //     window.addEventListener("resize", getSize);
 
-      return () => {
-        window.removeEventListener("resize", getSize);
-      };
-    });
-    return (
-      <div>
-        <p>
-          Rendered at {dimensions.width} x {dimensions.height}
-        </p>
-        <p>
-          Canvas at {width.toFixed(2)} x {height.toFixed(2)}
-        </p>
-      </div>
-    );
-  }
+  //     return () => {
+  //       window.removeEventListener("resize", getSize);
+  //     };
+  //   });
+  //   return (
+  //     <div>
+  //       <p>
+  //         Rendered at {dimensions.width} x {dimensions.height}
+  //       </p>
+  //       <p>
+  //         Canvas at {width.toFixed(2)} x {height.toFixed(2)}
+  //       </p>
+  //     </div>
+  //   );
+  // }
   // toggleControls, left and right
   function toggleLeftControls() {
     wrapperLeftRef.current.classList.toggle("control");
@@ -340,7 +341,7 @@ function App() {
       <div className="wrapper-right control" ref={wrapperRightRef}>
         <Data handleUrl={handleUrl} seekToStart={seekToStart} frame={frame} />
         <FrameFps frame={frame} fps={fps} />
-        <Size />
+        <Size getSize={getSize} />
         <Points width={width} height={height} />
       </div>
     </>
