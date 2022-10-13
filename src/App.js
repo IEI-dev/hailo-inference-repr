@@ -51,8 +51,6 @@ function App() {
   };
   const handlePlayPause = () => {
     setState({ ...state, playing: !playing });
-    // setDuration(playerRef.current.getDuration());
-    // getSize();
   };
   const seekToStart = () => {
     playerRef.current.seekTo(0);
@@ -95,8 +93,7 @@ function App() {
     setFrame(Math.round(percent * frame_count));
   };
 
-  // Update Time and Size
-
+  // update canvas size according to playerContainerRef
   const getSize = function() {
     if (playerRef) {
       const rect = playerContainerRef.current.getBoundingClientRect();
@@ -135,30 +132,6 @@ function App() {
     setState({ ...state, key: key + 1 });
   }, [url]);
 
-  // Size Component
-  // function Size() {
-  //   const dimensions = {
-  //     height: window.innerHeight,
-  //     width: window.innerWidth,
-  //   };
-  //   useEffect(() => {
-  //     window.addEventListener("resize", getSize);
-
-  //     return () => {
-  //       window.removeEventListener("resize", getSize);
-  //     };
-  //   });
-  //   return (
-  //     <div>
-  //       <p>
-  //         Rendered at {dimensions.width} x {dimensions.height}
-  //       </p>
-  //       <p>
-  //         Canvas at {width.toFixed(2)} x {height.toFixed(2)}
-  //       </p>
-  //     </div>
-  //   );
-  // }
   // toggleControls, left and right
   function toggleLeftControls() {
     wrapperLeftRef.current.classList.toggle("control");
@@ -246,7 +219,7 @@ function App() {
             url={url}
             muted={muted}
             playing={playing}
-            loop={true} //false to test frames .etc
+            loop={true} //false to test if frame counts are correct .etc
             volume={volume}
             playbackRate={playbackRate}
             controls={false}
