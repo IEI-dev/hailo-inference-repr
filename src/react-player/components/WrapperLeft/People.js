@@ -34,7 +34,7 @@ export default function People({ frame }) {
 
     // if value is true, return every key's value in paragraph, can switch key to svg you want
     for (let i = 0; i < 10; i++) {
-      if (Object.values(attrs[frame][index])[i]) {
+      if (attrs[frame][index] && Object.values(attrs[frame][index])[i]) {
         let key = Object.keys(attrs[frame][index])[i];
         let value = Object.values(attrs[frame][index])[i];
         row[key] = value;
