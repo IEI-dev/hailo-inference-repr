@@ -132,9 +132,15 @@ body #root .wrapper-right {
 body #root .wrapper-right form input {
   width: 100%;
 }
-body #root .wrapper-right button {
+body #root .wrapper-right .buttons {
+  display: flex;
+  justify-content: space-between;
+}
+body #root .wrapper-right .buttons button {
+  width: 40%;
   margin-top: 5%;
   padding: 2%;
+  margin-right: 2%;
   border-radius: 5%;
 }
 body #root .wrapper-right.control {

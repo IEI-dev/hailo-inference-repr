@@ -1,27 +1,15 @@
 // wrapper-right form to set points
 import React, { useContext } from "react";
 import { CanvasContext } from "../../context/CanvasContext";
-
-export function strToNum(str) {
-  return parseInt(str);
-}
-
-export function limitWidthHeight(value, limit) {
-  if (value < 0) {
-    return 0;
-  } else if (value > limit) {
-    return limit;
-  }
-  return value;
-}
+import Line from "./Line";
 
 export default function Points({ width, height }) {
-  const { startpoint, endpoint, setStartpoint, setEndpoint } = useContext(
+  const { setStartpoint, setEndpoint, type, setType, setClicks } = useContext(
     CanvasContext
   );
   return (
     <div className="points">
-      <form
+      {/* <form
         onSubmit={(e) => {
           e.preventDefault();
         }}
@@ -96,15 +84,28 @@ export default function Points({ width, height }) {
             name="endY"
           />
         </label>
-      </form>
-      <button
-        onClick={() => {
-          setStartpoint({ sx: 0, sy: 0 });
-          setEndpoint({ ex: 0, ey: 0 });
-        }}
-      >
-        Reset
-      </button>
+      </form> */}
+      <Line width={width} height={height} />
+      <div className="buttons">
+        <button
+          onClick={() => {
+            setStartpoint({ sx: 0, sy: 0 });
+            setEndpoint({ ex: 0, ey: 0 });
+          }}
+        >
+          Reset
+        </button>
+        <button
+          onClick={() => {
+            setStartpoint({ sx: 0, sy: 0 });
+            setEndpoint({ ex: 0, ey: 0 });
+            setClicks([]);
+            type === "line" ? setType("polygon") : setType("line");
+          }}
+        >
+          {type === "line" ? "line" : "polygon"}
+        </button>
+      </div>
     </div>
   );
 }

@@ -135,11 +135,18 @@ body {
           width: 100%;
         }
       }
-      button {
-        margin-top: 5%;
-        padding: 2%;
-        border-radius: 5%;
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        button {
+          width: 40%;
+          margin-top: 5%;
+          padding: 2%;
+          margin-right: 2%;
+          border-radius: 5%;
+        }
       }
+
       &.control {
         visibility: visible;
         display: block;

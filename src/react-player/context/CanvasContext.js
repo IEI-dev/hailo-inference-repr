@@ -27,6 +27,8 @@ const CanvasContextProvider = (props) => {
   const [lineCheck, setLineCheck] = useState(true);
   const [edgeCheck, setEdgeCheck] = useState(false);
   const [startend, setStartend] = useState("start");
+  const [type, setType] = useState("line");
+  const [clicks, setClicks] = useState([]);
 
   return (
     <CanvasContext.Provider
@@ -47,6 +49,10 @@ const CanvasContextProvider = (props) => {
         setEdgeCheck,
         startend,
         setStartend,
+        type,
+        setType,
+        clicks,
+        setClicks,
       }}
     >
       {props.children}
