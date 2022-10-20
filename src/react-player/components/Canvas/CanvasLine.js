@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { CanvasContext } from "../../context/CanvasContext";
 import { DataContext } from "../../context/DataContext";
 
@@ -24,14 +24,22 @@ function drawLines(ctx, startpoint, endpoint) {
 
 function drawPolygon(ctx, clicks) {
   if (ctx) {
+    console.log("touched");
     ctx.clearRect(0, 0, window.innerWidth * 3, window.innerHeight * 3);
-    ctx.fillStyle = "rgba(100,100,100,0.2)";
+    ctx.fillStyle = "rgba(100,100,100,0.4)";
     ctx.strokeStyle = "lightgreen";
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 3;
+    console.log(clicks);
     ctx.beginPath();
-    ctx.moveTo(clicks[0].x, clicks[0].y);
-    for (let i = 1; i < clicks.length; i++) {
-      ctx.lineTo(clicks[i].x, clicks[i].y);
+    ctx.moveTo(clicks.firstClick[0], clicks.firstClick[1]);
+    if (clicks.secondClick) {
+      ctx.lineTo(clicks.secondClick[0], clicks.secondClick[1]);
+    }
+    if (clicks.thirdClick) {
+      ctx.lineTo(clicks.thirdClick[0], clicks.thirdClick[1]);
+    }
+    if (clicks.fourthClick) {
+      ctx.lineTo(clicks.fourthClick[0], clicks.fourthClick[1]);
     }
     ctx.closePath();
     ctx.fill();
@@ -42,21 +50,28 @@ function drawPolygon(ctx, clicks) {
 function drawPoints(ctx, clicks) {
   ctx.strokeStyle = "#df4b26";
   ctx.lineJoin = "round";
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 2;
 
-  for (let i = 0; i < clicks.length; i++) {
+  for (let property in clicks) {
     ctx.beginPath();
-    ctx.arc(clicks[i].x, clicks[i].y, 3, 0, Math.PI * 2, false);
+    ctx.arc(clicks[property][0], clicks[property][1], 3, 0, Math.PI * 2, false);
     ctx.fillStyle = "#fff";
     ctx.fill();
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 3;
     ctx.stroke();
   }
+  // for (let i = 0; i < clicks.length; i++) {
+  //   ctx.beginPath();
+  //   ctx.arc(clicks[i][0], clicks[i][1], 3, 0, Math.PI * 2, false);
+  //   ctx.fillStyle = "#fff";
+  //   ctx.fill();
+  //   ctx.lineWidth = 3;
+  //   ctx.stroke();
+  // }
 }
 
 export default function CanvasLine({ x, y, width, height, wRatio, hRatio }) {
   const lineRef = useRef(null);
-
   const {
     startpoint,
     endpoint,
@@ -67,9 +82,13 @@ export default function CanvasLine({ x, y, width, height, wRatio, hRatio }) {
     setStartend,
     type,
     clicks,
+    setClicks,
   } = useContext(CanvasContext);
   const { data } = useContext(DataContext);
   const { entrance_line } = data;
+  let clickCount = 0;
+  let clickList = [];
+
   useEffect(() => {
     // you may also transform the line as screenRatio changes, but it will effects your mouse event's accuracy
     // const line = lineRef.current;
@@ -97,13 +116,53 @@ export default function CanvasLine({ x, y, width, height, wRatio, hRatio }) {
       }
 
       if (type === "polygon") {
-        clicks.push({ x: event.pageX - x, y: event.pageY - y });
-        if (clicks.length > 4) {
-          ctx.clearRect(0, 0, window.innerWidth * 3, window.innerHeight * 3);
-          clicks.splice(0, clicks.length);
+        clickCount += 1;
+        clickList.push([event.pageX - x, event.pageY - y]);
+        console.log("touched");
+        console.log(clicks);
+        console.log(clickCount);
+        switch (clickCount) {
+          case 1:
+            setClicks({
+              firstClick: clickList[0],
+            });
+            break;
+          case 2:
+            setClicks({
+              firstClick: clickList[0],
+              secondClick: clickList[1],
+            });
+            break;
+          case 3:
+            setClicks({
+              firstClick: clickList[0],
+              secondClick: clickList[1],
+              thirdClick: clickList[2],
+            });
+            break;
+          case 4:
+            setClicks({
+              firstClick: clickList[0],
+              secondClick: clickList[1],
+              thirdClick: clickList[2],
+              fourthClick: clickList[3],
+            });
+            break;
+          default:
+            clickList = [];
+            setClicks({
+              firstClick: [0, 0],
+              secondClick: [0, 0],
+              thirdClick: [0, 0],
+              fourthClick: [0, 0],
+            });
+        }
+        if (clickCount < 5) {
+          // drawPolygon(ctx, clickList);
+          // drawPoints(ctx, clickList);
         } else {
-          drawPolygon(ctx, clicks);
-          drawPoints(ctx, clicks);
+          ctx.clearRect(0, 0, window.innerWidth * 3, window.innerHeight * 3);
+          clickCount = 0;
         }
       }
     }
@@ -130,6 +189,12 @@ export default function CanvasLine({ x, y, width, height, wRatio, hRatio }) {
     }
   }, [startend, startpoint, endpoint, lineCheck]);
 
+  useEffect(() => {
+    const line = lineRef.current;
+    const ctx = line.getContext("2d");
+    drawPolygon(ctx, clicks);
+    drawPoints(ctx, clicks);
+  }, [clicks]);
   return (
     <canvas
       className="line"

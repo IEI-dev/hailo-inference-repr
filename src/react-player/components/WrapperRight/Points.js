@@ -2,95 +2,36 @@
 import React, { useContext } from "react";
 import { CanvasContext } from "../../context/CanvasContext";
 import Line from "./Line";
+import Polygon from "./Polygon";
 
 export default function Points({ width, height }) {
   const { setStartpoint, setEndpoint, type, setType, setClicks } = useContext(
     CanvasContext
   );
+
+  const renderSwitch = (type) => {
+    switch (type) {
+      case "polygon":
+        return <Polygon />;
+      default:
+        return <Line width={width} height={height} />;
+    }
+  };
+
   return (
     <div className="points">
-      {/* <form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <label htmlFor="sx">
-          Start X:
-          <input
-            type="number"
-            id="sx"
-            data-testid="sx"
-            min="1"
-            step="1"
-            onChange={(e) =>
-              setStartpoint({
-                ...startpoint,
-                sx: limitWidthHeight(e.target.value, width),
-              })
-            }
-            value={strToNum(startpoint.sx)}
-            name="startX"
-          />
-        </label>
-
-        <label htmlFor="sy">
-          Start Y:
-          <input
-            type="number"
-            id="sy"
-            data-testid="sy"
-            step="1"
-            onChange={(e) =>
-              setStartpoint({
-                ...startpoint,
-                sy: limitWidthHeight(e.target.value, height),
-              })
-            }
-            value={strToNum(startpoint.sy)}
-            name="startY"
-          />
-        </label>
-        <label htmlFor="ex">
-          End X:
-          <input
-            type="number"
-            id="ex"
-            data-testid="ex"
-            step="1"
-            onChange={(e) =>
-              setEndpoint({
-                ...endpoint,
-                ex: limitWidthHeight(e.target.value, width),
-              })
-            }
-            value={strToNum(endpoint.ex)}
-            name="endX"
-          />
-        </label>
-        <label htmlFor="ey">
-          End Y:
-          <input
-            type="number"
-            id="ey"
-            data-testid="ey"
-            step="1"
-            onChange={(e) =>
-              setEndpoint({
-                ...endpoint,
-                ey: limitWidthHeight(e.target.value, height),
-              })
-            }
-            value={strToNum(endpoint.ey)}
-            name="endY"
-          />
-        </label>
-      </form> */}
-      <Line width={width} height={height} />
+      {renderSwitch(type)}
       <div className="buttons">
         <button
           onClick={() => {
             setStartpoint({ sx: 0, sy: 0 });
             setEndpoint({ ex: 0, ey: 0 });
+            setClicks({
+              firstClick: [0, 0],
+              secondClick: [0, 0],
+              thirdClick: [0, 0],
+              fourthClick: [0, 0],
+            });
           }}
         >
           Reset
@@ -99,7 +40,12 @@ export default function Points({ width, height }) {
           onClick={() => {
             setStartpoint({ sx: 0, sy: 0 });
             setEndpoint({ ex: 0, ey: 0 });
-            setClicks([]);
+            setClicks({
+              firstClick: [0, 0],
+              secondClick: [0, 0],
+              thirdClick: [0, 0],
+              fourthClick: [0, 0],
+            });
             type === "line" ? setType("polygon") : setType("line");
           }}
         >

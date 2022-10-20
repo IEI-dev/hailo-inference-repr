@@ -28,7 +28,12 @@ const CanvasContextProvider = (props) => {
   const [edgeCheck, setEdgeCheck] = useState(false);
   const [startend, setStartend] = useState("start");
   const [type, setType] = useState("line");
-  const [clicks, setClicks] = useState([]);
+  const [clicks, setClicks] = useState({
+    firstClick: [0, 0],
+    secondClick: [0, 0],
+    thirdClick: [0, 0],
+    fourthClick: [0, 0],
+  });
 
   return (
     <CanvasContext.Provider
