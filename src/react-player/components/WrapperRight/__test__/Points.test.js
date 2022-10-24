@@ -8,18 +8,6 @@ import "@testing-library/jest-dom";
 afterAll(cleanup);
 
 describe("render Points component to test", () => {
-  it("function: convert string to number", () => {
-    expect(strToNum("3")).toEqual(3);
-    expect(strToNum(3.14157)).toEqual(3);
-    expect(strToNum("Steven")).toEqual(NaN);
-  });
-
-  it("function: limit value exceeds width height to maximum, and up to zero when num is negative", () => {
-    expect(limitWidthHeight(3, 10)).toEqual(3);
-    expect(limitWidthHeight(-1, 10)).toEqual(0);
-    expect(limitWidthHeight(15, 10)).toEqual(10);
-  });
-
   it("find reset button", () => {
     render(
       <DataContextProvider>

@@ -60,14 +60,6 @@ function drawPoints(ctx, clicks) {
     ctx.lineWidth = 3;
     ctx.stroke();
   }
-  // for (let i = 0; i < clicks.length; i++) {
-  //   ctx.beginPath();
-  //   ctx.arc(clicks[i][0], clicks[i][1], 3, 0, Math.PI * 2, false);
-  //   ctx.fillStyle = "#fff";
-  //   ctx.fill();
-  //   ctx.lineWidth = 3;
-  //   ctx.stroke();
-  // }
 }
 
 export default function CanvasLine({ x, y, width, height, wRatio, hRatio }) {
