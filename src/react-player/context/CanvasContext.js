@@ -1,11 +1,8 @@
-import React, { createContext, useContext, useState } from "react";
-import { DataContext } from "./DataContext";
+import React, { createContext, useState } from "react";
 
 export const CanvasContext = createContext();
 
 const CanvasContextProvider = (props) => {
-  const { data } = useContext(DataContext);
-  const { entrance_line } = data;
   const [canvas, setCanvas] = useState({
     x: 0,
     y: 0,
@@ -14,50 +11,12 @@ const CanvasContextProvider = (props) => {
     wRatio: 1,
     hRatio: 1,
   });
-  const [startpoint, setStartpoint] = useState({
-    sx: entrance_line[0],
-    sy: entrance_line[1],
-  });
-  const [endpoint, setEndpoint] = useState({
-    ex: entrance_line[2],
-    ey: entrance_line[3],
-  });
-  const [boxCheck, setBoxCheck] = useState(false); // box and id props for PlayerControls callback and give to Canvas
-  const [idCheck, setIdCheck] = useState(false);
-  const [lineCheck, setLineCheck] = useState(true);
-  const [edgeCheck, setEdgeCheck] = useState(false);
-  const [startend, setStartend] = useState("start");
-  const [type, setType] = useState("line");
-  const [clicks, setClicks] = useState({
-    firstClick: [0, 0],
-    secondClick: [0, 0],
-    thirdClick: [0, 0],
-    fourthClick: [0, 0],
-  });
 
   return (
     <CanvasContext.Provider
       value={{
         canvas,
         setCanvas,
-        startpoint,
-        setStartpoint,
-        endpoint,
-        setEndpoint,
-        boxCheck,
-        setBoxCheck,
-        idCheck,
-        setIdCheck,
-        lineCheck,
-        setLineCheck,
-        edgeCheck,
-        setEdgeCheck,
-        startend,
-        setStartend,
-        type,
-        setType,
-        clicks,
-        setClicks,
       }}
     >
       {props.children}

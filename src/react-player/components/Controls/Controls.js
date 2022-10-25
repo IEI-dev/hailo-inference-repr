@@ -1,6 +1,5 @@
 //  Youtube ui controls
-import React, { useEffect, useContext } from "react";
-import { CanvasContext } from "../../context/CanvasContext";
+import React, { useEffect } from "react";
 import Duration from "./Duration";
 import ToggleControls from "./ToggleControls";
 
@@ -21,16 +20,6 @@ export default function Controls({
   onToggleFullScreen,
   onSeek,
 }) {
-  const {
-    boxCheck,
-    setBoxCheck,
-    idCheck,
-    setIdCheck,
-    lineCheck,
-    setLineCheck,
-    edgeCheck,
-    setEdgeCheck,
-  } = useContext(CanvasContext);
   let isScrubbing = false;
   let wasPaused;
   function toggleScrubbing(e) {
@@ -203,93 +192,6 @@ export default function Controls({
               />
             </svg>
           </button>
-
-          <div className="switches">
-            <div className="form-check form-switch">
-              <input
-                className="form-check-input box"
-                type="checkbox"
-                // eslint-disable-next-line
-                checked={boxCheck}
-                id="flexSwitchBox"
-                onChange={() => {
-                  setBoxCheck(!boxCheck);
-                }}
-              />
-              {boxCheck ? (
-                <label className="form-check-label" htmlFor="flexSwitchBox">
-                  Box on
-                </label>
-              ) : (
-                <label className="form-check-label" htmlFor="flexSwitchBox">
-                  Box off
-                </label>
-              )}
-            </div>
-            <div className="form-check form-switch">
-              <input
-                className="form-check-input id"
-                type="checkbox"
-                id="flexSwitchID"
-                // eslint-disable-next-line
-                checked={idCheck}
-                onChange={() => {
-                  setIdCheck(!idCheck);
-                }}
-              />
-              {idCheck ? (
-                <label className="form-check-label" htmlFor="flexSwitchID">
-                  ID on
-                </label>
-              ) : (
-                <label className="form-check-label" htmlFor="flexSwitchID">
-                  ID off
-                </label>
-              )}
-            </div>
-            <div className="form-check form-switch">
-              <input
-                className="form-check-input id"
-                type="checkbox"
-                id="flexSwitchID"
-                // eslint-disable-next-line
-                checked={lineCheck}
-                onChange={() => {
-                  setLineCheck(!lineCheck);
-                }}
-              />
-              {lineCheck ? (
-                <label className="form-check-label" htmlFor="flexSwitchID">
-                  Line on
-                </label>
-              ) : (
-                <label className="form-check-label" htmlFor="flexSwitchID">
-                  Line off
-                </label>
-              )}
-            </div>
-            <div className="form-check form-switch">
-              <input
-                className="form-check-input id"
-                type="checkbox"
-                id="flexSwitchID"
-                // eslint-disable-next-line
-                checked={edgeCheck}
-                onChange={() => {
-                  setEdgeCheck(!edgeCheck);
-                }}
-              />
-              {edgeCheck ? (
-                <label className="form-check-label" htmlFor="flexSwitchID">
-                  Edge on
-                </label>
-              ) : (
-                <label className="form-check-label" htmlFor="flexSwitchID">
-                  Edge off
-                </label>
-              )}
-            </div>
-          </div>
         </div>
       </div>
       <ToggleControls playerContainerRef={playerContainerRef} />

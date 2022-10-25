@@ -1,47 +1,46 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { DataContext } from "../../context/DataContext";
-import { CanvasContext } from "../../context/CanvasContext";
 
-let EDGES = [
-  [0, 1],
-  [0, 2],
-  [1, 3],
-  [2, 4],
-  [3, 5],
-  [4, 6],
-  [5, 7],
-  [6, 8],
-  [7, 9],
-  [8, 10],
-  [5, 11],
-  [6, 12],
-  [11, 13],
-  [12, 14],
-  [13, 15],
-  [14, 16],
-  [11, 12],
-];
+// let EDGES = [
+//   [0, 1],
+//   [0, 2],
+//   [1, 3],
+//   [2, 4],
+//   [3, 5],
+//   [4, 6],
+//   [5, 7],
+//   [6, 8],
+//   [7, 9],
+//   [8, 10],
+//   [5, 11],
+//   [6, 12],
+//   [11, 13],
+//   [12, 14],
+//   [13, 15],
+//   [14, 16],
+//   [11, 12],
+// ];
 
-let colors = [
-  [255, 0, 0],
-  [255, 85, 0],
-  [255, 170, 0],
-  [255, 255, 0],
-  [170, 255, 0],
-  [85, 255, 0],
-  [0, 255, 0],
-  [0, 255, 85],
-  [0, 255, 170],
-  [0, 255, 255],
-  [0, 170, 255],
-  [0, 85, 255],
-  [0, 0, 255],
-  [85, 0, 255],
-  [170, 0, 255],
-  [255, 0, 255],
-  [255, 0, 170],
-  [255, 0, 85],
-];
+// let colors = [
+//   [255, 0, 0],
+//   [255, 85, 0],
+//   [255, 170, 0],
+//   [255, 255, 0],
+//   [170, 255, 0],
+//   [85, 255, 0],
+//   [0, 255, 0],
+//   [0, 255, 85],
+//   [0, 255, 170],
+//   [0, 255, 255],
+//   [0, 170, 255],
+//   [0, 85, 255],
+//   [0, 0, 255],
+//   [85, 0, 255],
+//   [170, 0, 255],
+//   [255, 0, 255],
+//   [255, 0, 170],
+//   [255, 0, 85],
+// ];
 
 // const colorList = [
 //   "#FF6347",
@@ -179,21 +178,7 @@ let colors = [
 export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
   const boxRef = useRef(null);
   const { data } = useContext(DataContext);
-  const { ids, boxes, action, keys } = data;
-  const { boxCheck, idCheck, edgeCheck } = useContext(CanvasContext);
-
-  function drawEdges(ctx, onekpts) {
-    ctx.lineWidth = 3;
-    for (let i = 0; i < EDGES.length; i++) {
-      ctx.beginPath();
-      let [pti0, pti1] = EDGES[i];
-      let rgb = `rgb(${colors[i][0]}, ${colors[i][1]}, ${colors[i][2]})`;
-      ctx.strokeStyle = rgb;
-      ctx.moveTo(onekpts[pti0][0], onekpts[pti0][1]);
-      ctx.lineTo(onekpts[pti1][0], onekpts[pti1][1]);
-      ctx.stroke();
-    }
-  }
+  const { boxes, lps, scores } = data;
 
   useEffect(() => {
     if (wRatio !== 1) {
@@ -208,63 +193,43 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
     const box = boxRef.current;
     const ctx = box.getContext("2d");
     drawByFrames(ctx);
-  }, [frame, boxCheck, idCheck, edgeCheck, width]);
+  }, [frame, width]);
 
   function drawByFrames(ctx) {
     let frameIndex = frame;
-    if (ids[frameIndex] !== undefined) {
+    if (boxes[frameIndex] !== undefined) {
       ctx.clearRect(0, 0, window.innerWidth * 3, window.innerHeight * 3);
 
       ctx.font = "bold 8px Arial";
 
-      for (let i = 0; i < ids[frameIndex].length; i++) {
-        let stringIds = ids[frameIndex][i].toString() + ".0";
-        if (idCheck) {
-          ctx.fillStyle = "black";
-          ctx.fillText(
-            `${ids[frameIndex][i]}`,
-            boxes[frameIndex][i][0],
-            boxes[frameIndex][i][1] - 5
-          );
-
-          if (
-            action[frameIndex][stringIds] &&
-            action[frameIndex][stringIds].class[0] === 1
-          ) {
-            ctx.fillStyle = "red";
-            ctx.fillText(
-              "falling",
-              boxes[frameIndex][i][0] + boxes[frameIndex][i][2],
-              boxes[frameIndex][i][1] - 5
-            );
-          }
-        }
-        if (boxCheck) {
-          ctx.strokeStyle = "blue";
-          ctx.lineWidth = 1;
-          ctx.fillStyle = "rgba(255,255,0,0.2)";
-          if (
-            action[frameIndex][stringIds] &&
-            action[frameIndex][stringIds].class[0] === 1
-          ) {
-            ctx.strokeStyle = "red";
-          }
-          ctx.strokeRect(
-            boxes[frameIndex][i][0],
-            boxes[frameIndex][i][1],
-            boxes[frameIndex][i][2],
-            boxes[frameIndex][i][3]
-          );
-          ctx.fillRect(
-            boxes[frameIndex][i][0],
-            boxes[frameIndex][i][1],
-            boxes[frameIndex][i][2],
-            boxes[frameIndex][i][3]
-          );
-        }
-        if (edgeCheck) {
-          drawEdges(ctx, keys[frameIndex][i]);
-        }
+      for (let i = 0; i < boxes[frameIndex].length; i++) {
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = 1;
+        ctx.fillStyle = "rgba(255,255,0,0.2)";
+        ctx.strokeRect(
+          boxes[frameIndex][i][0],
+          boxes[frameIndex][i][1],
+          boxes[frameIndex][i][2],
+          boxes[frameIndex][i][3]
+        );
+        ctx.fillRect(
+          boxes[frameIndex][i][0],
+          boxes[frameIndex][i][1],
+          boxes[frameIndex][i][2],
+          boxes[frameIndex][i][3]
+        );
+        ctx.fillStyle = "red";
+        ctx.font = "30px Arial";
+        ctx.fillText(
+          lps[frameIndex][i],
+          boxes[frameIndex][i][0],
+          boxes[frameIndex][i][1] - 5
+        );
+        ctx.fillText(
+          `${scores[frameIndex][i]}`,
+          boxes[frameIndex][i][0],
+          boxes[frameIndex][i][1] + boxes[frameIndex][i][3] + 25
+        );
       }
     }
   }

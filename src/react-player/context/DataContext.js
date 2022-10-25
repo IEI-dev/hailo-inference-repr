@@ -1,7 +1,5 @@
 import React, { createContext, useState } from "react";
-// import pwalk1Json_new from "../../json/pwalk1_new.json";
-// import retailcctvJson from "../../json/retailcctv.json";
-import retailroberyJson from "../../json/retailrobery.json";
+import car2Json from "../../json/car2.json";
 export const DataContext = createContext();
 
 export class FrameData_old {
@@ -69,10 +67,31 @@ export class FrameData_new {
     this.basicIndex = -1;
   }
 }
+
+export class FrameData_car {
+  constructor(json, boxes = [], scores = [], lps = []) {
+    for (let i = 0; i < json.frames.length; i++) {
+      boxes.push(json.frames[i].boxes);
+    }
+    for (let i = 0; i < json.frames.length; i++) {
+      lps.push(json.frames[i].lps);
+    }
+    for (let i = 0; i < json.frames.length; i++) {
+      scores.push(json.frames[i].scores);
+    }
+    this.boxes = boxes;
+    this.lps = lps;
+    this.scores = scores;
+    this.fps = json.fps;
+    this.frame_count = json.frame_count;
+    this.width = json.width;
+    this.height = json.height;
+  }
+}
 const DataContextProvider = (props) => {
-  // const basic = new FrameData_new(pwalk1Json_new);
-  const basic = new FrameData_new(retailroberyJson);
+  const basic = new FrameData_car(car2Json);
   const [data, setData] = useState(basic);
+  console.log(data);
   const addData = (json, classType = "new") => {
     let newData;
     if (classType === "old") {

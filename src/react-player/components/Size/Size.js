@@ -14,9 +14,7 @@ export default function Size({ getSize }) {
   });
   return (
     <div>
-      <p>
-        Rendered at {dimensions.width} x {dimensions.height}
-      </p>
+      <p>{/* Rendered at {dimensions.width} x {dimensions.height} */}</p>
       <p>{/* Canvas at {width.toFixed(2)} x {height.toFixed(2)} */}</p>
     </div>
   );

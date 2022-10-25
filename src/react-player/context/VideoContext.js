@@ -8,13 +8,7 @@ const VideoContextProvider = (props) => {
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
-    // url: `./videos/MOT20-05-raw.webm`,
-    // url: `./videos/tc1.mp4`,
-    // url: `./videos/palace.mp4`,
-    // url: `./videos/MOT20-01-raw.webm`,
-    // url: `./videos/pwalk1.mp4`,
-    // url: `./videos/retailcctv_orig.mp4`,
-    url: `./videos/retailrobery_orig.mp4`,
+    url: `./videos/car2.mp4`,
     key: 0,
   });
   return (

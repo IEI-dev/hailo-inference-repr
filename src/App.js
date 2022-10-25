@@ -1,15 +1,9 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import ReactPlayer from "react-player";
-import PlayerControls from "./react-player/components/Controls/PlayerControls";
 import screenfull from "screenfull";
 
 import Canvas from "./react-player/components/Canvas/Canvas";
-import CanvasLine from "./react-player/components/Canvas/CanvasLine";
-import Data from "./react-player/components/WrapperRight/Data";
 import Controls from "./react-player/components/Controls/Controls";
-import Points from "./react-player/components/WrapperRight/Points";
-import People from "./react-player/components/WrapperLeft/People";
-import FrameFps from "./react-player/components/WrapperRight/FrameFps";
 import Size from "./react-player/components/Size/Size";
 import { CanvasContext } from "./react-player/context/CanvasContext";
 import { DataContext } from "./react-player/context/DataContext";
@@ -23,23 +17,16 @@ function App() {
   const { state, setState } = useContext(VideoContext);
   const { playing, muted, volume, playbackRate, url, key } = state;
 
+  // State
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [frame, setFrame] = useState(0);
   const [vw, setVw] = useState(70);
   const [video, setVideo] = useState(null);
-  // const [key, setKey] = useState(0);
-  // State
-  const [leftControl, setLeftControl] = useState(true);
-  const [rightControl, setRightControl] = useState(true);
 
   // Ref
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
-  const wrapperLeftRef = useRef(null);
-  const wrapperRightRef = useRef(null);
-  const btnControlLeftRef = useRef(null);
-  const btnControlRightRef = useRef(null);
 
   // handleState functions pass to Control.js
 
@@ -132,20 +119,6 @@ function App() {
     setState({ ...state, key: key + 1 });
   }, [url]);
 
-  // toggleControls, left and right
-  function toggleLeftControls() {
-    wrapperLeftRef.current.classList.toggle("control");
-    wrapperLeftRef.current.classList.remove("hide");
-    wrapperRightRef.current.classList.remove("hide");
-    setLeftControl(!leftControl);
-  }
-  function toggleRightControls() {
-    wrapperRightRef.current.classList.toggle("control");
-    wrapperLeftRef.current.classList.remove("hide");
-    wrapperRightRef.current.classList.remove("hide");
-    setRightControl(!rightControl);
-  }
-
   //  trigger as the video starts, callback as every video frame
   const startDrawing = () => {
     let startTime = 0.0;
@@ -173,34 +146,6 @@ function App() {
 
   return (
     <>
-      {/* wrapper-left */}
-      <div className="wrapper-left control" ref={wrapperLeftRef}>
-        <People frame={frame} />
-      </div>
-      {/* wrapper-left control button */}
-      {leftControl ? (
-        <button
-          onClick={toggleLeftControls}
-          type="button"
-          className="btn-control-left"
-          ref={btnControlLeftRef}
-        >
-          <span className="material-symbols-rounded">
-            keyboard_double_arrow_right
-          </span>
-        </button>
-      ) : (
-        <button
-          onClick={toggleLeftControls}
-          type="button"
-          className="btn-control-left"
-          ref={btnControlLeftRef}
-        >
-          <span className="material-symbols-rounded">
-            keyboard_double_arrow_left
-          </span>
-        </button>
-      )}
       {/* wrapper-middle */}
       <div className="wrapper">
         <h1>Video Player</h1>
@@ -232,24 +177,6 @@ function App() {
               startDrawing();
             }}
           />
-          <PlayerControls
-            className="controls"
-            onRewind={handleRewind}
-            onFastFoward={handleFastForward}
-            volume={volume}
-            onChangeVolume={handleVolume}
-            muted={muted}
-            onMute={handleMute}
-            onSearch={handleUrl}
-            wrapperLeftRef={wrapperLeftRef}
-            wrapperRightRef={wrapperRightRef}
-            btnControlLeftRef={btnControlLeftRef}
-            btnControlRightRef={btnControlRightRef}
-            setLeftControl={setLeftControl}
-            setRightControl={setRightControl}
-            vw={vw}
-            setVw={setVw}
-          />
           <Controls
             playerContainerRef={playerContainerRef}
             playing={playing}
@@ -277,45 +204,7 @@ function App() {
           hRatio={hRatio}
           frame={frame}
         />
-        <CanvasLine
-          x={x}
-          y={y}
-          width={width}
-          height={height}
-          wRatio={wRatio}
-          hRatio={hRatio}
-        />
-      </div>
-      {/* wrapper-right control button */}
-      {rightControl ? (
-        <button
-          onClick={toggleRightControls}
-          type="button"
-          className="btn-control-right"
-          ref={btnControlRightRef}
-        >
-          <span className="material-symbols-rounded">
-            keyboard_double_arrow_left
-          </span>
-        </button>
-      ) : (
-        <button
-          onClick={toggleRightControls}
-          type="button"
-          className="btn-control-right"
-          ref={btnControlRightRef}
-        >
-          <span className="material-symbols-rounded">
-            keyboard_double_arrow_right
-          </span>
-        </button>
-      )}
-      {/* wrapper-right */}
-      <div className="wrapper-right control" ref={wrapperRightRef}>
-        <Data handleUrl={handleUrl} seekToStart={seekToStart} frame={frame} />
-        <FrameFps frame={frame} fps={fps} />
         <Size getSize={getSize} />
-        <Points width={width} height={height} />
       </div>
     </>
   );
