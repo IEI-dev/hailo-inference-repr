@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 
 export default function Size({ getSize }) {
-  const dimensions = {
-    height: window.innerHeight,
-    width: window.innerWidth,
-  };
+  // const dimensions = {
+  //   height: window.innerHeight,
+  //   width: window.innerWidth,
+  // };
   useEffect(() => {
     window.addEventListener("resize", getSize);
 

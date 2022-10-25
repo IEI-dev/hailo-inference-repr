@@ -44,14 +44,14 @@ function App() {
     handleTime();
     setFrame(0);
   };
-  const handleRewind = () => {
-    playerRef.current.seekTo(playerRef.current.getCurrentTime() - 5);
-    handleTime();
-  };
-  const handleFastForward = () => {
-    playerRef.current.seekTo(playerRef.current.getCurrentTime() + 5);
-    handleTime();
-  };
+  // const handleRewind = () => {
+  //   playerRef.current.seekTo(playerRef.current.getCurrentTime() - 5);
+  //   handleTime();
+  // };
+  // const handleFastForward = () => {
+  //   playerRef.current.seekTo(playerRef.current.getCurrentTime() + 5);
+  //   handleTime();
+  // };
   const handleMute = () => {
     setState({ ...state, muted: !muted });
   };
@@ -69,9 +69,9 @@ function App() {
     screenfull.toggle(playerContainerRef.current);
   };
 
-  const handleUrl = (newUrl) => {
-    setState({ ...state, url: newUrl });
-  };
+  // const handleUrl = (newUrl) => {
+  //   setState({ ...state, url: newUrl });
+  // };
 
   const onSeek = (percent) => {
     const seekto = duration * percent;
