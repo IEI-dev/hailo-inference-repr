@@ -21,7 +21,7 @@ function App() {
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [frame, setFrame] = useState(0);
-  const [vw, setVw] = useState(70);
+  // const [vw, setVw] = useState(70);
   const [video, setVideo] = useState(null);
 
   // Ref
@@ -113,7 +113,7 @@ function App() {
 
   useEffect(() => {
     getSize();
-  }, [vw, video]);
+  }, [video]); // added vw as second parameter before,  get Canvas size due to vw and video.
 
   useEffect(() => {
     setState({ ...state, key: key + 1 });
