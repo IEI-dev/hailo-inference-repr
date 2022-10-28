@@ -204,7 +204,7 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
 
       for (let i = 0; i < boxes[frameIndex].length; i++) {
         ctx.strokeStyle = "blue";
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 3;
         ctx.fillStyle = "rgba(255,255,0,0.2)";
         ctx.strokeRect(
           boxes[frameIndex][i][0],
