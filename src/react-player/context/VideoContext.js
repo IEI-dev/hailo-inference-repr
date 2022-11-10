@@ -8,7 +8,7 @@ const VideoContextProvider = (props) => {
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
-    url: `./videos/car2.mp4`,
+    url: `./videos/detection12.mp4`,
     key: 0,
   });
   return (

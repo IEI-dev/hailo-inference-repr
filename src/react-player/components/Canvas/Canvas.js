@@ -187,12 +187,14 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(wRatio, hRatio);
     }
+    console.log("trigger");
   }, [wRatio, hRatio]);
 
   useEffect(() => {
     const box = boxRef.current;
     const ctx = box.getContext("2d");
     drawByFrames(ctx);
+    console.log(frame);
   }, [frame, width]);
 
   function drawByFrames(ctx) {
@@ -206,30 +208,42 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
         ctx.strokeStyle = "blue";
         ctx.lineWidth = 3;
         ctx.fillStyle = "rgba(255,255,0,0.2)";
+        // ctx.strokeRect(
+        //   boxes[frameIndex][i][0],
+        //   boxes[frameIndex][i][1],
+        //   boxes[frameIndex][i][2],
+        //   boxes[frameIndex][i][3]
+        // );
+        // ctx.fillRect(
+        //   boxes[frameIndex][i][0],
+        //   boxes[frameIndex][i][1],
+        //   boxes[frameIndex][i][2],
+        //   boxes[frameIndex][i][3]
+        // );
         ctx.strokeRect(
-          boxes[frameIndex][i][0],
-          boxes[frameIndex][i][1],
-          boxes[frameIndex][i][2],
-          boxes[frameIndex][i][3]
+          boxes[frameIndex][i].xmin * 640,
+          boxes[frameIndex][i].ymin * 960 - 150,
+          boxes[frameIndex][i].width * 640,
+          boxes[frameIndex][i].height * 960
         );
         ctx.fillRect(
-          boxes[frameIndex][i][0],
-          boxes[frameIndex][i][1],
-          boxes[frameIndex][i][2],
-          boxes[frameIndex][i][3]
+          boxes[frameIndex][i].xmin * 640,
+          boxes[frameIndex][i].ymin * 960 - 150,
+          boxes[frameIndex][i].width * 640,
+          boxes[frameIndex][i].height * 960
         );
         ctx.fillStyle = "red";
         ctx.font = "30px Arial";
-        ctx.fillText(
-          lps[frameIndex][i],
-          boxes[frameIndex][i][0],
-          boxes[frameIndex][i][1] - 5
-        );
-        ctx.fillText(
-          `${scores[frameIndex][i]}`,
-          boxes[frameIndex][i][0],
-          boxes[frameIndex][i][1] + boxes[frameIndex][i][3] + 25
-        );
+        // ctx.fillText(
+        //   lps[frameIndex][i],
+        //   boxes[frameIndex][i][0],
+        //   boxes[frameIndex][i][1] - 5
+        // );
+        // ctx.fillText(
+        //   `${scores[frameIndex][i]}`,
+        //   boxes[frameIndex][i][0],
+        //   boxes[frameIndex][i][1] + boxes[frameIndex][i][3] + 25
+        // );
       }
     }
   }

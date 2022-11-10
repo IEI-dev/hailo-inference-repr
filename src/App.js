@@ -92,6 +92,8 @@ function App() {
         wRatio: rect.width / basicWidth,
         hRatio: rect.height / basicHeight,
       });
+      console.log(rect.width / basicWidth);
+      console.log(rect.height / basicHeight);
     } else return;
   };
   const getBox = function() {
