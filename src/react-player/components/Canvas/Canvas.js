@@ -187,7 +187,7 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(wRatio, hRatio);
     }
-    console.log("trigger");
+    console.log("trigger", wRatio, hRatio);
   }, [wRatio, hRatio]);
 
   useEffect(() => {
@@ -203,7 +203,7 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
       ctx.clearRect(0, 0, window.innerWidth * 3, window.innerHeight * 3);
 
       ctx.font = "bold 8px Arial";
-
+      console.log(width, height);
       for (let i = 0; i < boxes[frameIndex].length; i++) {
         ctx.strokeStyle = "blue";
         ctx.lineWidth = 3;
@@ -220,20 +220,41 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
         //   boxes[frameIndex][i][2],
         //   boxes[frameIndex][i][3]
         // );
+
+        // detection12.mp4;
+        // ctx.strokeRect(
+        //   boxes[frameIndex][i].xmin * 640,
+        //   boxes[frameIndex][i].ymin * 640 * 1.78 - 250,
+        //   boxes[frameIndex][i].width * 640,
+        //   boxes[frameIndex][i].height * 640 * 1.78
+        // );
+        // ctx.fillRect(
+        //   boxes[frameIndex][i].xmin * 640,
+        //   boxes[frameIndex][i].ymin * 640 * 1.78 - 250,
+        //   boxes[frameIndex][i].width * 640,
+        //   boxes[frameIndex][i].height * 640 * 1.78
+        // );
+
+        // palace.mp4
         ctx.strokeRect(
           boxes[frameIndex][i].xmin * 640,
-          boxes[frameIndex][i].ymin * 960 - 150,
+          boxes[frameIndex][i].ymin * 640,
           boxes[frameIndex][i].width * 640,
-          boxes[frameIndex][i].height * 960
+          boxes[frameIndex][i].height * 640
         );
         ctx.fillRect(
           boxes[frameIndex][i].xmin * 640,
-          boxes[frameIndex][i].ymin * 960 - 150,
+          boxes[frameIndex][i].ymin * 640,
           boxes[frameIndex][i].width * 640,
-          boxes[frameIndex][i].height * 960
+          boxes[frameIndex][i].height * 640
         );
         ctx.fillStyle = "red";
         ctx.font = "30px Arial";
+        ctx.fillText(
+          `${([i], boxes[frameIndex][i].xmin * 640).toFixed(2)}`,
+          boxes[frameIndex][i].xmin * 640,
+          boxes[frameIndex][i].ymin * 640
+        );
         // ctx.fillText(
         //   lps[frameIndex][i],
         //   boxes[frameIndex][i][0],

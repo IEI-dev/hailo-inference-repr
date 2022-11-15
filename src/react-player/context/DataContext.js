@@ -1,7 +1,8 @@
 import React, { createContext, useState } from "react";
 // import car2Json from "../../json/car2.json";
-import hailo_metaJson from "../../json/hailo_meta.json";
+// import hailo_metaJson from "../../json/hailo_meta.json";
 import detection12Json from "../../json/detection12.json";
+import palaceJson from "../../json/hailo_meta.json";
 export const DataContext = createContext();
 
 export class FrameData_old {
@@ -108,10 +109,10 @@ export class FrameData_hailo {
     this.boxes = boxes;
     this.score = score;
     this.label = label;
-    this.fps = 30.0; // 25
-    this.frame_count = 960; // 744
-    this.width = 640;
-    this.height = 640;
+    this.fps = 30.0; // 30.0; // 25
+    this.frame_count = 960; // 329; // 960; // 744
+    this.width = 640; // 1280; // 640;
+    this.height = 640; // 720 // 640;
   }
 }
 
@@ -122,6 +123,7 @@ const DataContextProvider = (props) => {
   // const basic = new FrameData_car(car2Json);
   // const basic = new FrameData_hailo(hailo_metaJson);
   const basic = new FrameData_hailo(detection12Json);
+  // const basic = new FrameData_hailo(palaceJson);
   const [data, setData] = useState(basic);
   console.log(data);
   const addData = (json, classType = "new") => {
