@@ -236,6 +236,18 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
         // );
 
         // palace.mp4
+        // ctx.strokeRect(
+        //   boxes[frameIndex][i].xmin * 640,
+        //   boxes[frameIndex][i].ymin * 640,
+        //   boxes[frameIndex][i].width * 640,
+        //   boxes[frameIndex][i].height * 640
+        // );
+        // ctx.fillRect(
+        //   boxes[frameIndex][i].xmin * 640,
+        //   boxes[frameIndex][i].ymin * 640,
+        //   boxes[frameIndex][i].width * 640,
+        //   boxes[frameIndex][i].height * 640
+        // );
         ctx.strokeRect(
           boxes[frameIndex][i].xmin * 640,
           boxes[frameIndex][i].ymin * 640,
@@ -248,13 +260,27 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
           boxes[frameIndex][i].width * 640,
           boxes[frameIndex][i].height * 640
         );
-        ctx.fillStyle = "red";
-        ctx.font = "30px Arial";
-        ctx.fillText(
-          `${([i], boxes[frameIndex][i].xmin * 640).toFixed(2)}`,
-          boxes[frameIndex][i].xmin * 640,
-          boxes[frameIndex][i].ymin * 640
-        );
+        // ctx.strokeRect(
+        //   boxes[frameIndex][i].xmin,
+        //   boxes[frameIndex][i].ymin,
+        //   boxes[frameIndex][i].width,
+        //   boxes[frameIndex][i].height
+        // );
+        // ctx.fillRect(
+        //   boxes[frameIndex][i].xmin,
+        //   boxes[frameIndex][i].ymin,
+        //   boxes[frameIndex][i].width,
+        //   boxes[frameIndex][i].height
+        // );
+        // ctx.fillStyle = "red";
+        // ctx.font = "30px Arial";
+        // ctx.fillText(
+        //   `${(boxes[frameIndex][i].xmin * 640).toFixed(2)} / ${(
+        //     boxes[frameIndex][i].ymin * 640
+        //   ).toFixed(2)}`,
+        //   boxes[frameIndex][i].xmin * 640,
+        //   boxes[frameIndex][i].ymin * 640
+        // );
         // ctx.fillText(
         //   lps[frameIndex][i],
         //   boxes[frameIndex][i][0],

@@ -1,8 +1,14 @@
 import React, { createContext, useState } from "react";
 // import car2Json from "../../json/car2.json";
-// import hailo_metaJson from "../../json/hailo_meta.json";
-import detection12Json from "../../json/detection12.json";
-import palaceJson from "../../json/hailo_meta.json";
+// import detection12Json from "../../json/detection12.json";
+import palaceJson from "../../json/palace_hailo.json";
+import detection0Json from "../../json/detection0.json";
+import detection1Json from "../../json/detection1.json";
+import detection2Json from "../../json/detection2.json";
+import detection3Json from "../../json/detection3.json";
+import detection4Json from "../../json/detection4.json";
+import detection5Json from "../../json/detection5.json";
+import detection6Json from "../../json/detection6.json";
 export const DataContext = createContext();
 
 export class FrameData_old {
@@ -110,7 +116,7 @@ export class FrameData_hailo {
     this.score = score;
     this.label = label;
     this.fps = 30.0; // 30.0; // 25
-    this.frame_count = 960; // 329; // 960; // 744
+    this.frame_count = 948; // 876; // 2375; // 931; // 893; // 744; // 329; // 960; // 744
     this.width = 640; // 1280; // 640;
     this.height = 640; // 720 // 640;
   }
@@ -122,17 +128,30 @@ export class FrameData_hailo {
 const DataContextProvider = (props) => {
   // const basic = new FrameData_car(car2Json);
   // const basic = new FrameData_hailo(hailo_metaJson);
-  const basic = new FrameData_hailo(detection12Json);
-  // const basic = new FrameData_hailo(palaceJson);
+  const basic = new FrameData_hailo(palaceJson);
+  // const basic = new FrameData_hailo(detection12Json);
+  // const basic = new FrameData_hailo(detection0Json);
+  // const basic = new FrameData_hailo(detection1Json);
+  // const basic = new FrameData_hailo(detection2Json);
+  // const basic = new FrameData_hailo(detection3Json);
+  // const basic = new FrameData_hailo(detection4Json);
+  // const basic = new FrameData_hailo(detection5Json);
+  // const basic = new FrameData_hailo(detection6Json);
   const [data, setData] = useState(basic);
   console.log(data);
-  const addData = (json, classType = "new") => {
+  // const addData = (json, classType = "new") => {
+  //   let newData;
+  //   if (classType === "old") {
+  //     newData = new FrameData_old(json);
+  //   } else {
+  //     newData = new FrameData_new(json);
+  //   }
+  //   setData(newData);
+  //   return newData;
+  // };
+  const addData = (json) => {
     let newData;
-    if (classType === "old") {
-      newData = new FrameData_old(json);
-    } else {
-      newData = new FrameData_new(json);
-    }
+    newData = new FrameData_hailo(json);
     setData(newData);
     return newData;
   };

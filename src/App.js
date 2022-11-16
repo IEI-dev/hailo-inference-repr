@@ -5,6 +5,7 @@ import screenfull from "screenfull";
 import Canvas from "./react-player/components/Canvas/Canvas";
 import Controls from "./react-player/components/Controls/Controls";
 import Size from "./react-player/components/Size/Size";
+import Data from "./react-player/WrapperRight/Data";
 import { CanvasContext } from "./react-player/context/CanvasContext";
 import { DataContext } from "./react-player/context/DataContext";
 import { VideoContext } from "./react-player/context/VideoContext";
@@ -69,9 +70,9 @@ function App() {
     screenfull.toggle(playerContainerRef.current);
   };
 
-  // const handleUrl = (newUrl) => {
-  //   setState({ ...state, url: newUrl });
-  // };
+  const handleUrl = (newUrl) => {
+    setState({ ...state, url: newUrl });
+  };
 
   const onSeek = (percent) => {
     const seekto = duration * percent;
@@ -207,6 +208,9 @@ function App() {
           frame={frame}
         />
         <Size getSize={getSize} />
+      </div>
+      <div className="wrapper-right control">
+        <Data handleUrl={handleUrl} seekToStart={seekToStart} />
       </div>
     </>
   );

@@ -55,7 +55,7 @@ body {
     justify-content: center;
     gap: 1%;
     .wrapper {
-      --wrapper-width: 70vw;
+      --wrapper-width: 50vw;
       width: var(--wrapper-width);
       h1 {
         text-align: center;
@@ -65,7 +65,7 @@ body {
         flex-direction: column;
         align-items: center;
         --element-width: 100%;
-        --element-height: 56.25%;
+        --element-height: 100%;
         position: relative;
         width: var(--element-width);
         padding-top: var(--element-height);

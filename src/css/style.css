@@ -55,7 +55,7 @@ body #root {
   gap: 1%;
 }
 body #root .wrapper {
-  --wrapper-width: 70vw;
+  --wrapper-width: 50vw;
   width: var(--wrapper-width);
 }
 body #root .wrapper h1 {
@@ -66,7 +66,7 @@ body #root .wrapper .player-wrapper {
   flex-direction: column;
   align-items: center;
   --element-width: 100%;
-  --element-height: 56.25%;
+  --element-height: 100%;
   position: relative;
   width: var(--element-width);
   padding-top: var(--element-height);
