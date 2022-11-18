@@ -1,14 +1,14 @@
 import React, { createContext, useState } from "react";
+import palaceJson from "../../json/palace_hailo.json";
 // import car2Json from "../../json/car2.json";
 // import detection12Json from "../../json/detection12.json";
-import palaceJson from "../../json/palace_hailo.json";
-import detection0Json from "../../json/detection0.json";
-import detection1Json from "../../json/detection1.json";
-import detection2Json from "../../json/detection2.json";
-import detection3Json from "../../json/detection3.json";
-import detection4Json from "../../json/detection4.json";
-import detection5Json from "../../json/detection5.json";
-import detection6Json from "../../json/detection6.json";
+// import detection0Json from "../../json/detection0.json";
+// import detection1Json from "../../json/detection1.json";
+// import detection2Json from "../../json/detection2.json";
+// import detection3Json from "../../json/detection3.json";
+// import detection4Json from "../../json/detection4.json";
+// import detection5Json from "../../json/detection5.json";
+// import detection6Json from "../../json/detection6.json";
 export const DataContext = createContext();
 
 export class FrameData_old {

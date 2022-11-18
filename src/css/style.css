@@ -55,7 +55,7 @@ body #root {
   gap: 1%;
 }
 body #root .wrapper {
-  --wrapper-width: 50vw;
+  --wrapper-width: 40vw;
   width: var(--wrapper-width);
 }
 body #root .wrapper h1 {

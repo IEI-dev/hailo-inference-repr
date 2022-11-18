@@ -178,7 +178,8 @@ import { DataContext } from "../../context/DataContext";
 export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
   const boxRef = useRef(null);
   const { data } = useContext(DataContext);
-  const { boxes, lps, scores } = data;
+  const { boxes, label, score } = data;
+  // const { boxes, lps, scores } = data;
 
   useEffect(() => {
     if (wRatio !== 1) {
@@ -221,20 +222,6 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
         //   boxes[frameIndex][i][3]
         // );
 
-        // detection12.mp4;
-        // ctx.strokeRect(
-        //   boxes[frameIndex][i].xmin * 640,
-        //   boxes[frameIndex][i].ymin * 640 * 1.78 - 250,
-        //   boxes[frameIndex][i].width * 640,
-        //   boxes[frameIndex][i].height * 640 * 1.78
-        // );
-        // ctx.fillRect(
-        //   boxes[frameIndex][i].xmin * 640,
-        //   boxes[frameIndex][i].ymin * 640 * 1.78 - 250,
-        //   boxes[frameIndex][i].width * 640,
-        //   boxes[frameIndex][i].height * 640 * 1.78
-        // );
-
         // palace.mp4
         // ctx.strokeRect(
         //   boxes[frameIndex][i].xmin * 640,
@@ -272,8 +259,13 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
         //   boxes[frameIndex][i].width,
         //   boxes[frameIndex][i].height
         // );
-        // ctx.fillStyle = "red";
-        // ctx.font = "30px Arial";
+        ctx.fillStyle = "red";
+        ctx.font = "10px Arial";
+        ctx.fillText(
+          label[frameIndex][i],
+          boxes[frameIndex][i].xmin * 640,
+          boxes[frameIndex][i].ymin * 640
+        );
         // ctx.fillText(
         //   `${(boxes[frameIndex][i].xmin * 640).toFixed(2)} / ${(
         //     boxes[frameIndex][i].ymin * 640
