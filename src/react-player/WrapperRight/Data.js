@@ -8,6 +8,7 @@ import detection4Json from "../../json/detection4.json";
 import detection5Json from "../../json/detection5.json";
 import detection6Json from "../../json/detection6.json";
 import detection7Json from "../../json/detection7.json";
+import hipposJson from "../../json/hungry-hippos.json";
 import palaceJson from "../../json/palace_hailo.json";
 
 let options = [
@@ -20,6 +21,7 @@ let options = [
   "detection5",
   "detection6",
   "detection7",
+  "hippos",
 ];
 
 let url = [
@@ -32,6 +34,7 @@ let url = [
   "./videos/detection5.mp4",
   "./videos/detection6.mp4",
   "./videos/detection7.mp4",
+  "./videos/hungry-hippos.mp4",
 ];
 
 let newUrl;
@@ -76,6 +79,10 @@ export default function Data({ handleUrl, seekToStart }) {
     if (e.startsWith(options[8])) {
       newUrl = url[8];
       addData(detection7Json);
+    }
+    if (e.startsWith(options[9])) {
+      newUrl = url[9];
+      addData(hipposJson);
     }
   }
 

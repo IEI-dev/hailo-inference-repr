@@ -9,6 +9,7 @@ const VideoContextProvider = (props) => {
     volume: 0.1,
     playbackRate: 1.0,
     url: `./videos/palace.mp4`,
+    // url: `./videos/hungry-hippos.mp4`,
     // url: `./videos/detection12.mp4`,
     // url: `./videos/detection0.mp4`,
     // url: `./videos/detection1.mp4`,

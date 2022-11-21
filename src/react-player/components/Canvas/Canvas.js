@@ -198,6 +198,8 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
     console.log(frame);
   }, [frame, width]);
 
+  let test = [];
+
   function drawByFrames(ctx) {
     let frameIndex = frame;
     if (boxes[frameIndex] !== undefined) {
