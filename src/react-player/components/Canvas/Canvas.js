@@ -198,8 +198,6 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
     console.log(frame);
   }, [frame, width]);
 
-  let test = [];
-
   function drawByFrames(ctx) {
     let frameIndex = frame;
     if (boxes[frameIndex] !== undefined) {
@@ -211,63 +209,39 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
         ctx.strokeStyle = "blue";
         ctx.lineWidth = 3;
         ctx.fillStyle = "rgba(255,255,0,0.2)";
-        // ctx.strokeRect(
-        //   boxes[frameIndex][i][0],
-        //   boxes[frameIndex][i][1],
-        //   boxes[frameIndex][i][2],
-        //   boxes[frameIndex][i][3]
-        // );
-        // ctx.fillRect(
-        //   boxes[frameIndex][i][0],
-        //   boxes[frameIndex][i][1],
-        //   boxes[frameIndex][i][2],
-        //   boxes[frameIndex][i][3]
-        // );
-
-        // palace.mp4
-        // ctx.strokeRect(
-        //   boxes[frameIndex][i].xmin * 640,
-        //   boxes[frameIndex][i].ymin * 640,
-        //   boxes[frameIndex][i].width * 640,
-        //   boxes[frameIndex][i].height * 640
-        // );
-        // ctx.fillRect(
-        //   boxes[frameIndex][i].xmin * 640,
-        //   boxes[frameIndex][i].ymin * 640,
-        //   boxes[frameIndex][i].width * 640,
-        //   boxes[frameIndex][i].height * 640
-        // );
         ctx.strokeRect(
-          boxes[frameIndex][i].xmin * 640,
-          boxes[frameIndex][i].ymin * 640,
-          boxes[frameIndex][i].width * 640,
-          boxes[frameIndex][i].height * 640
+          boxes[frameIndex][i][0],
+          boxes[frameIndex][i][1],
+          boxes[frameIndex][i][2],
+          boxes[frameIndex][i][3]
         );
         ctx.fillRect(
-          boxes[frameIndex][i].xmin * 640,
-          boxes[frameIndex][i].ymin * 640,
-          boxes[frameIndex][i].width * 640,
-          boxes[frameIndex][i].height * 640
+          boxes[frameIndex][i][0],
+          boxes[frameIndex][i][1],
+          boxes[frameIndex][i][2],
+          boxes[frameIndex][i][3]
         );
+
+        // palace.mp4 hailo version
         // ctx.strokeRect(
-        //   boxes[frameIndex][i].xmin,
-        //   boxes[frameIndex][i].ymin,
-        //   boxes[frameIndex][i].width,
-        //   boxes[frameIndex][i].height
+        //   boxes[frameIndex][i].xmin * 640,
+        //   boxes[frameIndex][i].ymin * 640,
+        //   boxes[frameIndex][i].width * 640,
+        //   boxes[frameIndex][i].height * 640
         // );
         // ctx.fillRect(
-        //   boxes[frameIndex][i].xmin,
-        //   boxes[frameIndex][i].ymin,
-        //   boxes[frameIndex][i].width,
-        //   boxes[frameIndex][i].height
+        //   boxes[frameIndex][i].xmin * 640,
+        //   boxes[frameIndex][i].ymin * 640,
+        //   boxes[frameIndex][i].width * 640,
+        //   boxes[frameIndex][i].height * 640
         // );
-        ctx.fillStyle = "red";
-        ctx.font = "10px Arial";
-        ctx.fillText(
-          label[frameIndex][i],
-          boxes[frameIndex][i].xmin * 640,
-          boxes[frameIndex][i].ymin * 640
-        );
+        // ctx.fillStyle = "red";
+        // ctx.font = "10px Arial";
+        // ctx.fillText(
+        //   label[frameIndex][i],
+        //   boxes[frameIndex][i].xmin * 640,
+        //   boxes[frameIndex][i].ymin * 640
+        // );
         // ctx.fillText(
         //   `${(boxes[frameIndex][i].xmin * 640).toFixed(2)} / ${(
         //     boxes[frameIndex][i].ymin * 640

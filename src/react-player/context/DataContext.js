@@ -1,5 +1,7 @@
 import React, { createContext, useState } from "react";
-import palaceJson from "../../json/palace_hailo.json";
+// import palaceJson from "../../json/palace_hailo.json";
+import palace_pJson from "../../json/palace_p.json";
+import hippos_pJson from "../../json/hungry-hippos_p.json";
 // import car2Json from "../../json/car2.json";
 // import detection12Json from "../../json/detection12.json";
 // import detection0Json from "../../json/detection0.json";
@@ -122,13 +124,36 @@ export class FrameData_hailo {
   }
 }
 
+export class FrameData_hailo2 {
+  constructor(json, boxes = [], score = [], label = []) {
+    for (let i = 0; i < json.frames.length; i++) {
+      boxes.push(json.frames[i].boxes);
+    }
+    for (let i = 0; i < json.frames.length; i++) {
+      label.push(json.frames[i].labels);
+    }
+    for (let i = 0; i < json.frames.length; i++) {
+      score.push(json.frames[i].scores);
+    }
+    this.boxes = boxes;
+    this.score = score;
+    this.label = label;
+    this.fps = json.fps;
+    this.frame_count = json.frames.length;
+    this.width = json.width;
+    this.height = json.height;
+  }
+}
+
 // const hailoData = new FrameData_hailo(hailo_metaJson);
 // console.log(hailoData);
 
 const DataContextProvider = (props) => {
   // const basic = new FrameData_car(car2Json);
   // const basic = new FrameData_hailo(hailo_metaJson);
-  const basic = new FrameData_hailo(palaceJson);
+  // const basic = new FrameData_hailo(palaceJson);
+  // const basic = new FrameData_hailo2(palace_pJson);
+  const basic = new FrameData_hailo2(hippos_pJson);
   // const basic = new FrameData_hailo(detection12Json);
   // const basic = new FrameData_hailo(detection0Json);
   // const basic = new FrameData_hailo(detection1Json);
