@@ -1,8 +1,6 @@
 import React from "react";
 
 const format = (sec) => {
-  // const ms = Math.floor(sec * 100) % 100;  // use this line to show ms
-  // Math.floor(sec * 1000) % 1000
   const hour = Math.floor((sec * 1000) / 360000);
   const min = Math.floor((sec * 1000) / 60000);
   const seconds = Math.floor(Math.floor(sec * 1000 - min * 60000) / 1000);
@@ -20,7 +18,6 @@ const format = (sec) => {
       seconds.toString().padStart(2, "0");
   }
 
-  // ms.toString().padStart(2, "0"); // padStart(3, "0")
   return time;
 };
 

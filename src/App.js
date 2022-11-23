@@ -210,7 +210,11 @@ function App() {
         <Size getSize={getSize} />
       </div>
       <div className="wrapper-right control">
-        <Data handleUrl={handleUrl} seekToStart={seekToStart} />
+        <Data
+          handleUrl={handleUrl}
+          seekToStart={seekToStart}
+          getSize={getSize}
+        />
       </div>
     </>
   );

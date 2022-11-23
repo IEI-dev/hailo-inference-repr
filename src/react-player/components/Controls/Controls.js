@@ -51,7 +51,6 @@ export default function Controls({
     }
   }
   useEffect(() => {
-    // const playerWrapper = document.querySelector(".player-wrapper");
     playing
       ? playerContainerRef.current.classList.remove("paused")
       : playerContainerRef.current.classList.add("paused");
@@ -64,8 +63,6 @@ export default function Controls({
     document.addEventListener("mousemove", (e) => {
       if (isScrubbing) handleTimelineUpdate(e);
     });
-    // const rect = document.querySelector(".rect");
-    // rect.addEventListener("click", onPlayPause);
     return () => {
       timelineContainer.removeEventListener("mousedown", toggleScrubbing);
       document.removeEventListener("mouseup", (e) => {
@@ -75,7 +72,6 @@ export default function Controls({
       document.removeEventListener("mousemove", (e) => {
         if (isScrubbing) handleTimelineUpdate(e);
       });
-      // rect.removeEventListener("click", onPlayPause);
     };
   }, [video]);
   useEffect(() => {
@@ -95,7 +91,6 @@ export default function Controls({
     }
   }, [video]);
   useEffect(() => {
-    // const playerWrapper = document.querySelector(".player-wrapper");
     let volumeLevel;
     if (volume === 0 || muted === true) {
       volumeLevel = "muted";

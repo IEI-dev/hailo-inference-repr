@@ -8,16 +8,7 @@ const VideoContextProvider = (props) => {
     muted: false,
     volume: 0.1,
     playbackRate: 1.0,
-    // url: `./videos/palace.mp4`,
-    url: `./videos/hungry-hippos.mp4`,
-    // url: `./videos/detection12.mp4`,
-    // url: `./videos/detection0.mp4`,
-    // url: `./videos/detection1.mp4`,
-    // url: `./videos/detection2.mp4`,
-    // url: `./videos/detection3.mp4`,
-    // url: `./videos/detection4.mp4`,
-    // url: `./videos/detection5.mp4`,
-    // url: `./videos/detection6.mp4`,
+    url: `./videos/palace.mp4`,
     key: 0,
   });
   return (
