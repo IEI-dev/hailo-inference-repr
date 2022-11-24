@@ -56,10 +56,12 @@ npm run build
 ```
 
 
-* run a simple web server at port 7000
+* run a simple web server
 ```
 cd build
 python3 -m http.server 7000
 ```
 
-* open the browser and visit http://<your hailo linux box>:7000/ 
+* open the browser and visit http://<your hailo linux box>:7000/, you should see the video player
+![hailorefpic](hailorefpic.png)
+ 
