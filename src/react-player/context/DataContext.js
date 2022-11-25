@@ -32,15 +32,24 @@ const DataContextProvider = (props) => {
     width: 1280,
     height: 720,
   };
-
+  let options;
   const getData = () => {
-    fetch("videos/palace_p.json")
+    fetch("videos/filelist.json")
       .then((res) => {
         return res.json();
       })
       .then((myJson) => {
-        basic = new FrameData_hailo2(myJson);
-        setData(basic);
+        options = myJson;
+        // return myJson;
+        fetch(`videos/${options[0]}_p.json`)
+          .then((res) => {
+            console.log(res);
+            return res.json();
+          })
+          .then((myJson) => {
+            basic = new FrameData_hailo2(myJson);
+            setData(basic);
+          });
       });
   };
 
