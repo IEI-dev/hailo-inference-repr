@@ -14,14 +14,14 @@ export default function Canvas({ x, y, width, height, wRatio, hRatio, frame }) {
       ctx.scale(wRatio, hRatio);
       ctx.clearRect(0, 0, window.innerWidth * 3, window.innerHeight * 3);
     }
-    console.log("trigger", wRatio, hRatio);
+    // console.log("trigger", wRatio, hRatio);
   }, [wRatio, hRatio]);
 
   useEffect(() => {
     const box = boxRef.current;
     const ctx = box.getContext("2d");
     drawByFrames(ctx);
-    console.log(frame);
+    // console.log(frame);
   }, [frame, width]);
 
   function drawByFrames(ctx) {

@@ -5,7 +5,7 @@ import screenfull from "screenfull";
 import Canvas from "./react-player/components/Canvas/Canvas";
 import Controls from "./react-player/components/Controls/Controls";
 import Size from "./react-player/components/Size/Size";
-import Data from "./react-player/WrapperRight/Data";
+// import Data from "./react-player/WrapperRight/Data";
 import { CanvasContext } from "./react-player/context/CanvasContext";
 import { DataContext } from "./react-player/context/DataContext";
 import { VideoContext } from "./react-player/context/VideoContext";
@@ -15,7 +15,7 @@ function App() {
   const { x, y, width, height, wRatio, hRatio } = canvas;
   const { data } = useContext(DataContext);
   const { fps, frame_count, width: basicWidth, height: basicHeight } = data;
-  const { state, setState } = useContext(VideoContext);
+  const { state, setState, options } = useContext(VideoContext);
   const { playing, muted, volume, playbackRate, url, key } = state;
 
   // State
@@ -45,14 +45,7 @@ function App() {
     handleTime();
     setFrame(0);
   };
-  // const handleRewind = () => {
-  //   playerRef.current.seekTo(playerRef.current.getCurrentTime() - 5);
-  //   handleTime();
-  // };
-  // const handleFastForward = () => {
-  //   playerRef.current.seekTo(playerRef.current.getCurrentTime() + 5);
-  //   handleTime();
-  // };
+
   const handleMute = () => {
     setState({ ...state, muted: !muted });
   };
@@ -70,9 +63,9 @@ function App() {
     screenfull.toggle(playerContainerRef.current);
   };
 
-  const handleUrl = (newUrl) => {
-    setState({ ...state, url: newUrl });
-  };
+  // const handleUrl = (newUrl) => {
+  //   setState({ ...state, url: newUrl });
+  // };
 
   const onSeek = (percent) => {
     const seekto = duration * percent;
@@ -93,8 +86,6 @@ function App() {
         wRatio: rect.width / basicWidth,
         hRatio: rect.height / basicHeight,
       });
-      console.log(rect.width / basicWidth);
-      console.log(rect.height / basicHeight);
     } else return;
   };
   const getBox = function() {
@@ -133,7 +124,7 @@ function App() {
       }
     });
     const updateCanvas = (now, metadata) => {
-      console.log("called");
+      // console.log("called");
       if (startTime === 0.0) {
         startTime = now;
       }
@@ -164,7 +155,7 @@ function App() {
             width="100%"
             height="100%"
             ref={playerRef}
-            url={url}
+            url={`videos/${options[0]}.mp4`}
             muted={muted}
             playing={playing}
             loop={true} //false to test if frame counts are correct .etc
@@ -209,13 +200,13 @@ function App() {
         />
         <Size getSize={getSize} />
       </div>
-      <div className="wrapper-right control">
+      {/* <div className="wrapper-right control">
         <Data
           handleUrl={handleUrl}
           seekToStart={seekToStart}
           getSize={getSize}
         />
-      </div>
+      </div> */}
     </>
   );
 }

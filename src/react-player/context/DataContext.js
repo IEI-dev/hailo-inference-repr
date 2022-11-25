@@ -1,5 +1,4 @@
-import React, { createContext, useState } from "react";
-import palace_pJson from "../../json/palace_p.json";
+import React, { createContext, useState, useEffect } from "react";
 export const DataContext = createContext();
 
 export class FrameData_hailo2 {
@@ -24,7 +23,30 @@ export class FrameData_hailo2 {
 }
 
 const DataContextProvider = (props) => {
-  const basic = new FrameData_hailo2(palace_pJson);
+  let basic = {
+    boxes: [],
+    score: [],
+    label: [],
+    fps: 30,
+    frame_count: 900,
+    width: 1280,
+    height: 720,
+  };
+
+  const getData = () => {
+    fetch("videos/palace_p.json")
+      .then((res) => {
+        return res.json();
+      })
+      .then((myJson) => {
+        basic = new FrameData_hailo2(myJson);
+        setData(basic);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const [data, setData] = useState(basic);
 
