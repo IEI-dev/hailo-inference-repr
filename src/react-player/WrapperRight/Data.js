@@ -1,18 +1,32 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { DataContext } from "../context/DataContext";
 import hipposJson from "../../json/hungry-hippos_p.json";
 import palaceJson from "../../json/palace_p.json";
-
-let options = ["palace", "hippos"];
-
-let url = ["./videos/palace.mp4", "./videos/hungry-hippos.mp4"];
 
 let newUrl;
 
 export default function Data({ handleUrl, seekToStart, getSize }) {
   const { addData } = useContext(DataContext);
   const [select, setSelect] = useState("palace");
+  const [url, setUrl] = useState([]);
+  const [options, setOptions] = useState([]);
 
+  const getData = () => {
+    fetch("videos/filelist.json")
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((myJson) => {
+        setOptions(myJson);
+        // return myJson;
+      });
+  };
+
+  useEffect(() => {
+    getData();
+    setUrl();
+  }, []);
   function pass(e) {
     if (e.startsWith(options[0])) {
       newUrl = url[0];
