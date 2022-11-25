@@ -113,6 +113,23 @@ function App() {
     setState({ ...state, key: key + 1 });
   }, [url]);
 
+  useEffect(() => {
+    const playerWrapper = document.querySelector(".player-wrapper");
+    if (basicWidth > basicHeight) {
+      playerWrapper.style.setProperty("--element-width", `100%`);
+      playerWrapper.style.setProperty(
+        "--element-height",
+        `${(basicHeight * 100) / basicWidth}%`
+      );
+    } else {
+      playerWrapper.style.setProperty("--element-height", `100%`);
+      playerWrapper.style.setProperty(
+        "--element-width",
+        `${(basicWidth * 100) / basicHeight}%`
+      );
+    }
+  }, [basicWidth]);
+
   //  trigger as the video starts, callback as every video frame
   const startDrawing = () => {
     let startTime = 0.0;

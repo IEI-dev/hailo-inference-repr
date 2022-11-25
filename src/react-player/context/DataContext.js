@@ -43,7 +43,6 @@ const DataContextProvider = (props) => {
         // return myJson;
         fetch(`videos/${options[0]}_p.json`)
           .then((res) => {
-            console.log(res);
             return res.json();
           })
           .then((myJson) => {
